@@ -79,8 +79,12 @@
                               <td class="col-sm-9"><?= $data['jk']; ?></td>
                             </tr>
                             <tr class="d-flex">
+                              <td class="col-sm-3">Status Pegawai</td>
+                              <td class="col-sm-9"><?= $data['status_kerja']; ?></td>
+                            </tr>
+                            <tr class="d-flex">
                               <td class="col-sm-3">PTKP</td>
-                              <td class="col-sm-9"><?= $data['jk']; ?></td>
+                              <td class="col-sm-9"><?= $data['kode']; ?></td>
                             </tr>
                             <tr class="d-flex">
                               <td class="col-sm-3">Projek</td>

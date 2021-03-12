@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 12, 2021 at 08:45 AM
+-- Generation Time: Mar 12, 2021 at 09:04 AM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.3.11
 
@@ -539,6 +539,8 @@ CREATE TABLE `v_karyawan` (
 ,`no_kk` varchar(50)
 ,`no_karyawan` varchar(50)
 ,`nama` varchar(50)
+,`jk` enum('L','P')
+,`status_kerja` enum('Tetap','Kontrak')
 ,`projek` varchar(255)
 ,`role` varchar(50)
 ,`departemen` varchar(50)
@@ -584,7 +586,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `v_karyawan`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_karyawan`  AS  select `k`.`id_karyawan` AS `id_karyawan`,`k`.`id_projek` AS `id_projek`,`k`.`id_role` AS `id_role`,`k`.`nik` AS `nik`,`k`.`no_kk` AS `no_kk`,`k`.`no_karyawan` AS `no_karyawan`,`k`.`nama` AS `nama`,`p`.`projek` AS `projek`,`r`.`role` AS `role`,`k`.`departemen` AS `departemen`,`k`.`jabatan` AS `jabatan`,`k`.`tanggal_masuk` AS `tanggal_masuk`,`k`.`gaji_pokok` AS `gaji_pokok`,`k`.`bpjs` AS `bpjs`,`k`.`foto` AS `foto`,`k`.`foto_ktp` AS `foto_ktp`,`k`.`foto_kk` AS `foto_kk`,`k`.`foto_npwp` AS `foto_npwp`,`k`.`foto_buku_rekening` AS `foto_buku_rekening`,`k`.`foto_bpjs_ks` AS `foto_bpjs_ks`,`k`.`foto_bpjs_kj` AS `foto_bpjs_kj`,`k`.`username` AS `username`,`k`.`password` AS `password`,`k`.`level` AS `level`,`pt`.`kode` AS `kode` from (((`karyawan_new` `k` join `projek` `p`) join `role` `r`) join `ptkp` `pt`) where `k`.`id_projek` = `p`.`id_projek` and `k`.`id_role` = `r`.`id_role` and `k`.`id_ptkp` = `pt`.`id_ptkp` ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_karyawan`  AS  select `k`.`id_karyawan` AS `id_karyawan`,`k`.`id_projek` AS `id_projek`,`k`.`id_role` AS `id_role`,`k`.`nik` AS `nik`,`k`.`no_kk` AS `no_kk`,`k`.`no_karyawan` AS `no_karyawan`,`k`.`nama` AS `nama`,`k`.`jk` AS `jk`,`k`.`status_kerja` AS `status_kerja`,`p`.`projek` AS `projek`,`r`.`role` AS `role`,`k`.`departemen` AS `departemen`,`k`.`jabatan` AS `jabatan`,`k`.`tanggal_masuk` AS `tanggal_masuk`,`k`.`gaji_pokok` AS `gaji_pokok`,`k`.`bpjs` AS `bpjs`,`k`.`foto` AS `foto`,`k`.`foto_ktp` AS `foto_ktp`,`k`.`foto_kk` AS `foto_kk`,`k`.`foto_npwp` AS `foto_npwp`,`k`.`foto_buku_rekening` AS `foto_buku_rekening`,`k`.`foto_bpjs_ks` AS `foto_bpjs_ks`,`k`.`foto_bpjs_kj` AS `foto_bpjs_kj`,`k`.`username` AS `username`,`k`.`password` AS `password`,`k`.`level` AS `level`,`pt`.`kode` AS `kode` from (((`karyawan_new` `k` join `projek` `p`) join `role` `r`) join `ptkp` `pt`) where `k`.`id_projek` = `p`.`id_projek` and `k`.`id_role` = `r`.`id_role` and `k`.`id_ptkp` = `pt`.`id_ptkp` ;
 
 --
 -- Indexes for dumped tables
