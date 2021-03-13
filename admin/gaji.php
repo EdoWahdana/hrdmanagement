@@ -42,56 +42,23 @@
                 </div><!-- /.box-header -->
                 
                 <div class="box-body">
-                <?php
-             if(isset($_GET['aksi']) == 'delete'){
-				$id = $_GET['id'];
-				$cek = mysqli_query($koneksi, "SELECT * FROM gaji WHERE nik='$id'");
-				if(mysqli_num_rows($cek) == 0){
-					echo '<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Data tidak ditemukan.</div>';
-				}else{
-					$delete = mysqli_query($koneksi, "DELETE FROM gaji WHERE nik='$id'");
-					if($delete){
-						echo '<div class="alert alert-primary alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Data berhasil dihapus.</div>';
-					}else{
-						echo '<div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Data gagal dihapus.</div>';
-					}
-				}
-			}
-			?>
-                <!-- <form action='admin.php' method="POST">
-          
-	       <input type='text' class="form-control" style="margin-bottom: 4px;" name='qcari' placeholder='Cari berdasarkan User ID dan Username' required /> 
-           <input type='submit' value='Cari Data' class="btn btn-sm btn-primary" /> <a href='admin.php' class="btn btn-sm btn-success" >Refresh</i></a>
-          	</div>
-            </form>-->
-            <a href="gaji_importxls.php" class="btn btn-sm btn-warning"><i class="fa fa-file"></i> Import Excel</a> <a href="gaji_exportxls.php" class="btn btn-sm btn-success"><i class="fa fa-file"></i> Export Excel</a><br /><br />
+                <a href="gaji_importxls.php" class="btn btn-sm btn-warning"><i class="fa fa-file"></i> Import Excel</a> <a href="gaji_exportxls.php" class="btn btn-sm btn-success"><i class="fa fa-file"></i> Export Excel</a><br /><br />
                    <table id="lookup" class="table table-bordered table-hover">  
-	<thead bgcolor="eeeeee" align="center">
-      <tr>
-	  
-       <th>Nik</th>
-	     <th>Nama</th>
-       <th>Tanggal</th>
-       <th>Departemen</th>
-       <th>Jabatan</th>
-       <th>Status</th>
-       <th>Gapok</th>
-       <th>BPJS</th>
-       <th>Lembur</th>
-       <th>No.Rekening</th>
-	   <th class="text-center"> Action </th> 
-	  
-      </tr>
-    </thead>
-    <tbody>
-	 
-					 
-    </tbody>
-  </table>  
+                    <thead bgcolor="eeeeee" align="center">
+                      <tr>
+                        <th>No Pegawai</th>
+                        <th>Nama</th>
+                        <th>Gaji Pokok</th>
+                        <th>Projek</th>
+                        <th class="text-center"> Action </th> 
+                      </tr>
+                    </thead>
+                    <tbody></tbody>
+                  </table>  
                 </div><!-- /.box-body -->
                 <div class="box-footer clearfix no-border">
                   <a href="input-gaji.php" class="btn btn-sm btn-default pull-right"><i class="fa fa-plus"></i> Tambah Gaji Karyawan</a>
-                  </div>
+                </div>
               </div><!-- /.box -->
 
             </section><!-- /.Left col -->

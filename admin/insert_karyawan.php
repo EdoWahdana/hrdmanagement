@@ -42,7 +42,10 @@ if(isset($_POST['input'])) {
     $nik = $_POST['nik'];
     $nokk = $_POST['nokk'];
     $nok = $_POST['nok'];
+    $no_npwp = $_POST['no_npwp'];
     $nama = $_POST['nama'];
+    $jk = $_POST['jk'];
+    $ptkp = $_POST['ptkp'];
     $projek = $_POST['projek'];
     $role = $_POST['role'];
     $departemen = $_POST['departemen'];
@@ -70,8 +73,56 @@ if(isset($_POST['input'])) {
     $foto_bpjs_kj = uploadFile('foto_bpjs_kj', 'foto_bpjs_ketenagakerjaan/');    
 
     //Insert data into database
-    $sql = "INSERT INTO karyawan_new (nik, no_kk, no_karyawan, nama, departemen, jabatan, gaji_pokok, bpjs, foto, foto_ktp, foto_kk, foto_npwp, foto_buku_rekening, foto_bpjs_ks, foto_bpjs_kj, username, password, level, id_projek, id_role)
-            VALUES ('$nik', '$nokk', '$nok', '$nama', '$departemen', '$jabatan', '$gapok', '$bpjs', '$foto', '$foto_ktp', '$foto_kk', '$foto_npwp', '$foto_buku', '$foto_bpjs_ks', '$foto_bpjs_kj', '$username', '$password', '$level', '$projek', '$role')";
+    $sql = "INSERT INTO karyawan_new (
+                nik, 
+                no_kk, 
+                no_karyawan, 
+                no_npwp,
+                nama, 
+                jk,
+                departemen, 
+                jabatan,
+                tanggal_masuk, 
+                gaji_pokok, 
+                bpjs, 
+                foto, 
+                foto_ktp, 
+                foto_kk, 
+                foto_npwp, 
+                foto_buku_rekening, 
+                foto_bpjs_ks, 
+                foto_bpjs_kj, 
+                username, 
+                password, 
+                level, 
+                id_projek, 
+                id_role,
+                id_ptkp)
+            VALUES (
+                '$nik', 
+                '$nokk', 
+                '$nok', 
+                '$no_npwp',
+                '$nama',
+                '$jk', 
+                '$departemen', 
+                '$jabatan', 
+                '$tanggal_masuk', 
+                '$gapok', 
+                '$bpjs', 
+                '$foto', 
+                '$foto_ktp', 
+                '$foto_kk', 
+                '$foto_npwp', 
+                '$foto_buku', 
+                '$foto_bpjs_ks', 
+                '$foto_bpjs_kj', 
+                '$username', 
+                '$password', 
+                '$level', 
+                '$projek', 
+                '$role',
+                '$ptkp')";
 
     $insert = mysqli_query($koneksi, $sql) or die(mysqli_error());
 

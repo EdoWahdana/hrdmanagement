@@ -37,55 +37,10 @@
                   <i class="ion ion-clipboard"></i>
                   <h3 class="box-title">Input Data Karyawan</h3>
                   <div class="box-tools pull-right">
-              <!-- <form action='admin.php' method="POST">
-    	             <div class="input-group" style="width: 230px;">
-                      <input type="text" name="qcari" class="form-control input-sm pull-right" placeholder="Cari Usename Atau Nama">
-                      <div class="input-group-btn">
-                        <button type="submit" class="btn btn-sm btn-default tooltips" data-placement="bottom" data-toggle="tooltip" title="Cari Data"><i class="fa fa-search"></i></button>
-                        <a href="admin.php" class="btn btn-sm btn-success tooltips" data-placement="bottom" data-toggle="tooltip" title="Refresh"><i class="fa fa-refresh"></i></a>
-                      </div>
-                    </div>
-                    </form> -->
                   </div> 
                 </div><!-- /.box-header -->
                 <?php
-    //             if(isset($_POST['input'])){
-		// 	$namafolder="gambar_admin/"; //tempat menyimpan file
-      
-    //   if (!empty($_FILES["nama_file"]["tmp_name"]))
-    //   {
-    //           $jenis_gambar=$_FILES['nama_file']['type'];
-    //           $nik           = $_POST['nik'];
-    //           $nama          = $_POST['nama'];
-    //           $tanggal_masuk = $_POST['tanggal_masuk'];
-    //           $departemen    = $_POST['departemen'];
-    //           $jabatan       = $_POST['jabatan'];
-    //           $status       = $_POST['status'];
-    //           $jumlah_cuti   = $_POST['jumlah_cuti'];
-    //           $username      = $_POST['username'];
-    //           $password1      = $_POST['password'];
-    //           $password      = sha1("$password1");
-    //           $level         = $_POST['level'];
-          
-    //     if($jenis_gambar=="image/jpeg" || $jenis_gambar=="image/jpg" || $jenis_gambar=="image/gif" || $jenis_gambar=="image/x-png")
-    //     {			
-    //       $gambar = $namafolder . basename($_FILES['nama_file']['name']);		
-    //       if (move_uploaded_file($_FILES['nama_file']['tmp_name'], $gambar)) {
-    //         $sql="INSERT INTO karyawan (nik,nama,tanggal_masuk,departemen,jabatan,status,jumlah_cuti,username,password,level,gambar) VALUES
-    //               ('$nik','$nama','$tanggal_masuk','$departemen','$jabatan','$status','$jumlah_cuti','$username','$password','$level','$gambar')";
-    //         $res=mysqli_query($koneksi, $sql) or die (mysqli_error());
-    //         //echo "Gambar berhasil dikirim ke direktori".$gambar;
-    //               echo "<script>alert('Data berhasil dimasukan!'); window.location = 'karyawan.php'</script>";	   
-    //       } else {
-    //         echo '<div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><p>Gambar gagal dikirim</p></div>';
-    //      }
-    //     } else {
-    //      echo '<div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>Jenis gambar yang anda kirim salah. Harus .jpg .gif .png</div>';
-    //     }
-    //  } else {
-    //    echo '<div class="alert alert-warning alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>Anda Belum Memilih Gambar</div>';
-    //  }
-    // }
+  
 			?>
                 <div class="box-body">
                 <form class="form-horizontal style-form" action="insert_karyawan.php" method="post" enctype="multipart/form-data" name="form1" id="form1">
@@ -111,6 +66,13 @@
                           </div>
                           
                           <div class="form-group">
+                            <label class="col-sm-2 control-label">No. NPWP</label>
+                            <div class="col-sm-4">
+                              <input type="text" name="no_npwp" id="no_npwp" class="form-control" placeholder="No. NPWP" require="required" value="<?= isset($_POST['no_npwp']) ? $_POST['no_npwp'] : '' ?>">
+                            </div>
+                          </div>
+                          
+                          <div class="form-group">
                               <label class="col-sm-2 col-sm-2 control-label">Nama Karyawan</label>
                               <div class="col-sm-4">
                                 <input name="nama" type="text" id="nama" class="form-control" placeholder="Nama Karyawan" autocomplete="off" required value="<?= isset($_POST['nama']) ? $_POST['nama'] : '' ?>"/>                              
@@ -118,9 +80,35 @@
                           </div>
                           
                           <div class="form-group">
+                              <label class="col-sm-2 col-sm-2 control-label">Jenis Kelamin</label>
+                              <div class="col-sm-4">
+                                <select name="jk" id="jk">
+                                  <option value="L">Laki-laki</option>
+                                  <option value="P">Perempuan</option>
+                                </select>
+                              </div>
+                          </div>
+                          
+                          <div class="form-group">
+                              <label class="col-sm-2 col-sm-2 control-label">Kode PTKP</label>
+                              <div class="col-sm-4">
+                                <select name="ptkp" id="ptkp" class="form-control select2" required>
+                                <option selected disabled hidden> --- Pilih Kode PTKP --- </option>
+                                  <?php 
+                                    $ptkp = mysqli_query($koneksi, "SELECT * FROM ptkp");
+                                    while($p = mysqli_fetch_array($ptkp)) {
+                                      echo '<option value='.$p[id_ptkp].'>' .$p[kode]. ' - ' .$p[ket]. '</option>';
+                                    }
+                                  ?>
+                                </select>
+                              </div>
+                          </div>
+
+                          <div class="form-group">
                               <label class="col-sm-2 col-sm-2 control-label">Projek</label>
                               <div class="col-sm-4">
                                 <select name="projek" id="projek" class="form-control select2" required>
+                                <option selected disabled hidden> --- Pilih Projek --- </option>
                                   <?php 
                                     $projek = mysqli_query($koneksi, "SELECT * FROM projek");
                                     while($p = mysqli_fetch_array($projek)) {
@@ -135,6 +123,7 @@
                               <label class="col-sm-2 col-sm-2 control-label">Role</label>
                               <div class="col-sm-4">
                                 <select name="role" id="role" class="form-control select2" required>
+                                <option selected disabled hidden> --- Pilih Role --- </option>
                                   <?php 
                                     $role = mysqli_query($koneksi, "SELECT * FROM role");
                                     while($r = mysqli_fetch_array($role)) {
@@ -149,7 +138,7 @@
                               <label class="col-sm-2 col-sm-2 control-label">Departemen</label>
                               <div class="col-sm-4">
                               <select name="departemen" id="departemen" class="form-control select2" required>
-                              <option value=""> --- Pilih Departemen --- </option>
+                              <option selected disabled hidden> --- Pilih Departemen --- </option>
                                 <?php 
                                   $query2="select * from departemen order by id_dept";
                                   $tampil=mysqli_query($koneksi, $query2) or die(mysqli_error());
@@ -166,7 +155,7 @@
                               <label class="col-sm-2 col-sm-2 control-label">Jabatan</label>
                               <div class="col-sm-4">
                               <select name="jabatan" id="jabatan" class="form-control select2" required>
-                              <option value=""> --- Pilih Jabatan --- </option>
+                              <option selected disabled hidden> --- Pilih Jabatan --- </option>
                                 <?php 
                                   $query2="select * from jabatan order by id_jabatan";
                                   $tampil=mysqli_query($koneksi, $query2) or die(mysqli_error());
@@ -217,11 +206,10 @@
                           <div class="form-group">
                               <label class="col-sm-2 col-sm-2 control-label">Level</label>
                               <div class="col-sm-4">
-                                <select name="level" id="level" class="form-control" required="required">
-                                <option value="">----- Pilih Status -----</option>
-                                <option value="Admin">Admin</option>
-                                <!--<option value="Superuser">Superuser</option>-->
-                                <option value="User">User</option>
+                                <select name="level" id="level" class="form-control select2" required="required">
+                                  <option selected disabled hidden> --- Pilih Status --- </option>
+                                  <option value="Admin">Admin</option>
+                                  <option value="User">User</option>
                                 </select>
                               </div>
                           </div>

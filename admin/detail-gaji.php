@@ -40,60 +40,23 @@
                 
                   </div> 
                 </div><!-- /.box-header -->
-                <?php
-            $query = mysqli_query($koneksi, "SELECT * FROM gaji WHERE nik='$_GET[id]'");
-            $data  = mysqli_fetch_array($query);
-            ?>
+
+                <!-- Ambil data gaji pegawai -->
+                <?php include "get_detail_gaji.php"; ?>
+
                 <div class="box-body">
                   <div class="form-panel">
-                  <table id="example" class="table table-hover table-bordered">
-                      <tr>
-                      <td>Nik</td>
-                      <td><?php echo $data['nik']; ?></td>
-                      <td rowspan="8"><img src="<?php echo $data['gambar'] ?>" class="img-rounded" height="300" width="225" style="border: 2px solid #666666;" /></td>
-                      </tr>
-                      <tr>
-                      <td width="250">Nama Karyawan</td>
-                      <td width="700" colspan="1"><?php echo $data['nama']; ?></td>
-                      </tr>
-                      <tr>
-                      <td>Tanggal</td>
-                      <td><?php echo $data['tanggal']; ?></td>
-                      </tr>
-                      <tr>
-                      <td>Departemen</td>
-                      <td><?php echo $data['departemen']; ?></td>
-                      </tr>
-                      <tr>
-                      <td>Jabatan</td></td>
-                      <td><?php echo $data['jabatan']; ?></td>
-                      </tr>
-                      <tr>
-                      <td>Status</td>
-                      <td><?php echo $data['status']; ?></td>
-                      </tr>
-                      <tr>
-                      <td>Gaji Pokok</td>
-                      <td><?php echo $data['gapok']; ?></td>
-                      </tr>
-                      <tr>
-                      <td>BPJS</td>
-                      <td><?php echo $data['bpjs']; ?></td>
-                      </tr>
-                      <tr>
-                      <td>Lembur</td>
-                      <td><?php echo $data['lembur']; ?></td>
-                      </tr>
-                      <tr>
-                      <td>Nomor Rekening</td>
-                      <td><?php echo $data['norek']; ?></td>
-                      </tr>
-                      
-                      </table>
-                      <div class="text-right">
-                  <a href="gaji.php" class="btn btn-sm btn-warning">Kembali <i class="fa fa-arrow-circle-right"></i></a>
-              
-                </div>
+                    <div class="container">
+                      <div class="row">
+                        <div class="col">
+                          <h5></h5>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="text-right">
+                      <a href="gaji.php" class="btn btn-sm btn-warning">Kembali <i class="fa fa-arrow-circle-right"></i></a>
+                    </div>
                   </div>
                 </div><!-- /.box-body -->
               </div><!-- /.box -->
