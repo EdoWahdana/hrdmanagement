@@ -28,7 +28,7 @@ function uploadFile($fieldName, $folderName) {
 
         if(move_uploaded_file($fileTmp, $newPath)) {
             $message = 'Foto Berhasil Diupload';
-            return $newPath;
+            return $newFileName;
         } else {
             $message = 'Foto GAGAL Diupload';
             return;
@@ -44,13 +44,15 @@ if(isset($_POST['update'])) {
     $no_kk = $_POST['no_kk'];
     $no_karyawan = $_POST['no_karyawan'];
     $nama = $_POST['nama'];
+    $status_kerja = $_POST['status'];
     $projek = $_POST['projek'];
     $role = $_POST['role'];
     $departemen = $_POST['departemen'];
     $jabatan =  $_POST['jabatan'];
     $tanggal_masuk = $_POST['tanggal_masuk'];
-    $gaji_pokok = $_POST['gaji_pokok'];
     $bpjs = $_POST['bpjs']; 
+    $id_ptkp = $_POST['ptkp']; 
+    $gaji_pokok = intval(preg_replace('/\D/', '', $_POST['gaji_pokok']));
 
     // Jika tidak upload foto baru maka ambil string foto yang telah tersimpan di dalam database
     $foto = $_POST['hidden_foto'];
@@ -102,20 +104,21 @@ if(isset($_POST['update'])) {
                 no_kk='$no_kk', 
                 no_karyawan='$no_karyawan', 
                 nama='$nama', 
+                status_kerja='$status_kerja',
                 id_projek='$projek', 
                 id_role='$role', 
                 departemen='$departemen', 
                 jabatan='$jabatan', 
                 tanggal_masuk='$tanggal_masuk', 
                 gaji_pokok='$gaji_pokok', 
-                bpjs='$bpjs',
                 foto='$foto',
                 foto_ktp='$foto_ktp',
                 foto_kk='$foto_kk',
                 foto_npwp='$foto_npwp',
                 foto_buku_rekening='$foto_buku',
                 foto_bpjs_ks='$foto_bpjs_ks',
-                foto_bpjs_kj='$foto_bpjs_kj'
+                foto_bpjs_kj='$foto_bpjs_kj',
+                id_ptkp='$id_ptkp'
                 WHERE id_karyawan='$id_karyawan'";
 
     // Eksekusi perintah update

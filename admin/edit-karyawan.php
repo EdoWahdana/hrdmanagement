@@ -50,7 +50,7 @@
                 </div><!-- /.box-header -->
                  <?php
                     $id = $_GET['id'];
-                    $sql = mysqli_query($koneksi, "SELECT * FROM v_karyawan WHERE id_karyawan='$id'");
+                    $sql = mysqli_query($koneksi, "SELECT * FROM karyawan_new WHERE id_karyawan='$id'");
                     if(mysqli_num_rows($sql) == 0){
                       header("Location: karyawan.php");
                     }else{
@@ -89,6 +89,30 @@
                               <div class="col-sm-4">
                                 <input name="nama" type="text" id="nama" class="form-control" value="<?php echo $row['nama']; ?>" placeholder="Nama Karyawan" required /> 
                             </div>
+                          </div>
+
+                          <div class="form-group">
+                              <label class="col-sm-2 col-sm-2 control-label">Status Pegawai</label>
+                              <div class="col-sm-4">
+                                <select name="status" id="status" class="form-control">
+                                  <option value="Kontrak">Kontrak</option>
+                                  <option value="Tetap">Tetap</option>
+                                </select>
+                              </div>
+                          </div>
+
+                          <div class="form-group">
+                              <label class="col-sm-2 col-sm-2 control-label">Kode PTKP</label>
+                              <div class="col-sm-4">
+                                <select name="ptkp" id="ptkp" class="form-control" required>
+                                <option selected disabled hidden> --- Pilih Kode PTKP --- </option>
+                                  <?php 
+                                    $ptkp = mysqli_query($koneksi, "SELECT * FROM ptkp");
+                                    while($p = mysqli_fetch_array($ptkp)) { ?>
+                                    <option value="<?= $p['id_ptkp'] ?>" <?= $row['id_ptkp'] == $p['id_ptkp'] ? ' selected="selected"' : ''; ?> > <?= $p['kode'] ?> - <?= $p['ket'] ?> </option>
+                                   <?php } ?>
+                                </select>
+                              </div>
                           </div>
 
                           <div class="form-group">
@@ -153,21 +177,14 @@
                           <div class="form-group">
                               <label class="col-sm-2 col-sm-2 control-label">Gaji Pokok</label>
                               <div class="col-sm-4">
-                                <input name="gaji_pokok" type="text" id="gaji_pokok" class="form-control" value="<?php echo $row['gaji_pokok']; ?>" placeholder="Gaji Pokok Karyawan" required /> 
-                              </div>
-                          </div>
-
-                          <div class="form-group">
-                              <label class="col-sm-2 col-sm-2 control-label">BPJS</label>
-                              <div class="col-sm-4">
-                                <input name="bpjs" type="text" id="bpjs" class="form-control" value="<?php echo $row['bpjs']; ?>" placeholder="BPJS Karyawan" required /> 
+                                <input name="gaji_pokok" type="text" id="gaji_pokok" class="form-control" value="<?= 'Rp. '.strrev(implode('.',str_split(strrev(strval($row['gaji_pokok'])),3))); ?>" placeholder="Gaji Pokok Karyawan" required /> 
                               </div>
                           </div>
 
                           <div class="form-group">
                               <label class="col-sm-2 control-label">Foto</label>
                               <div class="col-sm-4">
-                                <img src="foto_karyawan/<?= $row['foto'] ?>" class="img img-thumbnail" id="fotoPreview">
+                                <img src="foto_karyawan/<?= $row['foto'] ?>" class="img img-thumbnail" id="fotoPreview" style="height: 200px;"> 
                                 <input type="hidden" name="hidden_foto" value=<?= $row['foto'] ?>>
                                 <input type="file" name="foto" id="foto" class="form-control" placeholder="Foto Karyawan" onchange="previewImage('foto', 'fotoPreview');" />
                               </div>
@@ -176,7 +193,7 @@
                           <div class="form-group">
                               <label class="col-sm-2 control-label">Foto KTP</label>
                               <div class="col-sm-4">
-                                <img src="foto_ktp/<?= $row['foto_ktp'] ?>" class="img img-thumbnail" id="fotoKtpPreview">
+                                <img src="foto_ktp/<?= $row['foto_ktp'] ?>" class="img img-thumbnail" id="fotoKtpPreview" style="height: 200px;">
                                 <input type="hidden" name="hidden_foto_ktp" value=<?= $row['foto_ktp'] ?>>
                                 <input type="file" name="foto_ktp" id="foto_ktp" class="form-control" placeholder="Foto KTP Karyawan" onchange="previewImage('foto_ktp', 'fotoKtpPreview');" />
                               </div>
@@ -185,7 +202,7 @@
                           <div class="form-group">
                               <label class="col-sm-2 control-label">Foto KK</label>
                               <div class="col-sm-4">
-                                <img src="foto_kk/<?= $row['foto_kk'] ?>" class="img img-thumbnail" id="fotoKkPreview">
+                                <img src="foto_kk/<?= $row['foto_kk'] ?>" class="img img-thumbnail" id="fotoKkPreview" style="height: 200px;">
                                 <input type="hidden" name="hidden_foto_kk" value=<?= $row['foto_kk'] ?>>
                                 <input type="file" name="foto_kk" id="foto_kk" class="form-control" placeholder="Foto Kartu Keluarga Karyawan" onchange="previewImage('foto_kk', 'fotoKkPreview');" />
                               </div>
@@ -194,7 +211,7 @@
                           <div class="form-group">
                               <label class="col-sm-2 control-label">Foto NPWP</label>
                               <div class="col-sm-4">
-                                <img src="foto_npwp/<?= $row['foto_npwp'] ?>" class="img img-thumbnail" id="fotoNpwpPreview">
+                                <img src="foto_npwp/<?= $row['foto_npwp'] ?>" class="img img-thumbnail" id="fotoNpwpPreview" style="height: 200px;">
                                 <input type="hidden" name="hidden_foto_npwp" value=<?= $row['foto_npwp'] ?>>
                                 <input type="file" name="foto_npwp" id="foto_npwp" class="form-control" placeholder="Foto NPWP Karyawan" onchange="previewImage('foto_npwp', 'fotoNpwpPreview');" />
                               </div>
@@ -203,7 +220,7 @@
                           <div class="form-group">
                               <label class="col-sm-2 control-label">Foto Buku Rekening</label>
                               <div class="col-sm-4">
-                                <img src="foto_buku_rekening/<?= $row['foto_buku_rekening'] ?>" class="img img-thumbnail" id="fotoBukuPreview">
+                                <img src="foto_buku_rekening/<?= $row['foto_buku_rekening'] ?>" class="img img-thumbnail" id="fotoBukuPreview" style="height: 200px;">
                                 <input type="hidden" name="hidden_foto_buku" value=<?= $row['foto_buku_rekening'] ?>>
                                 <input type="file" name="foto_buku" id="foto_buku" class="form-control" placeholder="Foto Buku Rekening Karyawan" onchange="previewImage('foto_buku', 'fotoBukuPreview');" />
                               </div>
@@ -212,7 +229,7 @@
                           <div class="form-group">
                               <label class="col-sm-2 control-label">Foto BPJS Kesehatan</label>
                               <div class="col-sm-4">
-                                <img src="foto_bpjs_kesehatan/<?= $row['foto_bpjs_ks'] ?>" class="img img-thumbnail" id="fotoBpjs1Preview">
+                                <img src="foto_bpjs_kesehatan/<?= $row['foto_bpjs_ks'] ?>" class="img img-thumbnail" id="fotoBpjs1Preview" style="height: 200px;">
                                 <input type="hidden" name="hidden_foto_bpjs_ks" value=<?= $row['foto_bpjs_ks'] ?>>
                                 <input type="file" name="foto_bpjs_ks" id="foto_bpjs_ks" class="form-control" placeholder="Foto BPJS Kesehatan Karyawan" onchange="previewImage('foto_bpjs_ks', 'fotoBpjs1Preview');" />
                               </div>
@@ -221,7 +238,7 @@
                           <div class="form-group">
                               <label class="col-sm-2 control-label">Foto BPJS Ketenagakerjaan</label>
                               <div class="col-sm-4">
-                                <img src="foto_bpjs_ketenagakerjaan/<?= $row['foto_bpjs_kj'] ?>" class="img img-thumbnail" id="fotoBpjs2Preview">
+                                <img src="foto_bpjs_ketenagakerjaan/<?= $row['foto_bpjs_kj'] ?>" class="img img-thumbnail" id="fotoBpjs2Preview" style="height: 200px;">
                                 <input type="hidden" name="hidden_foto_bpjs_kj" value=<?= $row['foto_bpjs_kj'] ?>>
                                 <input type="file" name="foto_bpjs_kj" id="foto_bpjs_kj" class="form-control" placeholder="Foto BPJS Ketenagakerjaan Karyawan" onchange="previewImage('foto_bpjs_kj', 'fotoBpjs2Preview');" />
                               </div>
@@ -266,6 +283,7 @@
     <script src="../dist/js/app.min.js"></script>
     <!-- AdminLTE for demo purposes -->
     <script src="../dist/js/demo.js"></script>
+    <script src="../dist/js/main.js"></script>
 
     <script src="../plugins/datepicker/bootstrap-datepicker.js"></script>
 
@@ -277,10 +295,6 @@
     </script>
 
     <script>
-      $(function () {
-        $(".select2").select2();
-      });
-
       function previewImage(fileId, previewId) {
         document.getElementById(previewId).style.display = "block";
         var oFReader = new FileReader();
@@ -290,6 +304,16 @@
           document.getElementById(previewId).src = oFREvent.target.result;
         };
       };
+
+      var gaji_pokok = document.getElementById('gaji_pokok');
+      gaji_pokok.addEventListener("keyup", function(e){
+        gaji_pokok.value = convertToRupiah(gaji_pokok.value, "");
+      });
+      
+      $(function () {
+        $(".select2").select2();
+      });
+
     </script>
   </body>
 </html>

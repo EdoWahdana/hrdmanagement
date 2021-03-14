@@ -45,7 +45,7 @@
                         <div class="form-group">
                             <label class="col-sm-2 col-sm-2 control-label">Nama</label>
                             <div class="col-sm-4">
-                              <select name="id_karyawan" id="id_karyawan" class="form-control select2">
+                              <select name="id_karyawan" id="id_karyawan" class="form-control select2" required>
                                 <option selected disabled hidden> --- Pilih Pegawai --- </option>
                                 <!-- Ambil data pegawai yang belum ada di tabel gaji -->
                                 <?php 
@@ -61,7 +61,7 @@
                         <div class="form-group">
                             <label class="col-sm-2 col-sm-2 control-label">Periode</label>
                             <div class="col-sm-4">
-                              <select name="periode" id="periode" class="form-control select2">
+                              <select name="periode" id="periode" class="form-control select2" required>
                                 <option selected disabled hidden> --- Pilih Periode --- </option>
                                 <!-- Ambil data periode yang belum ada di tabel gaji -->
                                 <?php 
@@ -80,6 +80,12 @@
                             <label class="col-sm-2 col-sm-2 control-label">Tanggal</label>
                             <div class="col-sm-4">
                               <input name="tanggal" type="text" id="tanggal" class="input-group date" data-date="" data-date-format="yyyy-mm-dd" placeholder="Tanggal Gajian" required='required' autocomplete="off" value="<?= isset($_POST['tanggal']) ? $_POST['tanggal'] : '' ?>" />
+                            </div>
+                        </div>                             
+                        <div class="form-group">
+                            <label class="col-sm-2 col-sm-2 control-label">Tunjangan Dana Hari Tua</label>
+                            <div class="col-sm-4">
+                              <input name="dht" type="text" id="dht" class="form-control" placeholder="Tunjangan Dana Hari Tua" required='required' value="<?= isset($_POST['dht']) ? $_POST['dht'] : '' ?>" />
                             </div>
                         </div>                             
                         <div class="form-group">
@@ -148,6 +154,8 @@
     <script src="../dist/js/app.min.js"></script>
     <!-- AdminLTE for demo purposes -->
     <script src="../dist/js/demo.js"></script>
+    <!-- Custom JS file -->
+    <script src="../dist/js/main.js"></script>
 
     <script src="../plugins/datepicker/bootstrap-datepicker.js"></script>
 
@@ -162,10 +170,28 @@
 	
     </script>
 
-  <script>
-     $(function () {
-    $(".select2").select2();
-    });
+    <script>
+      $(function () {
+        $(".select2").select2();
+      });
+
+      var dht = document.getElementById('dht');
+      var bonus = document.getElementById('bonus');
+      var bpjs_ks = document.getElementById('bpjs_ks');
+      var bpjs_kj = document.getElementById('bpjs_kj');
+
+      dht.addEventListener("keyup", function(e){
+        dht.value = convertToRupiah(dht.value, "");
+      });
+      bonus.addEventListener("keyup", function(e){
+        bonus.value = convertToRupiah(bonus.value, "");
+      });
+      bpjs_ks.addEventListener("keyup", function(e){
+        bpjs_ks.value = convertToRupiah(bpjs_ks.value, "");
+      });
+      bpjs_kj.addEventListener("keyup", function(e){
+        bpjs_kj.value = convertToRupiah(bpjs_kj.value, "");
+      });
     </script>
   </body>
 </html>

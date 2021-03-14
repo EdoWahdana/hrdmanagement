@@ -4,7 +4,7 @@ include "session.php";
 header("Content-type: application/vnd-ms-excel");
  
 // Mendefinisikan nama file ekspor "hasil-export.xls"
-header("Content-Disposition: attachment; filename=gaji.xls");
+header("Content-Disposition: attachment; filename=gaji.xlsx");
  
 																  
 											//	$sql = mysqli_query($koneksi, "SELECT * FROM t_inventoryitems WHERE f_partcode='$id'");

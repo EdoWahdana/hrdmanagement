@@ -37,10 +37,8 @@
                   <i class="ion ion-clipboard"></i>
                   <h3 class="box-title">Detail Data Karyawan</h3>
                   <div class="box-tools pull-right">
-                  </div> 
-                  <div class="text-right">
                     <a href="karyawan.php" class="btn btn-sm btn-warning">Kembali <i class="fa fa-arrow-circle-left"></i></a>
-                  </div>
+                  </div> 
                 </div><!-- /.box-header -->
                 <?php
                   $query = mysqli_query($koneksi, "SELECT * FROM v_karyawan WHERE id_karyawan='$_GET[id]'");
@@ -110,12 +108,6 @@
                               <td class="col-sm-3">Gaji Pokok</td>
                               <td class="col-sm-9">
                                 <?= 'Rp. '.strrev(implode('.',str_split(strrev(strval($data['gaji_pokok'])),3))); ?>
-                              </td>
-                            </tr>
-                            <tr class="d-flex">
-                              <td class="col-sm-3">BPJS</td>
-                              <td class="col-sm-9">
-                              <?= 'Rp. '.strrev(implode('.',str_split(strrev(strval($data['bpjs'])),3))); ?>
                               </td>
                             </tr>
                             <tr class="d-flex">

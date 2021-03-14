@@ -38,13 +38,15 @@ if(isset($_POST['input'])) {
     $id = $_POST['id_karyawan'];
     $periode = $_POST['periode'];
     $tanggal = $_POST['tanggal'];
-    $bonus = $_POST['bonus'];
-    $bpjs_ks = intval($_POST['bpjs_ks']);
-    $bpjs_kj = intval($_POST['bpjs_kj']);
+    $dht = intval(preg_replace('/\D/', '', $_POST['dht']));
+    $bonus = intval(preg_replace('/\D/', '', $_POST['bonus']));
+    $bpjs_ks = intval(preg_replace('/\D/', '', $_POST['bpjs_ks']));
+    $bpjs_kj = intval(preg_replace('/\D/', '', $_POST['bpjs_kj']));
     $ph = $_POST['ph'];
     $potongan = 0;
     $tunjangan = 0;
-    $pph;
+    $pph = 0;
+    $thp = 0;
     
 
     // Definisikan variabel untuk menyimpan data
@@ -88,9 +90,10 @@ if(isset($_POST['input'])) {
     $potongan += ($dataInsentif['tk'] * $dataAbsensi['jumlah_tk']);
     
     // Lakukan kalkulasi tunjangan sesuai jenis insentif
+    $tunjangan += $dht;
     $tunjangan += ($dataInsentif['backup'] * $dataAbsensi['jumlah_backup']);
     $tunjangan += (($dataInsentif['lembur_holiday'] * $dataAbsensi['jumlah_lembur_holiday']) * floatval(number_format($ph, 1)));
-    $tunjangan += ($gaji_pokok / 173) * ($dataAbsensi['jumlah_lembur_reguler'] * 2 - floatval(number_format('0.5', 1)));
+    $tunjangan += ($gaji_pokok / 173) * max(($dataAbsensi['jumlah_lembur_reguler'] * 2 - floatval(number_format('0.5', 1))), 0);
 
     // Gaji sebulan kotor
     $sebulan = $dataKaryawan['gaji_pokok'] + $bpjs_ks + $bpjs_kj + $tunjangan - $potongan;
@@ -116,69 +119,75 @@ if(isset($_POST['input'])) {
     if( $kena_pajak > 0 ) 
         $pph = itungPph($dataKaryawan['no_npwp'], $neto, $kena_pajak);
 
+    // Kalkulasi Take Home Pay perbulan
+    $thp = (($neto / 12) - ($pph / 12));
+
     // Masukan data ke dalam tabel gaji
-    // $sql = "INSERT INTO gaji (
-    //             id_karyawan,
-    //             id_periode,
-    //             tanggal,
-    //             tunjangan,
-    //             potongan,
-    //             bonus,
-    //             bpjs_ks,
-    //             bpjs_kj,
-    //             sebulan,
-    //             setahun,
-    //             bruto,
-    //             biaya_jabatan,
-    //             neto,
-    //             pph
-    //         )
-    //         VALUES (
-    //             '$id',
-    //             '$periode',
-    //             '$tanggal',
-    //             '$tunjangan',
-    //             '$potongan',
-    //             '$bonus',
-    //             '$bpjs_ks',
-    //             '$bpjs_kj',
-    //             '$sebulan',
-    //             '$setahun',
-    //             '$bruto',
-    //             '$biaya_jabatan',
-    //             '$neto',
-    //             '$pph'
-    //         );";
+    $sql = "INSERT INTO gaji (
+                id_karyawan,
+                id_periode,
+                tanggal,
+                tunjangan,
+                potongan,
+                bonus,
+                bpjs_ks,
+                bpjs_kj,
+                sebulan,
+                setahun,
+                bruto,
+                biaya_jabatan,
+                neto,
+                pph,
+                thp
+            )
+            VALUES (
+                '$id',
+                '$periode',
+                '$tanggal',
+                '$tunjangan',
+                '$potongan',
+                '$bonus',
+                '$bpjs_ks',
+                '$bpjs_kj',
+                '$sebulan',
+                '$setahun',
+                '$bruto',
+                '$biaya_jabatan',
+                '$neto',
+                '$pph',
+                '$thp'
+            );";
 
-    //         $insert = mysqli_query($koneksi, $sql) or die(mysqli_error($koneksi));
+            $insert = mysqli_query($koneksi, $sql) or die(mysqli_error($koneksi));
 
-    //         if(mysqli_affected_rows($koneksi) > 0) {
-    //             $_SESSION['insert_success'] == 'sukses';
-    //             header('location: gaji.php');
-    //         } else {
-    //             $_SESSION['insert_success'] == 'gagal';
-    //             header('location: gaji.php');
-    //         }
+            if(mysqli_affected_rows($koneksi) > 0) {
+                $_SESSION['insert_success'] == 'sukses';
+                header('location: gaji.php');
+            } else {
+                $_SESSION['insert_success'] == 'gagal';
+                header('location: gaji.php');
+            }
     
     // Debugging
-    echo '<pre>';
-    var_dump(
-        "\n ID : " . $id,
-        "\n Periode : " . $periode,
-        "\n Tanggal : " . $tanggal,
-        "\n Bonus : " . $bonus,
-        "\n Kesehatan : " . $bpjs_ks,
-        "\n Ketenagakerjaan : " . $bpjs_kj,
-        "\n PH : " . $ph,
-        "\n Potongan : " . $potongan,
-        "\n Tunjangan : " . intval($tunjangan),
-        "\n Sebulan : " . intval($sebulan),
-        "\n Setahun :  " . intval($setahun),
-        "\n bruto :  " . intval($bruto),
-        "\n biaya jabatan :  " . intval($biaya_jabatan),
-        "\n neto : " . intval($neto),
-        "\n kena pajak : " . intval($kena_pajak),
-        "\n PPH : " . intval($pph),
-    );
-    echo '<pre>';
+    // echo '<pre>';
+    // var_dump(
+    //     "\n ID : " . $id,
+    //     "\n Periode : " . $periode,
+    //     "\n Tanggal : " . $tanggal,
+    //     "\n Bonus : " . $bonus,
+    //     "\n Kesehatan : " . $bpjs_ks,
+    //     "\n Ketenagakerjaan : " . $bpjs_kj,
+    //     "\n PH : " . $ph,
+    //     "\n Potongan : " . $potongan,
+    //     "\n Tunjangan : " . intval($tunjangan),
+    //     "\n Sebulan : " . intval($sebulan),
+    //     "\n Setahun :  " . intval($setahun),
+    //     "\n bruto :  " . intval($bruto),
+    //     "\n biaya jabatan :  " . intval($biaya_jabatan),
+    //     "\n neto : " . intval($neto),
+    //     "\n kena pajak : " . intval($kena_pajak),
+    //     "\n PPH : " . intval($pph),
+    //     "\n THP : " . intval($thp)
+    // );
+    // echo '<pre>';
 }

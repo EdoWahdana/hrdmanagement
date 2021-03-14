@@ -40,21 +40,36 @@
                   <div class="box-tools pull-right">
                   </div> 
                 </div><!-- /.box-header -->
-                
-                <!-- Eksekusi saat tombol update -->
-                <?php
-                    if(isset($_GET['aksi']) == 'delete'){
-                        $id = $_GET['id'];
-                        $cek = mysqli_query($koneksi, "DELETE FROM absensi WHERE id_absensi='$id'");
-                        if(mysqli_affected_rows() > 0){
-                            echo '<div class="alert alert-primary alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Data berhasil dihapus.</div>';
-                        } else {
-                            echo '<div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Data gagal dihapus.</div>';
-                        }
-                    }
-                ?>
 
                 <div class="box-body">
+                
+                <?php
+                  if(!empty($_SESSION['insert_success'])) {
+                    echo '<div class="alert alert-success" role="alert"> Insert Data Karyawan Berhasil </div>';
+                    unset($_SESSION['insert_success']);
+                  } 
+                  if(!empty($_SESSION['insert_fail'])) {
+                    echo '<div class="alert alert-danger" role="alert"> Insert Data Karyawan GAGAL!!! </div>';
+                    unset($_SESSION['insert_fail']);
+                  }
+                  if(!empty($_SESSION['update_success'])) {
+                    echo '<div class="alert alert-success" role="alert"> Update Data Karyawan Berhasil </div>';
+                    unset($_SESSION['update_success']);
+                  } 
+                  if(!empty($_SESSION['update_fail'])) {
+                    echo '<div class="alert alert-danger" role="alert"> Update Data Karyawan GAGAL!!! </div>';
+                    unset($_SESSION['update_fail']);
+                  }
+                  if(!empty($_SESSION['delete_success'])) {
+                    echo '<div class="alert alert-success" role="alert"> Hapus Data Karyawan Berhasil </div>';
+                    unset($_SESSION['delete_success']);
+                  } 
+                  if(!empty($_SESSION['delete_fail'])) {
+                    echo '<div class="alert alert-danger" role="alert"> Hapus Data Karyawan GAGAL!!! </div>';
+                    unset($_SESSION['delete_fail']);
+                  }
+                ?>
+
                  <a href="gaji_importxls.php" class="btn btn-sm btn-warning"><i class="fa fa-file"></i> Import Excel</a> <a href="gaji_exportxls.php" class="btn btn-sm btn-success"><i class="fa fa-file"></i> Export Excel</a><br /><br />
                    <table id="lookup" class="table table-bordered table-hover">  
                     <thead bgcolor="eeeeee" align="center">
@@ -81,7 +96,7 @@
                 </table>  
                 </div><!-- /.box-body -->
                 <div class="box-footer clearfix no-border">
-                  <a href="input-gaji.php" class="btn btn-sm btn-default pull-right"><i class="fa fa-plus"></i> Tambah Data Absensi Karyawan</a>
+                  <a href="input-absensi.php" class="btn btn-sm btn-default pull-right"><i class="fa fa-plus"></i> Tambah Data Absensi Karyawan</a>
                   </div>
               </div><!-- /.box -->
 

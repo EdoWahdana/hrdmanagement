@@ -46,7 +46,7 @@ if( !empty($requestData['search']['value']) ) {
 
 	$sql = "SELECT id_karyawan, no_karyawan, nama, projek, role, departemen, jabatan";
 	$sql.=" FROM v_karyawan";
-	// $sql.=" ORDER BY ". $columns[$requestData['order'][0]['column']]."   ".$requestData['order'][0]['dir']."   LIMIT ".$requestData['start']." ,".$requestData['length']."   ";
+	$sql.=" ORDER BY ". $columns[$requestData['order'][0]['column']]."   ".$requestData['order'][0]['dir']."   LIMIT ".$requestData['start']." ,".$requestData['length']."   ";
 	$query=mysqli_query($conn, $sql) or die("ajaxin-grid-data.php: get Karyawan");   
 	
 }

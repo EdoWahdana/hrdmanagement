@@ -45,6 +45,7 @@ if(isset($_POST['input'])) {
     $no_npwp = $_POST['no_npwp'];
     $nama = $_POST['nama'];
     $jk = $_POST['jk'];
+    $status_kerja = $_POST['status'];
     $ptkp = $_POST['ptkp'];
     $projek = $_POST['projek'];
     $role = $_POST['role'];
@@ -52,7 +53,6 @@ if(isset($_POST['input'])) {
     $jabatan = $_POST['jabatan'];
     $tanggal_masuk = $_POST['tanggal'];
     $gapok = (int) $_POST['gapok'];
-    $bpjs = (int) $_POST['bpjs'];
     $username = $_POST['username'];
     $password = sha1($_POST['password']);
     $level = $_POST['level'];
@@ -80,11 +80,11 @@ if(isset($_POST['input'])) {
                 no_npwp,
                 nama, 
                 jk,
+                status_kerja,
                 departemen, 
                 jabatan,
                 tanggal_masuk, 
                 gaji_pokok, 
-                bpjs, 
                 foto, 
                 foto_ktp, 
                 foto_kk, 
@@ -105,11 +105,11 @@ if(isset($_POST['input'])) {
                 '$no_npwp',
                 '$nama',
                 '$jk', 
+                '$status_kerja',
                 '$departemen', 
                 '$jabatan', 
                 '$tanggal_masuk', 
                 '$gapok', 
-                '$bpjs', 
                 '$foto', 
                 '$foto_ktp', 
                 '$foto_kk', 
@@ -123,7 +123,7 @@ if(isset($_POST['input'])) {
                 '$projek', 
                 '$role',
                 '$ptkp')";
-
+    // Execute insert into karyawan_new
     $insert = mysqli_query($koneksi, $sql) or die(mysqli_error());
 
     if(mysqli_affected_rows($koneksi) > 0) {

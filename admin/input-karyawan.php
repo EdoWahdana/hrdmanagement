@@ -88,6 +88,16 @@
                                 </select>
                               </div>
                           </div>
+
+                          <div class="form-group">
+                              <label class="col-sm-2 col-sm-2 control-label">Status Pegawai</label>
+                              <div class="col-sm-4">
+                                <select name="status" id="status">
+                                  <option value="Kontrak">Kontrak</option>
+                                  <option value="Tetap">Tetap</option>
+                                </select>
+                              </div>
+                          </div>
                           
                           <div class="form-group">
                               <label class="col-sm-2 col-sm-2 control-label">Kode PTKP</label>
@@ -179,13 +189,6 @@
                               <label class="col-sm-2 col-sm-2 control-label">Gaji Pokok</label>
                               <div class="col-sm-4">
                                 <input type="text" name="gapok" id="gapok" class="form-control" required="required" placeholder="Gaji Pokok Karyawan" value="<?= isset($_POST['gapok']) ? $_POST['gapok'] : '' ?>">
-                              </div>
-                          </div>
-
-                          <div class="form-group">
-                              <label class="col-sm-2 col-sm-2 control-label">BPJS</label>
-                              <div class="col-sm-4">
-                                <input type="text" name="bpjs" id="bpjs" class="form-control" required="required" placeholder="BPJS Karyawan" value="<?= isset($_POST['bpjs']) ? $_POST['bpjs'] : '' ?>">
                               </div>
                           </div>
                           
