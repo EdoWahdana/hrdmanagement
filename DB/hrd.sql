@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 12, 2021 at 09:04 AM
+-- Generation Time: Mar 15, 2021 at 12:19 AM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.3.11
 
@@ -46,7 +46,8 @@ CREATE TABLE `absensi` (
 --
 
 INSERT INTO `absensi` (`id_absensi`, `id_karyawan`, `id_periode`, `jumlah_sakit`, `jumlah_izin`, `jumlah_cuti`, `jumlah_tk`, `jumlah_backup`, `jumlah_lembur_holiday`, `jumlah_lembur_reguler`) VALUES
-(1, 5, 5, 3, 2, 4, 2, 3, 5, 5);
+(1, 5, 5, 3, 2, 4, 2, 3, 5, 5),
+(2, 8, 1, 0, 0, 0, 0, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -104,18 +105,31 @@ INSERT INTO `departemen` (`id_dept`, `nama_dept`) VALUES
 --
 
 CREATE TABLE `gaji` (
-  `nik` varchar(10) NOT NULL,
-  `nama` varchar(100) NOT NULL,
+  `id_gaji` int(11) NOT NULL,
+  `id_karyawan` int(11) NOT NULL,
+  `id_periode` int(11) NOT NULL,
   `tanggal` date NOT NULL,
-  `departemen` varchar(50) NOT NULL,
-  `jabatan` varchar(50) NOT NULL,
-  `status` enum('TETAP','PKWT','PKWTT') NOT NULL,
-  `gapok` float NOT NULL,
-  `bpjs` float NOT NULL,
-  `lembur` float NOT NULL,
-  `norek` varchar(15) NOT NULL,
-  `gambar` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `tunjangan` int(11) DEFAULT NULL,
+  `potongan` int(11) DEFAULT NULL,
+  `bonus` int(11) NOT NULL,
+  `bpjs_ks` int(11) NOT NULL,
+  `bpjs_kj` int(11) NOT NULL,
+  `sebulan` int(11) NOT NULL,
+  `setahun` bigint(20) NOT NULL,
+  `bruto` bigint(20) NOT NULL,
+  `biaya_jabatan` int(11) NOT NULL,
+  `neto` bigint(20) NOT NULL,
+  `pph` int(11) DEFAULT NULL,
+  `thp` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `gaji`
+--
+
+INSERT INTO `gaji` (`id_gaji`, `id_karyawan`, `id_periode`, `tanggal`, `tunjangan`, `potongan`, `bonus`, `bpjs_ks`, `bpjs_kj`, `sebulan`, `setahun`, `bruto`, `biaya_jabatan`, `neto`, `pph`, `thp`) VALUES
+(1, 5, 1, '2021-03-18', 494220, 0, 800000, 200000, 200000, 9894220, 118730636, 119530636, 5976532, 113554104, 2977705, 9214699),
+(3, 8, 1, '2021-03-25', 78459, 0, 2471446, 171054, 294641, 4485127, 53821524, 56292970, 0, 56292970, 114649, 4681527);
 
 -- --------------------------------------------------------
 
@@ -317,6 +331,7 @@ CREATE TABLE `karyawan_new` (
   `nik` varchar(50) NOT NULL,
   `no_kk` varchar(50) NOT NULL,
   `no_karyawan` varchar(50) NOT NULL,
+  `no_npwp` varchar(50) NOT NULL,
   `nama` varchar(50) NOT NULL,
   `jk` enum('L','P') NOT NULL,
   `status_kerja` enum('Tetap','Kontrak') NOT NULL,
@@ -324,7 +339,6 @@ CREATE TABLE `karyawan_new` (
   `jabatan` varchar(50) NOT NULL,
   `tanggal_masuk` date NOT NULL,
   `gaji_pokok` int(11) NOT NULL,
-  `bpjs` int(11) NOT NULL,
   `foto` text NOT NULL,
   `foto_ktp` text NOT NULL,
   `foto_kk` text NOT NULL,
@@ -344,8 +358,10 @@ CREATE TABLE `karyawan_new` (
 -- Dumping data for table `karyawan_new`
 --
 
-INSERT INTO `karyawan_new` (`id_karyawan`, `nik`, `no_kk`, `no_karyawan`, `nama`, `jk`, `status_kerja`, `departemen`, `jabatan`, `tanggal_masuk`, `gaji_pokok`, `bpjs`, `foto`, `foto_ktp`, `foto_kk`, `foto_npwp`, `foto_buku_rekening`, `foto_bpjs_ks`, `foto_bpjs_kj`, `username`, `password`, `level`, `id_projek`, `id_role`, `id_ptkp`) VALUES
-(5, '201381238', '0919388138', '0005', 'Edo Wahdana', 'L', 'Tetap', 'Accounting', 'Leader', '2021-03-03', 9000000, 3000000, 'd1a7b037cbcc1923fac0134287522b8e.jpg', 'eefccc9574c0f2e3e01e2d3bb3d9fe86.jpg', 'eefccc9574c0f2e3e01e2d3bb3d9fe86.jpg', 'd1a7b037cbcc1923fac0134287522b8e.jpg', 'eefccc9574c0f2e3e01e2d3bb3d9fe86.jpg', 'd1a7b037cbcc1923fac0134287522b8e.jpg', 'd1a7b037cbcc1923fac0134287522b8e.jpg', 'edo', '9da14ce833f5a7b709513cc8f6de983d5ea2bd91', 'Admin', 4, 2, 1);
+INSERT INTO `karyawan_new` (`id_karyawan`, `nik`, `no_kk`, `no_karyawan`, `no_npwp`, `nama`, `jk`, `status_kerja`, `departemen`, `jabatan`, `tanggal_masuk`, `gaji_pokok`, `foto`, `foto_ktp`, `foto_kk`, `foto_npwp`, `foto_buku_rekening`, `foto_bpjs_ks`, `foto_bpjs_kj`, `username`, `password`, `level`, `id_projek`, `id_role`, `id_ptkp`) VALUES
+(5, '201381238', '0919388138', '0005', '89.737218.1-017.000', 'Edo Wahdana', 'L', 'Tetap', 'Accounting', 'Leader', '2021-03-03', 9000000, 'd1a7b037cbcc1923fac0134287522b8e.jpg', 'eefccc9574c0f2e3e01e2d3bb3d9fe86.jpg', 'eefccc9574c0f2e3e01e2d3bb3d9fe86.jpg', 'd1a7b037cbcc1923fac0134287522b8e.jpg', 'eefccc9574c0f2e3e01e2d3bb3d9fe86.jpg', 'd1a7b037cbcc1923fac0134287522b8e.jpg', 'd1a7b037cbcc1923fac0134287522b8e.jpg', 'edo', '9da14ce833f5a7b709513cc8f6de983d5ea2bd91', 'Admin', 4, 2, 1),
+(6, '31231', '813728', '0006', '99.717218.1-017.000', 'Dede Rian', 'L', 'Tetap', 'Enginnering', 'Leader', '2021-03-02', 2000000, '922b83538f731859e1dccc330aa42afa.jpg', '67707cb5566dbf3e6ed3afea02c8f707.jpeg', '67707cb5566dbf3e6ed3afea02c8f707.jpeg', '67707cb5566dbf3e6ed3afea02c8f707.jpeg', '67707cb5566dbf3e6ed3afea02c8f707.jpeg', '67707cb5566dbf3e6ed3afea02c8f707.jpeg', '67707cb5566dbf3e6ed3afea02c8f707.jpeg', 'dede', '8e65e20d4b7140a2e6ed067933d596228e46d380', 'User', 21, 2, 1),
+(8, '3174090508850009', '3174091010500009', '0007', '89.737218.1-017.000', 'Danang', 'L', 'Kontrak', 'IT', 'Staf', '2021-01-01', 3940973, 'f40351283720b2c0b35a83db7d0bca9f.jpeg', '3123e9f6cd89f896794245d8d8a23e58.jpg', 'f40351283720b2c0b35a83db7d0bca9f.jpeg', 'f40351283720b2c0b35a83db7d0bca9f.jpeg', 'f40351283720b2c0b35a83db7d0bca9f.jpeg', '3ab7d4cd391caeb9dbf1dbfad4dc0a98.jpg', 'f40351283720b2c0b35a83db7d0bca9f.jpeg', 'andri', '666013faae6e6ba8fcde2b5e1c9d874a41a76db3', 'User', 1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -510,6 +526,41 @@ CREATE TABLE `v_absensi` (
 -- --------------------------------------------------------
 
 --
+-- Stand-in structure for view `v_gaji`
+-- (See below for the actual view)
+--
+CREATE TABLE `v_gaji` (
+`id_karyawan` int(11)
+,`no_karyawan` varchar(50)
+,`nik` varchar(50)
+,`no_npwp` varchar(50)
+,`nama` varchar(50)
+,`jk` enum('L','P')
+,`status_kerja` enum('Tetap','Kontrak')
+,`gaji_pokok` int(11)
+,`kode` varchar(10)
+,`projek` varchar(255)
+,`bulan` enum('1','2','3','4','5','6','7','8','9','10','11','12')
+,`tahun` varchar(10)
+,`tanggal` date
+,`tunjangan` int(11)
+,`potongan` int(11)
+,`bonus` int(11)
+,`bpjs_ks` int(11)
+,`bpjs_kj` int(11)
+,`sebulan` int(11)
+,`setahun` bigint(20)
+,`bruto` bigint(20)
+,`biaya_jabatan` int(11)
+,`neto` bigint(20)
+,`ptkp` int(11)
+,`pph` int(11)
+,`thp` int(11)
+);
+
+-- --------------------------------------------------------
+
+--
 -- Stand-in structure for view `v_insentif`
 -- (See below for the actual view)
 --
@@ -538,6 +589,7 @@ CREATE TABLE `v_karyawan` (
 ,`nik` varchar(50)
 ,`no_kk` varchar(50)
 ,`no_karyawan` varchar(50)
+,`no_npwp` varchar(50)
 ,`nama` varchar(50)
 ,`jk` enum('L','P')
 ,`status_kerja` enum('Tetap','Kontrak')
@@ -547,7 +599,6 @@ CREATE TABLE `v_karyawan` (
 ,`jabatan` varchar(50)
 ,`tanggal_masuk` date
 ,`gaji_pokok` int(11)
-,`bpjs` int(11)
 ,`foto` text
 ,`foto_ktp` text
 ,`foto_kk` text
@@ -573,6 +624,15 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 -- --------------------------------------------------------
 
 --
+-- Structure for view `v_gaji`
+--
+DROP TABLE IF EXISTS `v_gaji`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_gaji`  AS  select `k`.`id_karyawan` AS `id_karyawan`,`k`.`no_karyawan` AS `no_karyawan`,`k`.`nik` AS `nik`,`k`.`no_npwp` AS `no_npwp`,`k`.`nama` AS `nama`,`k`.`jk` AS `jk`,`k`.`status_kerja` AS `status_kerja`,`k`.`gaji_pokok` AS `gaji_pokok`,`pt`.`kode` AS `kode`,`pr`.`projek` AS `projek`,`p`.`bulan` AS `bulan`,`p`.`tahun` AS `tahun`,`g`.`tanggal` AS `tanggal`,`g`.`tunjangan` AS `tunjangan`,`g`.`potongan` AS `potongan`,`g`.`bonus` AS `bonus`,`g`.`bpjs_ks` AS `bpjs_ks`,`g`.`bpjs_kj` AS `bpjs_kj`,`g`.`sebulan` AS `sebulan`,`g`.`setahun` AS `setahun`,`g`.`bruto` AS `bruto`,`g`.`biaya_jabatan` AS `biaya_jabatan`,`g`.`neto` AS `neto`,`pt`.`ptkp` AS `ptkp`,`g`.`pph` AS `pph`,`g`.`thp` AS `thp` from ((((`karyawan_new` `k` join `periode` `p`) join `gaji` `g`) join `projek` `pr`) join `ptkp` `pt`) where `k`.`id_karyawan` = `g`.`id_karyawan` and `p`.`id_periode` = `g`.`id_periode` and `k`.`id_projek` = `pr`.`id_projek` and `k`.`id_ptkp` = `pt`.`id_ptkp` ;
+
+-- --------------------------------------------------------
+
+--
 -- Structure for view `v_insentif`
 --
 DROP TABLE IF EXISTS `v_insentif`;
@@ -586,7 +646,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `v_karyawan`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_karyawan`  AS  select `k`.`id_karyawan` AS `id_karyawan`,`k`.`id_projek` AS `id_projek`,`k`.`id_role` AS `id_role`,`k`.`nik` AS `nik`,`k`.`no_kk` AS `no_kk`,`k`.`no_karyawan` AS `no_karyawan`,`k`.`nama` AS `nama`,`k`.`jk` AS `jk`,`k`.`status_kerja` AS `status_kerja`,`p`.`projek` AS `projek`,`r`.`role` AS `role`,`k`.`departemen` AS `departemen`,`k`.`jabatan` AS `jabatan`,`k`.`tanggal_masuk` AS `tanggal_masuk`,`k`.`gaji_pokok` AS `gaji_pokok`,`k`.`bpjs` AS `bpjs`,`k`.`foto` AS `foto`,`k`.`foto_ktp` AS `foto_ktp`,`k`.`foto_kk` AS `foto_kk`,`k`.`foto_npwp` AS `foto_npwp`,`k`.`foto_buku_rekening` AS `foto_buku_rekening`,`k`.`foto_bpjs_ks` AS `foto_bpjs_ks`,`k`.`foto_bpjs_kj` AS `foto_bpjs_kj`,`k`.`username` AS `username`,`k`.`password` AS `password`,`k`.`level` AS `level`,`pt`.`kode` AS `kode` from (((`karyawan_new` `k` join `projek` `p`) join `role` `r`) join `ptkp` `pt`) where `k`.`id_projek` = `p`.`id_projek` and `k`.`id_role` = `r`.`id_role` and `k`.`id_ptkp` = `pt`.`id_ptkp` ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_karyawan`  AS  select `k`.`id_karyawan` AS `id_karyawan`,`k`.`id_projek` AS `id_projek`,`k`.`id_role` AS `id_role`,`k`.`nik` AS `nik`,`k`.`no_kk` AS `no_kk`,`k`.`no_karyawan` AS `no_karyawan`,`k`.`no_npwp` AS `no_npwp`,`k`.`nama` AS `nama`,`k`.`jk` AS `jk`,`k`.`status_kerja` AS `status_kerja`,`p`.`projek` AS `projek`,`r`.`role` AS `role`,`k`.`departemen` AS `departemen`,`k`.`jabatan` AS `jabatan`,`k`.`tanggal_masuk` AS `tanggal_masuk`,`k`.`gaji_pokok` AS `gaji_pokok`,`k`.`foto` AS `foto`,`k`.`foto_ktp` AS `foto_ktp`,`k`.`foto_kk` AS `foto_kk`,`k`.`foto_npwp` AS `foto_npwp`,`k`.`foto_buku_rekening` AS `foto_buku_rekening`,`k`.`foto_bpjs_ks` AS `foto_bpjs_ks`,`k`.`foto_bpjs_kj` AS `foto_bpjs_kj`,`k`.`username` AS `username`,`k`.`password` AS `password`,`k`.`level` AS `level`,`pt`.`kode` AS `kode` from (((`karyawan_new` `k` join `projek` `p`) join `role` `r`) join `ptkp` `pt`) where `k`.`id_projek` = `p`.`id_projek` and `k`.`id_role` = `r`.`id_role` and `k`.`id_ptkp` = `pt`.`id_ptkp` ;
 
 --
 -- Indexes for dumped tables
@@ -614,9 +674,7 @@ ALTER TABLE `departemen`
 -- Indexes for table `gaji`
 --
 ALTER TABLE `gaji`
-  ADD UNIQUE KEY `nik_3` (`nik`),
-  ADD KEY `nik` (`nik`);
-ALTER TABLE `gaji` ADD FULLTEXT KEY `nik_2` (`nik`);
+  ADD PRIMARY KEY (`id_gaji`);
 
 --
 -- Indexes for table `insentif`
@@ -682,7 +740,13 @@ ALTER TABLE `role`
 -- AUTO_INCREMENT for table `absensi`
 --
 ALTER TABLE `absensi`
-  MODIFY `id_absensi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_absensi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `gaji`
+--
+ALTER TABLE `gaji`
+  MODIFY `id_gaji` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `insentif`
@@ -694,7 +758,7 @@ ALTER TABLE `insentif`
 -- AUTO_INCREMENT for table `karyawan_new`
 --
 ALTER TABLE `karyawan_new`
-  MODIFY `id_karyawan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_karyawan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `periode`
