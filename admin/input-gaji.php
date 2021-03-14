@@ -79,11 +79,11 @@
                         <div class="form-group">
                             <label class="col-sm-2 col-sm-2 control-label">Tanggal</label>
                             <div class="col-sm-4">
-                              <input name="tanggal" type="date" id="tanggal" class="form-control" placeholder="Tanggal Gaji" required='required' value="<?= isset($_POST['tanggal']) ? $_POST['tanggal'] : '' ?>" />
+                              <input name="tanggal" type="text" id="tanggal" class="input-group date" data-date="" data-date-format="yyyy-mm-dd" placeholder="Tanggal Gajian" required='required' autocomplete="off" value="<?= isset($_POST['tanggal']) ? $_POST['tanggal'] : '' ?>" />
                             </div>
                         </div>                             
                         <div class="form-group">
-                            <label class="col-sm-2 col-sm-2 control-label">Bonus</label>
+                            <label class="col-sm-2 col-sm-2 control-label">Bonus / Gratifikasi / Tantiem dll</label>
                             <div class="col-sm-4">
                               <input name="bonus" type="text" id="bonus" class="form-control" placeholder="Bonus Gaji" required='required' value="<?= isset($_POST['bonus']) ? $_POST['bonus'] : '' ?>" />
                             </div>
@@ -105,7 +105,7 @@
                             <div class="col-sm-4">
                               <select name="ph" id="ph">
                                     <option selected disabled hidden> --- Jenis Lembur Holiday --- </option>
-                                    <option value='0,5'>0,5</option>
+                                    <option value='0.5'>0.5</option>
                                     <option value='1'>1</option>
                               </select>
                             </div>
@@ -154,8 +154,11 @@
     <script src="../plugins/select2/select2.full.min.js"></script>
 
     <script>
-	//options method for call datepicker
-	$(".input-group.date").datepicker({ autoclose: true, todayHighlight: true });
+    //options method for call datepicker
+    $(".input-group.date").datepicker({ 
+      autoclose: true, 
+      todayHighlight: true 
+    });
 	
     </script>
 

@@ -171,7 +171,7 @@
                           <div class="form-group">
                               <label class="col-sm-2 col-sm-2 control-label">Tanggal Masuk</label>
                               <div class="col-sm-4">
-                                <input type='text' class="input-group date" data-date="" data-date-format="yyyy-mm-dd" name='tanggal' id="tanggal" placeholder='Tanggal' required='required' width=50 />
+                                <input type='text' class="input-group date" data-date="" data-date-format="yyyy-mm-dd" name='tanggal' id="tanggal" placeholder='Tanggal Masuk' autocomplete="off" required='required' width=50 />
                               </div>
                           </div>
 
