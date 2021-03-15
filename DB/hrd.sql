@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.1
+-- version 5.0.3
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 15, 2021 at 12:19 AM
--- Server version: 10.4.8-MariaDB
--- PHP Version: 7.3.11
+-- Generation Time: Mar 15, 2021 at 10:33 PM
+-- Server version: 10.4.14-MariaDB
+-- PHP Version: 7.3.23
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -46,7 +45,7 @@ CREATE TABLE `absensi` (
 --
 
 INSERT INTO `absensi` (`id_absensi`, `id_karyawan`, `id_periode`, `jumlah_sakit`, `jumlah_izin`, `jumlah_cuti`, `jumlah_tk`, `jumlah_backup`, `jumlah_lembur_holiday`, `jumlah_lembur_reguler`) VALUES
-(1, 5, 5, 3, 2, 4, 2, 3, 5, 5),
+(1, 5, 1, 3, 2, 4, 2, 3, 5, 5),
 (2, 8, 1, 0, 0, 0, 0, 0, 0, 0);
 
 -- --------------------------------------------------------
@@ -530,7 +529,9 @@ CREATE TABLE `v_absensi` (
 -- (See below for the actual view)
 --
 CREATE TABLE `v_gaji` (
-`id_karyawan` int(11)
+`id_gaji` int(11)
+,`id_karyawan` int(11)
+,`id_periode` int(11)
 ,`no_karyawan` varchar(50)
 ,`nik` varchar(50)
 ,`no_npwp` varchar(50)
@@ -540,6 +541,7 @@ CREATE TABLE `v_gaji` (
 ,`gaji_pokok` int(11)
 ,`kode` varchar(10)
 ,`projek` varchar(255)
+,`role` varchar(50)
 ,`bulan` enum('1','2','3','4','5','6','7','8','9','10','11','12')
 ,`tahun` varchar(10)
 ,`tanggal` date
@@ -619,7 +621,7 @@ CREATE TABLE `v_karyawan` (
 --
 DROP TABLE IF EXISTS `v_absensi`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_absensi`  AS  select `absensi`.`id_absensi` AS `id_absensi`,`karyawan_new`.`nama` AS `nama`,`periode`.`bulan` AS `bulan`,`periode`.`tahun` AS `tahun`,`absensi`.`jumlah_sakit` AS `jumlah_sakit`,`absensi`.`jumlah_izin` AS `jumlah_izin`,`absensi`.`jumlah_cuti` AS `jumlah_cuti`,`absensi`.`jumlah_tk` AS `jumlah_tk`,`absensi`.`jumlah_backup` AS `jumlah_backup`,`absensi`.`jumlah_lembur_holiday` AS `jumlah_lembur_holiday`,`absensi`.`jumlah_lembur_reguler` AS `jumlah_lembur_reguler` from ((`karyawan_new` join `periode`) join `absensi`) where `karyawan_new`.`id_karyawan` = `absensi`.`id_karyawan` and `periode`.`id_periode` = `absensi`.`id_periode` ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_absensi`  AS SELECT `absensi`.`id_absensi` AS `id_absensi`, `karyawan_new`.`nama` AS `nama`, `periode`.`bulan` AS `bulan`, `periode`.`tahun` AS `tahun`, `absensi`.`jumlah_sakit` AS `jumlah_sakit`, `absensi`.`jumlah_izin` AS `jumlah_izin`, `absensi`.`jumlah_cuti` AS `jumlah_cuti`, `absensi`.`jumlah_tk` AS `jumlah_tk`, `absensi`.`jumlah_backup` AS `jumlah_backup`, `absensi`.`jumlah_lembur_holiday` AS `jumlah_lembur_holiday`, `absensi`.`jumlah_lembur_reguler` AS `jumlah_lembur_reguler` FROM ((`karyawan_new` join `periode`) join `absensi`) WHERE `karyawan_new`.`id_karyawan` = `absensi`.`id_karyawan` AND `periode`.`id_periode` = `absensi`.`id_periode` ;
 
 -- --------------------------------------------------------
 
@@ -628,7 +630,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `v_gaji`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_gaji`  AS  select `k`.`id_karyawan` AS `id_karyawan`,`k`.`no_karyawan` AS `no_karyawan`,`k`.`nik` AS `nik`,`k`.`no_npwp` AS `no_npwp`,`k`.`nama` AS `nama`,`k`.`jk` AS `jk`,`k`.`status_kerja` AS `status_kerja`,`k`.`gaji_pokok` AS `gaji_pokok`,`pt`.`kode` AS `kode`,`pr`.`projek` AS `projek`,`p`.`bulan` AS `bulan`,`p`.`tahun` AS `tahun`,`g`.`tanggal` AS `tanggal`,`g`.`tunjangan` AS `tunjangan`,`g`.`potongan` AS `potongan`,`g`.`bonus` AS `bonus`,`g`.`bpjs_ks` AS `bpjs_ks`,`g`.`bpjs_kj` AS `bpjs_kj`,`g`.`sebulan` AS `sebulan`,`g`.`setahun` AS `setahun`,`g`.`bruto` AS `bruto`,`g`.`biaya_jabatan` AS `biaya_jabatan`,`g`.`neto` AS `neto`,`pt`.`ptkp` AS `ptkp`,`g`.`pph` AS `pph`,`g`.`thp` AS `thp` from ((((`karyawan_new` `k` join `periode` `p`) join `gaji` `g`) join `projek` `pr`) join `ptkp` `pt`) where `k`.`id_karyawan` = `g`.`id_karyawan` and `p`.`id_periode` = `g`.`id_periode` and `k`.`id_projek` = `pr`.`id_projek` and `k`.`id_ptkp` = `pt`.`id_ptkp` ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_gaji`  AS SELECT `g`.`id_gaji` AS `id_gaji`, `k`.`id_karyawan` AS `id_karyawan`, `p`.`id_periode` AS `id_periode`, `k`.`no_karyawan` AS `no_karyawan`, `k`.`nik` AS `nik`, `k`.`no_npwp` AS `no_npwp`, `k`.`nama` AS `nama`, `k`.`jk` AS `jk`, `k`.`status_kerja` AS `status_kerja`, `k`.`gaji_pokok` AS `gaji_pokok`, `pt`.`kode` AS `kode`, `pr`.`projek` AS `projek`, `r`.`role` AS `role`, `p`.`bulan` AS `bulan`, `p`.`tahun` AS `tahun`, `g`.`tanggal` AS `tanggal`, `g`.`tunjangan` AS `tunjangan`, `g`.`potongan` AS `potongan`, `g`.`bonus` AS `bonus`, `g`.`bpjs_ks` AS `bpjs_ks`, `g`.`bpjs_kj` AS `bpjs_kj`, `g`.`sebulan` AS `sebulan`, `g`.`setahun` AS `setahun`, `g`.`bruto` AS `bruto`, `g`.`biaya_jabatan` AS `biaya_jabatan`, `g`.`neto` AS `neto`, `pt`.`ptkp` AS `ptkp`, `g`.`pph` AS `pph`, `g`.`thp` AS `thp` FROM (((((`karyawan_new` `k` join `periode` `p`) join `gaji` `g`) join `projek` `pr`) join `ptkp` `pt`) join `role` `r`) WHERE `k`.`id_karyawan` = `g`.`id_karyawan` AND `p`.`id_periode` = `g`.`id_periode` AND `k`.`id_projek` = `pr`.`id_projek` AND `k`.`id_ptkp` = `pt`.`id_ptkp` AND `k`.`id_role` = `r`.`id_role` ;
 
 -- --------------------------------------------------------
 
@@ -637,7 +639,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `v_insentif`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_insentif`  AS  select `i`.`id_insentif` AS `id_insentif`,`p`.`projek` AS `projek`,`r`.`role` AS `role`,`i`.`sakit` AS `sakit`,`i`.`izin` AS `izin`,`i`.`cuti` AS `cuti`,`i`.`tk` AS `tk`,`i`.`backup` AS `backup`,`i`.`lembur_holiday` AS `lembur_holiday` from ((`insentif` `i` join `projek` `p` on(`i`.`id_projek` = `p`.`id_projek`)) join `role` `r` on(`i`.`id_role` = `r`.`id_role`)) order by `i`.`id_insentif` ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_insentif`  AS SELECT `i`.`id_insentif` AS `id_insentif`, `p`.`projek` AS `projek`, `r`.`role` AS `role`, `i`.`sakit` AS `sakit`, `i`.`izin` AS `izin`, `i`.`cuti` AS `cuti`, `i`.`tk` AS `tk`, `i`.`backup` AS `backup`, `i`.`lembur_holiday` AS `lembur_holiday` FROM ((`insentif` `i` join `projek` `p` on(`i`.`id_projek` = `p`.`id_projek`)) join `role` `r` on(`i`.`id_role` = `r`.`id_role`)) ORDER BY `i`.`id_insentif` ASC ;
 
 -- --------------------------------------------------------
 
@@ -646,7 +648,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `v_karyawan`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_karyawan`  AS  select `k`.`id_karyawan` AS `id_karyawan`,`k`.`id_projek` AS `id_projek`,`k`.`id_role` AS `id_role`,`k`.`nik` AS `nik`,`k`.`no_kk` AS `no_kk`,`k`.`no_karyawan` AS `no_karyawan`,`k`.`no_npwp` AS `no_npwp`,`k`.`nama` AS `nama`,`k`.`jk` AS `jk`,`k`.`status_kerja` AS `status_kerja`,`p`.`projek` AS `projek`,`r`.`role` AS `role`,`k`.`departemen` AS `departemen`,`k`.`jabatan` AS `jabatan`,`k`.`tanggal_masuk` AS `tanggal_masuk`,`k`.`gaji_pokok` AS `gaji_pokok`,`k`.`foto` AS `foto`,`k`.`foto_ktp` AS `foto_ktp`,`k`.`foto_kk` AS `foto_kk`,`k`.`foto_npwp` AS `foto_npwp`,`k`.`foto_buku_rekening` AS `foto_buku_rekening`,`k`.`foto_bpjs_ks` AS `foto_bpjs_ks`,`k`.`foto_bpjs_kj` AS `foto_bpjs_kj`,`k`.`username` AS `username`,`k`.`password` AS `password`,`k`.`level` AS `level`,`pt`.`kode` AS `kode` from (((`karyawan_new` `k` join `projek` `p`) join `role` `r`) join `ptkp` `pt`) where `k`.`id_projek` = `p`.`id_projek` and `k`.`id_role` = `r`.`id_role` and `k`.`id_ptkp` = `pt`.`id_ptkp` ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_karyawan`  AS SELECT `k`.`id_karyawan` AS `id_karyawan`, `k`.`id_projek` AS `id_projek`, `k`.`id_role` AS `id_role`, `k`.`nik` AS `nik`, `k`.`no_kk` AS `no_kk`, `k`.`no_karyawan` AS `no_karyawan`, `k`.`no_npwp` AS `no_npwp`, `k`.`nama` AS `nama`, `k`.`jk` AS `jk`, `k`.`status_kerja` AS `status_kerja`, `p`.`projek` AS `projek`, `r`.`role` AS `role`, `k`.`departemen` AS `departemen`, `k`.`jabatan` AS `jabatan`, `k`.`tanggal_masuk` AS `tanggal_masuk`, `k`.`gaji_pokok` AS `gaji_pokok`, `k`.`foto` AS `foto`, `k`.`foto_ktp` AS `foto_ktp`, `k`.`foto_kk` AS `foto_kk`, `k`.`foto_npwp` AS `foto_npwp`, `k`.`foto_buku_rekening` AS `foto_buku_rekening`, `k`.`foto_bpjs_ks` AS `foto_bpjs_ks`, `k`.`foto_bpjs_kj` AS `foto_bpjs_kj`, `k`.`username` AS `username`, `k`.`password` AS `password`, `k`.`level` AS `level`, `pt`.`kode` AS `kode` FROM (((`karyawan_new` `k` join `projek` `p`) join `role` `r`) join `ptkp` `pt`) WHERE `k`.`id_projek` = `p`.`id_projek` AND `k`.`id_role` = `r`.`id_role` AND `k`.`id_ptkp` = `pt`.`id_ptkp` ;
 
 --
 -- Indexes for dumped tables
