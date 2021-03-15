@@ -27,7 +27,7 @@
         <!-- Get data from v_gaji table -->
         <?php 
           $id = $_GET['id'];
-          $sql = "SELECT * FROM v_gaji WHERE id_karyawan='$id'";
+          $sql = "SELECT * FROM v_gaji WHERE id_gaji='$id'";
           $data = mysqli_fetch_array(mysqli_query($koneksi, $sql));
           $bulan = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
         ?>
@@ -46,6 +46,7 @@
                   <h3 class="box-title">Detail Gaji Karyawan</h3>
                     <strong><p style="font-size: 35px;" class="text-center"><?= $data['nama']; ?></p></strong>
                   <div class="box-tools pull-right">
+                      <a href="laporan_gaji.php?id=<?= $id ?>" class="btn btn-sm btn-warning" target="blank">Laporan Gaji <i class="fa fa-arrow-circle-left"></i></a>
                       <a href="gaji.php" class="btn btn-sm btn-warning">Kembali <i class="fa fa-arrow-circle-left"></i></a>
                   </div> 
                 </div><!-- /.box-header -->
@@ -64,98 +65,98 @@
                           <strong><p class="text-center font-weight-bold">Periode : <?= $bulan[$data['bulan'] - 1] ?> - <?= $data['tahun'] ?></p></strong>
                         </div>
                       </div>
-                      <hr style="height:2px;border-width:0;color:black;background-color:black">
+                        <hr style="height:2px;border-width:0;color:black;background-color:black">
                       <br> 
                       <div class="container">
                         <div class="row">
                           <div class="col-sm-12 col-lg-6">
                             <div class="input-group">
                               <span class="input-group-addon" id="basic-addon1" style="width: 200px; text-align: left;">Tanggal : </span>
-                              <strong><input type="text" class="form-control" style="width: 300px;" disabled value="<?= date("d-M-Y", strtotime($data['tanggal'])); ?>"></strong>
+                              <strong><input type="text" class="form-control" style="width: 100%;" disabled value="<?= date("d-M-Y", strtotime($data['tanggal'])); ?>"></strong>
                             </div> 
                             <br> 
                           </div>
                           <div class="col-sm-12 col-lg-6">
                             <div class="input-group">
                               <span class="input-group-addon" id="basic-addon1" style="width: 200px; text-align: left;">Tunjangan, dll : </span>
-                              <strong><input type="text" class="form-control" style="width: 300px;" disabled value="<?='Rp. '.strrev(implode('.',str_split(strrev(strval($data['tunjangan'])),3))); ?>"></strong>
+                              <strong><input type="text" class="form-control" style="width: 100%;" disabled value="<?='Rp. '.strrev(implode('.',str_split(strrev(strval($data['tunjangan'])),3))); ?>"></strong>
                             </div>  
                             <br>
                           </div>
                           <div class="col-sm-12 col-lg-6">
                             <div class="input-group">
                               <span class="input-group-addon" id="basic-addon1" style="width: 200px; text-align: left;">Potongan : </span>
-                              <strong><input type="text" class="form-control" style="width: 300px;" disabled value="<?='Rp. '.strrev(implode('.',str_split(strrev(strval($data['potongan'])),3))); ?>"></strong>
+                              <strong><input type="text" class="form-control" style="width: 100%;" disabled value="<?='Rp. '.strrev(implode('.',str_split(strrev(strval($data['potongan'])),3))); ?>"></strong>
                             </div>  
                             <br>
                           </div>
                           <div class="col-sm-12 col-lg-6">
                             <div class="input-group">
                               <span class="input-group-addon" id="basic-addon1" style="width: 200px; text-align: left;">BPJS Kesehatan : </span>
-                              <strong><input type="text" class="form-control" style="width: 300px;" disabled value="<?='Rp. '.strrev(implode('.',str_split(strrev(strval($data['bpjs_ks'])),3))); ?>"></strong>
+                              <strong><input type="text" class="form-control" style="width: 100%;" disabled value="<?='Rp. '.strrev(implode('.',str_split(strrev(strval($data['bpjs_ks'])),3))); ?>"></strong>
                             </div>  
                             <br>
                           </div>
                           <div class="col-sm-12 col-lg-6">
                             <div class="input-group">
                               <span class="input-group-addon" id="basic-addon1" style="width: 200px; text-align: left;">BPJS Ketenagakerjaan : </span>
-                              <strong><input type="text" class="form-control" style="width: 300px;" disabled value="<?='Rp. '.strrev(implode('.',str_split(strrev(strval($data['bpjs_kj'])),3))); ?>"></strong>
+                              <strong><input type="text" class="form-control" style="width: 100%;" disabled value="<?='Rp. '.strrev(implode('.',str_split(strrev(strval($data['bpjs_kj'])),3))); ?>"></strong>
                             </div>  
                             <br>
                           </div>
                           <div class="col-sm-12 col-lg-6">
                             <div class="input-group">
                               <span class="input-group-addon" id="basic-addon1" style="width: 200px; text-align: left;">Gaji Sebulan : </span>
-                              <strong><input type="text" class="form-control" style="width: 300px;" disabled value="<?='Rp. '.strrev(implode('.',str_split(strrev(strval($data['sebulan'])),3))); ?>"></strong>
+                              <strong><input type="text" class="form-control" style="width: 100%;" disabled value="<?='Rp. '.strrev(implode('.',str_split(strrev(strval($data['sebulan'])),3))); ?>"></strong>
                             </div>  
                             <br>
                           </div>
                           <div class="col-sm-12 col-lg-6">
                             <div class="input-group">
                               <span class="input-group-addon" id="basic-addon1" style="width: 200px; text-align: left;">Gaji Setahun : </span>
-                              <strong><input type="text" class="form-control" style="width: 300px;" disabled value="<?='Rp. '.strrev(implode('.',str_split(strrev(strval($data['setahun'])),3))); ?>"></strong>
+                              <strong><input type="text" class="form-control" style="width: 100%;" disabled value="<?='Rp. '.strrev(implode('.',str_split(strrev(strval($data['setahun'])),3))); ?>"></strong>
                             </div>  
                             <br>
                           </div>
                           <div class="col-sm-12 col-lg-6">
                             <div class="input-group">
                               <span class="input-group-addon" id="basic-addon1" style="width: 200px; text-align: left;">Bonus, dll : </span>
-                              <strong><input type="text" class="form-control" style="width: 300px;" disabled value="<?='Rp. '.strrev(implode('.',str_split(strrev(strval($data['bonus'])),3))); ?>"></strong>
+                              <strong><input type="text" class="form-control" style="width: 100%;" disabled value="<?='Rp. '.strrev(implode('.',str_split(strrev(strval($data['bonus'])),3))); ?>"></strong>
                             </div>  
                             <br>
                           </div>
                           <div class="col-sm-12 col-lg-6">
                             <div class="input-group">
                               <span class="input-group-addon" id="basic-addon1" style="width: 200px; text-align: left;">Gaji Setahun (bruto) : </span>
-                              <strong><input type="text" class="form-control" style="width: 300px;" disabled value="<?='Rp. '.strrev(implode('.',str_split(strrev(strval($data['bruto'])),3))); ?>"></strong>
+                              <strong><input type="text" class="form-control" style="width: 100%;" disabled value="<?='Rp. '.strrev(implode('.',str_split(strrev(strval($data['bruto'])),3))); ?>"></strong>
                             </div>  
                             <br>
                           </div>
                           <div class="col-sm-12 col-lg-6">
                             <div class="input-group">
                               <span class="input-group-addon" id="basic-addon1" style="width: 200px; text-align: left;">Biaya Jabatan : </span>
-                              <strong><input type="text" class="form-control" style="width: 300px;" disabled value="<?='Rp. '.strrev(implode('.',str_split(strrev(strval($data['biaya_jabatan'])),3))); ?>"></strong>
+                              <strong><input type="text" class="form-control" style="width: 100%;" disabled value="<?='Rp. '.strrev(implode('.',str_split(strrev(strval($data['biaya_jabatan'])),3))); ?>"></strong>
                             </div>  
                             <br>
                           </div>
                           <div class="col-sm-12 col-lg-6">
                             <div class="input-group">
                               <span class="input-group-addon" id="basic-addon1" style="width: 200px; text-align: left;">Gaji Setahun (neto) : </span>
-                              <strong><input type="text" class="form-control" style="width: 300px;" disabled value="<?='Rp. '.strrev(implode('.',str_split(strrev(strval($data['neto'])),3))); ?>"></strong>
+                              <strong><input type="text" class="form-control" style="width: 100%;" disabled value="<?='Rp. '.strrev(implode('.',str_split(strrev(strval($data['neto'])),3))); ?>"></strong>
                             </div>  
                             <br>
                           </div>
                           <div class="col-sm-12 col-lg-6">
                             <div class="input-group">
                               <span class="input-group-addon" id="basic-addon1" style="width: 200px; text-align: left;">Pph Setahun : </span>
-                              <strong><input type="text" class="form-control" style="width: 300px;" disabled value="<?='Rp. '.strrev(implode('.',str_split(strrev(strval($data['pph'])),3))); ?>"></strong>
+                              <strong><input type="text" class="form-control" style="width: 100%;" disabled value="<?='Rp. '.strrev(implode('.',str_split(strrev(strval($data['pph'])),3))); ?>"></strong>
                             </div>  
                             <br>
                           </div>
-                          <div class="col-sm-12">
-                            <hr style="height:2px;border-width:0;color:black;background-color:black">
+                          <div class="col-sm-10">
+                            <hr style="height:2px;border-width:0;color:black;background-color:black;">
                           </div>
-                          <div class="col-sm-offset-8 col-sm-4">
+                          <div class="col-sm-offset-6 col-sm-6">
                             <strong><p style="font-size: 16px;">Take Home Pay (perbulan) : <?='Rp. '.strrev(implode('.',str_split(strrev(strval($data['thp'])),3))); ?> </p></strong>
                           </div>
                         </div>
