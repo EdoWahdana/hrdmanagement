@@ -72,8 +72,7 @@
           unset($_SESSION['delete_fail']);
         }
       ?>
-
-      <a href="karyawan_importxls.php" class="btn btn-sm btn-warning"><i class="fa fa-file"></i> Import Excel</a> <a href="karyawan_exportxls.php" class="btn btn-sm btn-success"><i class="fa fa-file"></i> Export Excel</a><br /><br />
+      
       <table id="lookup" class="table table-bordered table-hover">  
           <thead bgcolor="eeeeee" align="center">
             <tr>
