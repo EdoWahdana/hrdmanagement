@@ -105,6 +105,10 @@
                               <td class="col-sm-9"><?= date("d-M-Y", strtotime($data['tanggal_masuk'])); ?></td>
                             </tr>
                             <tr class="d-flex">
+                              <td class="col-sm-3">Tanggal Habis Jabatan</td>
+                              <td class="col-sm-9"><?= isset($data['tanggal_habis']) ? date("d-M-Y", strtotime($data['tanggal_habis'])) : "-"; ?></td>
+                            </tr>
+                            <tr class="d-flex">
                               <td class="col-sm-3">Gaji Pokok</td>
                               <td class="col-sm-9">
                                 <?= 'Rp. '.strrev(implode('.',str_split(strrev(strval($data['gaji_pokok'])),3))); ?>

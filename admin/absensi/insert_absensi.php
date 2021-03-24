@@ -1,19 +1,19 @@
 <?php 
 
-include('../conn.php');
+include('../../conn.php');
 
 session_start();
-
+ 
 if( isset($_POST['input']) ) {
     $id = $_POST['id_karyawan'];
     $periode = $_POST['periode'];
-    $sakit = $_POST['sakit'];
-    $izin = $_POST['izin'];
-    $cuti = $_POST['cuti'];
-    $tk = $_POST['tk'];
-    $backup = $_POST['backup'];
-    $lembur_holiday = $_POST['lembur_holiday'];
-    $lembur_reguler = $_POST['lembur_reguler'];
+    $sakit = 0;
+    $izin = 0;
+    $cuti = 0;
+    $tk = 0;
+    $backup = 0;
+    $lembur_holiday = 0;
+    $lembur_reguler = 0;
 
     $sql = "INSERT INTO absensi (
                 id_karyawan,

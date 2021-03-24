@@ -72,8 +72,8 @@
           unset($_SESSION['delete_fail']);
         }
       ?>
-      
-      <table id="lookup" class="table table-bordered table-hover">  
+
+        <table id="lookup" class="table table-bordered table-hover">  
           <thead bgcolor="eeeeee" align="center">
             <tr>
               <th>No.Karyawan</th>
@@ -86,7 +86,7 @@
             </tr>
           </thead>
           <tbody></tbody>
-      </table>  
+        </table>  
 
                 </div><!-- /.box-body -->
                 <div class="box-footer clearfix no-border">

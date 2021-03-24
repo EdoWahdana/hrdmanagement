@@ -1,16 +1,16 @@
-<?php include "session.php"; ?>
+<?php include "../session.php"; ?>
 <!DOCTYPE html>
 <html>
- <?php include "head.php" ?>
+ <?php include "../head.php"; ?>
   </head>
   <body class="hold-transition skin-purple sidebar-mini">
     <div class="wrapper">
 
-      <?php include "header.php"; ?>
+      <?php include "../header.php"; ?>
       <!-- Left side column. contains the logo and sidebar -->
-      <?php include "menu.php"; ?>
+      <?php include "../menu.php"; ?>
 
-<?php include "waktu.php"; ?>
+<?php include "../waktu.php"; ?>
       <!-- Content Wrapper. Contains page content -->
       <div class="content-wrapper">
         <!-- Content Header (Page header) -->
@@ -20,7 +20,7 @@
             <small>HRD Management System</small>
           </h1>
           <ol class="breadcrumb">
-            <li><a href="index.php"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+            <li><a href="../index.php"><i class="fa fa-dashboard"></i> Dashboard</a></li>
             <li class="active">Absensi</li>
           </ol>
         </section>
@@ -70,7 +70,6 @@
                   }
                 ?>
 
-                 <a href="gaji_importxls.php" class="btn btn-sm btn-warning"><i class="fa fa-file"></i> Import Excel</a> <a href="gaji_exportxls.php" class="btn btn-sm btn-success"><i class="fa fa-file"></i> Export Excel</a><br /><br />
                    <table id="lookup" class="table table-bordered table-hover">  
                     <thead bgcolor="eeeeee" align="center">
                     <tr>
@@ -105,29 +104,29 @@
 
         </section><!-- /.content -->
       </div><!-- /.content-wrapper -->
-      <?php include "footer.php"; ?>
+      <?php include "../footer.php"; ?>
 
-      <?php include "sidecontrol.php"; ?>
+      <?php include "../sidecontrol.php"; ?>
       <!-- Add the sidebar's background. This div must be placed
            immediately after the control sidebar -->
       <div class="control-sidebar-bg"></div>
     </div><!-- ./wrapper -->
 
     <!-- jQuery 2.1.4 -->
-    <script src="../plugins/jQuery/jQuery-2.1.4.min.js"></script>
+    <script src="../../plugins/jQuery/jQuery-2.1.4.min.js"></script>
     <!-- Bootstrap 3.3.5 -->
-    <script src="../bootstrap/js/bootstrap.min.js"></script>
+    <script src="../../bootstrap/js/bootstrap.min.js"></script>
     <!-- DataTables -->
-    <script src="../plugins/datatables/jquery.dataTables.min.js"></script>
-    <script src="../plugins/datatables/dataTables.bootstrap.min.js"></script>
+    <script src="../../plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="../../plugins/datatables/dataTables.bootstrap.min.js"></script>
     <!-- SlimScroll -->
-    <script src="../plugins/slimScroll/jquery.slimscroll.min.js"></script>
+    <script src="../../plugins/slimScroll/jquery.slimscroll.min.js"></script>
     <!-- FastClick -->
-    <script src="../plugins/fastclick/fastclick.min.js"></script>
+    <script src="../../plugins/fastclick/fastclick.min.js"></script>
     <!-- AdminLTE App -->
-    <script src="../dist/js/app.min.js"></script>
+    <script src="../../dist/js/app.min.js"></script>
     <!-- AdminLTE for demo purposes -->
-    <script src="../dist/js/demo.js"></script>
+    <script src="../../dist/js/demo.js"></script>
 	  <!--<script type="text/javascript"> 
 
             $(function () {

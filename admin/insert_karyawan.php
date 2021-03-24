@@ -52,6 +52,7 @@ if(isset($_POST['input'])) {
     $departemen = $_POST['departemen'];
     $jabatan = $_POST['jabatan'];
     $tanggal_masuk = $_POST['tanggal'];
+    $tanggal_habis = $_POST['habis'];
     $gapok = (int) $_POST['gapok'];
     $username = $_POST['username'];
     $password = sha1($_POST['password']);
@@ -124,7 +125,7 @@ if(isset($_POST['input'])) {
                 '$role',
                 '$ptkp')";
     // Execute insert into karyawan_new
-    $insert = mysqli_query($koneksi, $sql) or die(mysqli_error());
+    $insert = mysqli_query($koneksi, $sql) or die(mysqli_error($koneksi));
 
     if(mysqli_affected_rows($koneksi) > 0) {
         $_SESSION['insert_success'] == 'sukses';

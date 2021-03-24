@@ -1,10 +1,14 @@
+<?php 
+  $base = 'http://' . $_SERVER['SERVER_NAME'] . '/' .  explode('/', $_SERVER['REQUEST_URI'])[1];
+ ?>
+
 <aside class="main-sidebar">
         <!-- sidebar: style can be found in sidebar.less -->
         <section class="sidebar">
           <!-- Sidebar user panel -->
           <div class="user-panel">
             <div class="pull-left image">
-              <img src="<?php echo $_SESSION['gambar']; ?>" height="200" width="200" style="border: 2px solid white;" class="img-circle" alt="User Image">
+              <img src="<?= $base . '/admin/' . $_SESSION['gambar']; ?>" height="200" width="200" style="border: 2px solid white;" class="img-circle" alt="User Image">
             </div>
             <div class="pull-left info">
               <p><?php echo $_SESSION['nama']; ?></p>
@@ -15,7 +19,7 @@
           <ul class="sidebar-menu">
             <li class="header">HRD Management System ALTER</li>
             <li class="active treeview">
-              <a href="index.php">
+              <a href="<?= $base . '/'?>index.php">
                 <i class="fa fa-dashboard"></i> <span>Dashboard</span>
               </a>
             </li>
@@ -25,9 +29,9 @@
                 <i class="fa fa-user"></i> <span>Karyawan</span> <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <li><a href="karyawan.php"><i class="fa fa-circle-o"></i> Karyawan</a></li>
-                <li><a href="input-karyawan.php"><i class="fa fa-circle-o"></i> Input Karyawan</a></li>
-                <li><a href="karyawan_importxls.php"><i class="fa fa-circle-o"></i> Import Data Excel</a></li>
+                <li><a href="<?= $base . '/admin/'?>karyawan.php"><i class="fa fa-circle-o"></i> Karyawan</a></li>
+                <li><a href="<?= $base . '/admin/'?>input-karyawan.php"><i class="fa fa-circle-o"></i> Input Karyawan</a></li>
+                <li><a href="<?= $base . '/admin/'?>karyawan_importxls.php"><i class="fa fa-circle-o"></i> Import Data Excel</a></li>
               </ul>
             </li>
             
@@ -36,8 +40,8 @@
                 <i class="fa fa-building"></i> <span>Departemen</span> <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <li><a href="departemen.php"><i class="fa fa-circle-o"></i> Data Departemen</a></li>
-                <li><a href="input-departemen.php"><i class="fa fa-circle-o"></i> Input Departemen</a></li>
+                <li><a href="<?= $base . '/admin/'?>departemen.php"><i class="fa fa-circle-o"></i> Data Departemen</a></li>
+                <li><a href="<?= $base . '/admin/'?>input-departemen.php"><i class="fa fa-circle-o"></i> Input Departemen</a></li>
               </ul>
             </li>
             
@@ -47,8 +51,8 @@
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <li><a href="jabatan.php"><i class="fa fa-circle-o"></i> Data Jabatan</a></li>
-                <li><a href="input-jabatan.php"><i class="fa fa-circle-o"></i> Input Jabatan</a></li>
+                <li><a href="<?= $base . '/admin/'?>jabatan.php"><i class="fa fa-circle-o"></i> Data Jabatan</a></li>
+                <li><a href="<?= $base . '/admin/'?>input-jabatan.php"><i class="fa fa-circle-o"></i> Input Jabatan</a></li>
               </ul>
             </li>
 
@@ -57,9 +61,9 @@
                 <i class="fa fa-user"></i> <span>Gaji Karyawan</span> <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <li><a href="gaji.php"><i class="fa fa-circle-o"></i>Gaji Karyawan</a></li>
-                <li><a href="rule-gaji.php"><i class="fa fa-circle-o"></i> Rule Gaji Karyawan</a></li>
-                <li><a href="gaji_importxls.php"><i class="fa fa-circle-o"></i> Import Data Excel</a></li>
+                <li><a href="<?= $base . '/admin/'?>gaji.php"><i class="fa fa-circle-o"></i>Gaji Karyawan</a></li>
+                <li><a href="<?= $base . '/admin/'?>rule-gaji.php"><i class="fa fa-circle-o"></i> Rule Gaji Karyawan</a></li>
+                <li><a href="<?= $base . '/admin/'?>gaji_importxls.php"><i class="fa fa-circle-o"></i> Import Data Excel</a></li>
               </ul>
             </li>
 
@@ -69,8 +73,8 @@
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <li><a href="recruitment.php"><i class="fa fa-circle-o"></i> Data Pelamar</a></li>
-                <li><a href="input-recruitment.php"><i class="fa fa-circle-o"></i> Input Data Pelamar</a></li>
+                <li><a href="<?= $base . '/admin/'?>recruitment.php"><i class="fa fa-circle-o"></i> Data Pelamar</a></li>
+                <li><a href="<?= $base . '/admin/'?>input-recruitment.php"><i class="fa fa-circle-o"></i> Input Data Pelamar</a></li>
               </ul>
             </li>
 
@@ -80,8 +84,8 @@
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <li><a href="absensi.php"><i class="fa fa-circle-o"></i> Data Absensi</a></li>
-                <li><a href="input-absensi.php"><i class="fa fa-circle-o"></i> Input Data Absensi Karyawan</a></li>
+                <li><a href="<?= $base . '/admin/absensi/'?>absensi.php"><i class="fa fa-circle-o"></i> Data Absensi</a></li>
+                <li><a href="<?= $base . '/admin/absensi/'?>input-absensi.php"><i class="fa fa-circle-o"></i> Input Data Absensi Karyawan</a></li>
               </ul>
             </li>
 
@@ -91,8 +95,8 @@
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <li><a href="jabatan.php"><i class="fa fa-circle-o"></i> Data Penghargaan</a></li>
-                <li><a href="input-jabatan.php"><i class="fa fa-circle-o"></i> Input Data Penghargaan</a></li>
+                <li><a href="<?= $base . '/admin/'?>jabatan.php"><i class="fa fa-circle-o"></i> Data Penghargaan</a></li>
+                <li><a href="<?= $base . '/admin/'?>input-jabatan.php"><i class="fa fa-circle-o"></i> Input Data Penghargaan</a></li>
               </ul>
             </li>
             
@@ -102,8 +106,8 @@
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <li><a href="jenis.php"><i class="fa fa-circle-o"></i> Data Variabel </a></li>
-                <li><a href="input-jenis.php"><i class="fa fa-circle-o"></i> Input Variabel </a></li>
+                <li><a href="<?= $base . '/admin/'?>jenis.php"><i class="fa fa-circle-o"></i> Data Variabel </a></li>
+                <li><a href="<?= $base . '/admin/'?>input-jenis.php"><i class="fa fa-circle-o"></i> Input Variabel </a></li>
               </ul>
             </li>
             
@@ -118,8 +122,8 @@
                 <small class="label pull-right bg-yellow"><?php echo $total; ?></small>
               </a>
                <ul class="treeview-menu">
-               <li><a href="cuti.php"><i class="fa fa-circle-o"></i> Data Cuti</a></li>
-                <li><a href="input-cuti.php"><i class="fa fa-circle-o"></i> Input Cuti </a></li>
+               <li><a href="<?= $base . '/admin/'?>cuti.php"><i class="fa fa-circle-o"></i> Data Cuti</a></li>
+                <li><a href="<?= $base . '/admin/'?>input-cuti.php"><i class="fa fa-circle-o"></i> Input Cuti </a></li>
               </ul>
             </li>
             
@@ -128,10 +132,10 @@
                 <i class="fa fa-file"></i> <span>Laporan</span> <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <li><a href="404.php"><i class="fa fa-circle-o"></i> Laporan Cuti</a></li>
-                <li><a href="404.php"><i class="fa fa-circle-o"></i> Laporan Detail Cuti</a></li>
-                <li><a href="404.php"><i class="fa fa-circle-o"></i> Laporan Balance Cuti</a></li>
-                <li><a href="404.php" target="_blank"><i class="fa fa-circle-o"></i> Cetak Karyawan</a></li>
+                <li><a href="<?= $base . '/admin/'?>  404.php"><i class="fa fa-circle-o"></i> Laporan Cuti</a></li>
+                <li><a href="<?= $base . '/admin/'?>404.php"><i class="fa fa-circle-o"></i> Laporan Detail Cuti</a></li>
+                <li><a href="<?= $base . '/admin/'?>404.php"><i class="fa fa-circle-o"></i> Laporan Balance Cuti</a></li>
+                <li><a href="<?= $base . '/admin/'?>404.php" target="_blank"><i class="fa fa-circle-o"></i> Cetak Karyawan</a></li>
               </ul>
             </li>
         </section>

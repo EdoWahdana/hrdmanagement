@@ -107,7 +107,7 @@
                                   <?php 
                                     $ptkp = mysqli_query($koneksi, "SELECT * FROM ptkp");
                                     while($p = mysqli_fetch_array($ptkp)) {
-                                      echo '<option value='.$p[id_ptkp].'>' .$p[kode]. ' - ' .$p[ket]. '</option>';
+                                      echo '<option value='.$p['id_ptkp'].'>' .$p['kode']. ' - ' .$p['ket']. '</option>';
                                     }
                                   ?>
                                 </select>
@@ -122,7 +122,7 @@
                                   <?php 
                                     $projek = mysqli_query($koneksi, "SELECT * FROM projek");
                                     while($p = mysqli_fetch_array($projek)) {
-                                      echo '<option value='.$p[id_projek].'>' .$p[projek]. '</option>';
+                                      echo '<option value='.$p['id_projek'].'>' .$p['projek']. '</option>';
                                     }
                                   ?>
                                 </select>
@@ -137,7 +137,7 @@
                                   <?php 
                                     $role = mysqli_query($koneksi, "SELECT * FROM role");
                                     while($r = mysqli_fetch_array($role)) {
-                                      echo '<option value='.$r[id_role].'>' .$r[role]. '</option>';
+                                      echo '<option value='.$r['id_role'].'>' .$r['role']. '</option>';
                                     }
                                   ?>
                                 </select>
@@ -151,7 +151,7 @@
                               <option selected disabled hidden> --- Pilih Departemen --- </option>
                                 <?php 
                                   $query2="select * from departemen order by id_dept";
-                                  $tampil=mysqli_query($koneksi, $query2) or die(mysqli_error());
+                                  $tampil=mysqli_query($koneksi, $query2) or die(mysqli_error($koneksi));
                                   while($data1=mysqli_fetch_array($tampil))
                                   {
                                 ?>							
@@ -168,7 +168,7 @@
                               <option selected disabled hidden> --- Pilih Jabatan --- </option>
                                 <?php 
                                   $query2="select * from jabatan order by id_jabatan";
-                                  $tampil=mysqli_query($koneksi, $query2) or die(mysqli_error());
+                                  $tampil=mysqli_query($koneksi, $query2) or die(mysqli_error($koneksi));
                                   while($data1=mysqli_fetch_array($tampil))
                                   {
                                 ?>
@@ -181,7 +181,14 @@
                           <div class="form-group">
                               <label class="col-sm-2 col-sm-2 control-label">Tanggal Masuk</label>
                               <div class="col-sm-4">
-                                <input type='text' class="input-group date" data-date="" data-date-format="yyyy-mm-dd" name='tanggal' id="tanggal" placeholder='Tanggal Masuk' autocomplete="off" required='required' width=50 />
+                                <input type='text' class="input-group date" data-date="" data-date-format="yyyy-mm-dd" name='tanggal' id="tanggal" placeholder='Tanggal Masuk' required='required' width=50 />
+                              </div>
+                          </div>
+
+                          <div class="form-group">
+                              <label class="col-sm-2 col-sm-2 control-label">Tanggal Habis Kontrak</label>
+                              <div class="col-sm-4">
+                                <input type='text' class="input-group date" data-date="" data-date-format="yyyy-mm-dd" name='habis' id="habis" placeholder='Tanggal Habis Kontrak' width=50 />
                               </div>
                           </div>
 
@@ -316,9 +323,20 @@
     </script>
 
   <script>
-     $(function () {
-    $(".select2").select2();
+    $(function () {
+      $(".select2").select2();
     });
+
+    $("#status").change(function() {
+      if($(this).val() == "Tetap"){
+        $("#habis").attr("disabled", "disabled");
+        $("#habis").val('');
+      }
+      else if($(this).val() == "Kontrak")
+        $("#habis").removeAttr("disabled");
+    }).trigger("change");
+
+
     </script>
   </body>
 </html>

@@ -1,3 +1,7 @@
+<?php 
+  $base = 'http://' . $_SERVER['SERVER_NAME'] . '/' .  explode('/', $_SERVER['REQUEST_URI'])[1];
+ ?>
+
 <header class="main-header">
         <!-- Logo -->
         <a href="index.php" class="logo">
@@ -17,13 +21,13 @@
               <!-- User Account: style can be found in dropdown.less -->
               <li class="dropdown user user-menu">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                  <img src="<?php echo $_SESSION['gambar']; ?>" class="user-image" style="border: 1px solid white;" alt="User Image">
+                  <img src="<?= $base . '/admin/' . $_SESSION['gambar']; ?>" class="user-image" style="border: 1px solid white;" alt="User Image">
                   <span class="hidden-xs"><?php echo $_SESSION['nama']; ?></span>
                 </a>
                 <ul class="dropdown-menu">
                   <!-- User image -->
                   <li class="user-header">
-                    <img src="<?php echo $_SESSION['gambar']; ?>" class="img-circle" alt="User Image">
+                    <img src="<?= $base . '/admin/' . $_SESSION['gambar']; ?>" class="img-circle" alt="User Image">
                     <p>
                     <?php echo $_SESSION['nama']; ?>
                       

@@ -52,7 +52,7 @@
                                   $sql = "SELECT id_karyawan, no_karyawan, nama FROM karyawan_new";
                                   $exec = mysqli_query($koneksi, $sql);
                                     while($data = mysqli_fetch_array($exec)) { 
-                                      echo "<option value='" .$data[id_karyawan]. "'>" .$data[no_karyawan]. " - " .$data[nama]. "</option>"; 
+                                      echo "<option value='" .$data['id_karyawan']. "'>" .$data['no_karyawan']. " - " .$data['nama']. "</option>"; 
                                     }
                                 ?>
                               </select>
@@ -70,7 +70,7 @@
                                   $sql = "SELECT id_periode, bulan, tahun FROM periode";
                                   $exec = mysqli_query($koneksi, $sql);
                                     while($data = mysqli_fetch_array($exec)) { 
-                                      echo "<option value='" .$data[id_periode]. "'>" .$bulan[$data[bulan] - 1]. " - " .$data[tahun]. "</option>"; 
+                                      echo "<option value='" .$data['id_periode']. "'>" .$bulan[$data['bulan'] - 1]. " - " .$data['tahun']. "</option>"; 
                                     }
                                 ?>
                               </select>
@@ -174,6 +174,16 @@
       $(function () {
         $(".select2").select2();
       });
+
+      // $('id_karyawan').change(function() {
+      //   var karyawan = $(this).val();
+      //   var data = {id: karyawan};
+      //   $.post('ajax-data-gajiperiode.php', data, function(data) {
+      //     $.each(data, function(index, value) {
+      //       $('periode').val(value);
+      //     });
+      //   });
+      // });
 
       var dht = document.getElementById('dht');
       var bonus = document.getElementById('bonus');
