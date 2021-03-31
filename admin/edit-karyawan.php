@@ -50,7 +50,7 @@
                 </div><!-- /.box-header -->
                  <?php
                     $id = $_GET['id'];
-                    $sql = mysqli_query($koneksi, "SELECT * FROM karyawan_new WHERE id_karyawan='$id'");
+                    $sql = mysqli_query($koneksi, "SELECT * FROM karyawan_new JOIN tunjangan ON karyawan_new.id_karyawan=tunjangan.id_karyawan WHERE karyawan_new.id_karyawan='$id' AND tunjangan.id_karyawan='$id'");
                     if(mysqli_num_rows($sql) == 0){
                       header("Location: karyawan.php");
                     }else{
@@ -68,10 +68,7 @@
                               <div class="col-sm-4">
                                   <input name="nik" type="text" id="nik" class="form-control" placeholder="NIK" value="<?php echo $row['nik']; ?>" autofocus="on" required="required" />
                               </div>
-                          </div>
-
-                          <div class="form-group">
-                              <label class="col-sm-2 col-sm-2 control-label">No. Kartu Keluarga</label>
+                              <label class="col-sm-2 col-sm-2 control-label">No. KK</label>
                               <div class="col-sm-4">
                                   <input name="no_kk" type="text" id="no_kk" class="form-control" placeholder="No. Kartu Keluarga" value="<?php echo $row['no_kk']; ?>" required="required" />
                               </div>
@@ -82,9 +79,6 @@
                               <div class="col-sm-4">
                                   <input name="no_karyawan" type="text" id="no_karyawan" class="form-control" placeholder="No. Karyawan" value="<?php echo $row['no_karyawan']; ?>" required="required" />
                               </div>
-                          </div>
-
-                          <div class="form-group">
                               <label class="col-sm-2 col-sm-2 control-label">Nama Karyawan</label>
                               <div class="col-sm-4">
                                 <input name="nama" type="text" id="nama" class="form-control" value="<?php echo $row['nama']; ?>" placeholder="Nama Karyawan" required /> 
@@ -95,13 +89,10 @@
                               <label class="col-sm-2 col-sm-2 control-label">Status Pegawai</label>
                               <div class="col-sm-4">
                                 <select name="status" id="status" class="form-control">
-                                  <option value="Kontrak">Kontrak</option>
-                                  <option value="Tetap">Tetap</option>
+                                  <option value="Kontrak" <?= $row['status_kerja'] == 'Kontrak' ? ' selected="selected"' : ''; ?> > Kontrak </option>
+                                  <option value="Tetap" <?= $row['status_kerja'] == 'Tetap' ? ' selected="selected"' : ''; ?> > Tetap </option>
                                 </select>
                               </div>
-                          </div>
-
-                          <div class="form-group">
                               <label class="col-sm-2 col-sm-2 control-label">Kode PTKP</label>
                               <div class="col-sm-4">
                                 <select name="ptkp" id="ptkp" class="form-control" required>
@@ -126,9 +117,6 @@
                                   <?php } ?>
                                 </select>
                               </div>
-                          </div>
-
-                          <div class="form-group">
                               <label class="col-sm-2 col-sm-2 control-label">Role</label>
                               <div class="col-sm-4">
                                 <select name="role" id="role" class="form-control" required>
@@ -152,9 +140,6 @@
                                   <?php } ?>
                                 </select>
                               </div>
-                          </div>
-
-                          <div class="form-group">
                               <label class="col-sm-2 col-sm-2 control-label">Jabatan</label>
                               <div class="col-sm-4">
                                 <select name="jabatan" id="jabatan" class="form-control" required>
@@ -170,14 +155,33 @@
                           <div class="form-group">
                             <label class="col-sm-2 col-sm-2 control-label">Tanggal Masuk</label>
                             <div class="col-sm-4">
-                              <input type='text' class="input-group date form-control" data-date="" data-date-format="yyyy-mm-dd" name='tanggal_masuk' id="tanggal_masuk" placeholder='Tanggal' required='required' value="<?= isset($row['tanggal_masuk']) ? $row['tanggal_masuk'] : '' ?>" />     
+                              <input type='date' name='tanggal_masuk' id="tanggal_masuk" placeholder='Tanggal' required='required' value="<?= isset($row['tanggal_masuk']) ? $row['tanggal_masuk'] : '' ?>" />     
+                            </div>
+                            <label class="col-sm-2 col-sm-2 control-label">Tanggal Keluar</label>
+                            <div class="col-sm-4">
+                              <input type='date' name='tanggal_habis' id="tanggal_habis" placeholder='Tanggal' required='required' value="<?= isset($row['tanggal_habis']) ? $row['tanggal_habis'] : '' ?>" />     
                             </div>
                           </div>
 
                           <div class="form-group">
                               <label class="col-sm-2 col-sm-2 control-label">Gaji Pokok</label>
                               <div class="col-sm-4">
-                                <input name="gaji_pokok" type="text" id="gaji_pokok" class="form-control" value="<?= 'Rp. '.strrev(implode('.',str_split(strrev(strval($row['gaji_pokok'])),3))); ?>" placeholder="Gaji Pokok Karyawan" required /> 
+                                <input name="gaji_pokok" type="text" id="gaji_pokok" class="form-control" value="<?= strrev(implode('.',str_split(strrev(strval($row['gaji_pokok'])),3))); ?>" placeholder="Gaji Pokok Karyawan" required /> 
+                              </div>
+                              <label class="col-sm-2 col-sm-2 control-label">Tunjangan Dana Hari Tua</label>
+                              <div class="col-sm-4">
+                                <input name="tunjangan_dht" type="text" id="tunjangan_dht" class="form-control" value="<?= strrev(implode('.',str_split(strrev(strval($row['tunjangan_dht'])),3))); ?>" placeholder="Tunjangan Dana Hari Tua" required /> 
+                              </div>
+                          </div>
+
+                          <div class="form-group">
+                              <label class="col-sm-2 col-sm-2 control-label">Tunjangan BPJS Kesehatan</label>
+                              <div class="col-sm-4">
+                                <input name="tunjangan_bpjs_ks" type="text" id="tunjangan_bpjs_ks" class="form-control" value="<?= strrev(implode('.',str_split(strrev(strval($row['tunjangan_bpjs_ks'])),3))); ?>" placeholder="Tunjangan BPJS Kesehatan" required /> 
+                              </div>
+                              <label class="col-sm-2 col-sm-2 control-label">Tunjangan BPJS Ketenagakerjaan</label>
+                              <div class="col-sm-4">
+                                <input name="tunjangan_bpjs_kj" type="text" id="tunjangan_bpjs_kj" class="form-control" value="<?= strrev(implode('.',str_split(strrev(strval($row['tunjangan_bpjs_kj'])),3))); ?>" placeholder="Tunjangan BPJS Ketenagakerjaan" required /> 
                               </div>
                           </div>
 
@@ -188,9 +192,6 @@
                                 <input type="hidden" name="hidden_foto" value=<?= $row['foto'] ?>>
                                 <input type="file" name="foto" id="foto" class="form-control" placeholder="Foto Karyawan" onchange="previewImage('foto', 'fotoPreview');" />
                               </div>
-                          </div>
-
-                          <div class="form-group">
                               <label class="col-sm-2 control-label">Foto KTP</label>
                               <div class="col-sm-4">
                                 <img src="foto_ktp/<?= $row['foto_ktp'] ?>" class="img img-thumbnail" id="fotoKtpPreview" style="height: 200px;">
@@ -206,9 +207,6 @@
                                 <input type="hidden" name="hidden_foto_kk" value=<?= $row['foto_kk'] ?>>
                                 <input type="file" name="foto_kk" id="foto_kk" class="form-control" placeholder="Foto Kartu Keluarga Karyawan" onchange="previewImage('foto_kk', 'fotoKkPreview');" />
                               </div>
-                          </div>
-
-                          <div class="form-group">
                               <label class="col-sm-2 control-label">Foto NPWP</label>
                               <div class="col-sm-4">
                                 <img src="foto_npwp/<?= $row['foto_npwp'] ?>" class="img img-thumbnail" id="fotoNpwpPreview" style="height: 200px;">
@@ -224,9 +222,6 @@
                                 <input type="hidden" name="hidden_foto_buku" value=<?= $row['foto_buku_rekening'] ?>>
                                 <input type="file" name="foto_buku" id="foto_buku" class="form-control" placeholder="Foto Buku Rekening Karyawan" onchange="previewImage('foto_buku', 'fotoBukuPreview');" />
                               </div>
-                          </div>
-
-                          <div class="form-group">
                               <label class="col-sm-2 control-label">Foto BPJS Kesehatan</label>
                               <div class="col-sm-4">
                                 <img src="foto_bpjs_kesehatan/<?= $row['foto_bpjs_ks'] ?>" class="img img-thumbnail" id="fotoBpjs1Preview" style="height: 200px;">
@@ -295,6 +290,10 @@
     </script>
 
     <script>
+      $(function () {
+        $(".select2").select2();
+      });
+
       function previewImage(fileId, previewId) {
         document.getElementById(previewId).style.display = "block";
         var oFReader = new FileReader();
@@ -306,13 +305,31 @@
       };
 
       var gaji_pokok = document.getElementById('gaji_pokok');
+      var tunjangan_dht = document.getElementById('tunjangan_dht');
+      var tunjangan_bpjs_ks = document.getElementById('tunjangan_bpjs_ks');
+      var tunjangan_bpjs_kj = document.getElementById('tunjangan_bpjs_kj');
+      
       gaji_pokok.addEventListener("keyup", function(e){
         gaji_pokok.value = convertToRupiah(gaji_pokok.value, "");
       });
-      
-      $(function () {
-        $(".select2").select2();
+      tunjangan_dht.addEventListener("keyup", function(e){
+        tunjangan_dht.value = convertToRupiah(tunjangan_dht.value, "");
       });
+      tunjangan_bpjs_ks.addEventListener("keyup", function(e){
+        tunjangan_bpjs_ks.value = convertToRupiah(tunjangan_bpjs_ks.value, "");
+      });
+      tunjangan_bpjs_kj.addEventListener("keyup", function(e){
+        tunjangan_bpjs_kj.value = convertToRupiah(tunjangan_bpjs_kj.value, "");
+      });
+      
+      $("#status").change(function() {
+      if($(this).val() == "Tetap"){
+        $("#tanggal_habis").attr("disabled", "disabled");
+        $("#tanggal_habis").val('-');
+      }
+      else if($(this).val() == "Kontrak")
+        $("#tanggal_habis").removeAttr("disabled");
+      }).trigger("change");
 
     </script>
   </body>

@@ -38,7 +38,7 @@ function uploadFile($fieldName, $folderName) {
 
 if(isset($_POST['input'])) {
 
-    // Ambil value dari inputan
+    // Ambil value dari inputan untuk tabel karyawan
     $nik = $_POST['nik'];
     $nokk = $_POST['nokk'];
     $nok = $_POST['nok'];
@@ -52,11 +52,16 @@ if(isset($_POST['input'])) {
     $departemen = $_POST['departemen'];
     $jabatan = $_POST['jabatan'];
     $tanggal_masuk = $_POST['tanggal'];
-    $tanggal_habis = $_POST['habis'];
-    $gapok = (int) $_POST['gapok'];
+    $tanggal_habis = isset($_POST['habis']) ? $_POST['habis'] : $_POST['habis'] = '';
     $username = $_POST['username'];
     $password = sha1($_POST['password']);
     $level = $_POST['level'];
+
+    // Ambil value inputan untuk tabel tunjangan
+    $gapok = intval(preg_replace('/\D/', '', $_POST['gapok']));
+    $dht = intval(preg_replace('/\D/', '', $_POST['dht']));
+    $bpjs_ks = intval(preg_replace('/\D/', '', $_POST['bpjs_ks']));
+    $bpjs_kj = intval(preg_replace('/\D/', '', $_POST['bpjs_kj']));
 
     //Upload foto karyawan
     $foto = uploadFile('foto', 'foto_karyawan/');
@@ -73,8 +78,8 @@ if(isset($_POST['input'])) {
     //Upload foto bpjs ketenagakerjaan
     $foto_bpjs_kj = uploadFile('foto_bpjs_kj', 'foto_bpjs_ketenagakerjaan/');    
 
-    //Insert data into database
-    $sql = "INSERT INTO karyawan_new (
+    //Insert data into karyawan_new table
+    $karyawanSql = "INSERT INTO karyawan_new (
                 nik, 
                 no_kk, 
                 no_karyawan, 
@@ -85,7 +90,7 @@ if(isset($_POST['input'])) {
                 departemen, 
                 jabatan,
                 tanggal_masuk, 
-                gaji_pokok, 
+                tanggal_habis,
                 foto, 
                 foto_ktp, 
                 foto_kk, 
@@ -110,7 +115,7 @@ if(isset($_POST['input'])) {
                 '$departemen', 
                 '$jabatan', 
                 '$tanggal_masuk', 
-                '$gapok', 
+                '$tanggal_habis', 
                 '$foto', 
                 '$foto_ktp', 
                 '$foto_kk', 
@@ -123,9 +128,26 @@ if(isset($_POST['input'])) {
                 '$level', 
                 '$projek', 
                 '$role',
-                '$ptkp')";
+                '$ptkp');";
     // Execute insert into karyawan_new
-    $insert = mysqli_query($koneksi, $sql) or die(mysqli_error($koneksi));
+    $insert = mysqli_query($koneksi, $karyawanSql) or die(mysqli_error($koneksi));
+    $last_id = mysqli_insert_id($koneksi);
+
+    $tunjanganSql = "INSERT INTO tunjangan (
+                id_karyawan,
+                gaji_pokok,
+                tunjangan_dht,
+                tunjangan_bpjs_ks,
+                tunjangan_bpjs_kj
+            ) VALUES (
+                '$last_id',
+                '$gapok',
+                '$dht',
+                '$bpjs_ks',
+                '$bpjs_kj'
+            );";
+    // Execute insert into tunjangan
+    $insert = mysqli_query($koneksi, $tunjanganSql) or die(mysqli_error($koneksi));
 
     if(mysqli_affected_rows($koneksi) > 0) {
         $_SESSION['insert_success'] == 'sukses';

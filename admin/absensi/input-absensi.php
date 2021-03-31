@@ -49,10 +49,10 @@
                                 <option selected disabled hidden> --- Pilih Pegawai --- </option>
                                 <!-- Ambil data pegawai yang belum ada di tabel gaji -->
                                 <?php 
-                                  $sql = "SELECT id_karyawan, no_karyawan, nama FROM karyawan_new";
+                                  $sql = "SELECT id_karyawan, no_karyawan, nama, projek FROM v_karyawan";
                                   $exec = mysqli_query($koneksi, $sql);
                                     while($data = mysqli_fetch_array($exec)) { 
-                                      echo "<option value='" .$data['id_karyawan']. "'>" .$data['no_karyawan']. " - " .$data['nama']. "</option>"; 
+                                      echo "<option value='" .$data['id_karyawan']. "'>" .$data['nama']. " - " .$data['no_karyawan']. " - " .$data['projek']. "</option>"; 
                                     }
                                 ?>
                               </select>
@@ -75,6 +75,34 @@
                                 ?>
                               </select>
                             </div>
+                        </div>                                                                      
+                        <div class="form-group">
+                            <label class="col-sm-2 col-sm-2 control-label">Kategori</label>
+                            <div class="col-sm-4">
+                              <select name="kategori" id="kategori" class="form-control select2">
+                                <option selected disabled hidden> --- Pilih Kategori --- </option>
+                                <!-- Ambil data dari tabel kategori -->
+                                <?php 
+                                  $sql = "SELECT * FROM kategori_absensi";
+                                  $exec = mysqli_query($koneksi, $sql);
+                                    while($data = mysqli_fetch_array($exec)) { 
+                                      echo "<option value='" .$data['id_kategori_absensi']. "'>" .$data['kategori']. "</option>"; 
+                                    }
+                                ?>
+                              </select>
+                            </div>
+                        </div>
+                        <div class="form-group" id="form-jumlah" style="display: none;">
+                          <label class="col-sm-2 control-label">Jumlah Jam</label>
+                          <div class="col-sm-4">
+                            <input type="number" name="jumlah" id="jumlah" value=1>
+                          </div>
+                        </div>                                                                      
+                        <div class="form-group">
+                          <label class="col-sm-2 control-label">Tanggal</label>
+                          <div class="col-sm-4">
+                            <input type="date" name="tanggal" id="tanggal">
+                          </div>
                         </div>                                                                      
                         <div class="form-group">
                             <label class="col-sm-2 col-sm-2 control-label"></label>
@@ -125,13 +153,25 @@
       autoclose: true, 
       todayHighlight: true 
     });
+
+    $(document).ready(function() {
+      $('#kategori').change(function(){
+        if($(this).val() == 6 || $(this).val() == 7){
+          $('#form-jumlah').show();
+        }
+        else {
+          $('#form-jumlah').hide();
+          $('#jumlah').val(1);
+        }
+      }).trigger("change");
+    });
 	
     </script>
 
   <script>
      $(function () {
-    $(".select2").select2();
-    });
+      $(".select2").select2();
+     });
     </script>
   </body>
 </html>

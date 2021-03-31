@@ -50,9 +50,14 @@ if(isset($_POST['update'])) {
     $departemen = $_POST['departemen'];
     $jabatan =  $_POST['jabatan'];
     $tanggal_masuk = $_POST['tanggal_masuk'];
-    $bpjs = $_POST['bpjs']; 
+    $tanggal_habis = $_POST['tanggal_habis'];
     $id_ptkp = $_POST['ptkp']; 
-    $gaji_pokok = intval(preg_replace('/\D/', '', $_POST['gaji_pokok']));
+
+    // Ambil inputan untuk tabel tunjangan
+    $gapok = intval(preg_replace('/\D/', '', $_POST['gaji_pokok']));
+    $dht = intval(preg_replace('/\D/', '', $_POST['tunjangan_dht']));
+    $bpjs_ks = intval(preg_replace('/\D/', '', $_POST['tunjangan_bpjs_ks']));
+    $bpjs_kj = intval(preg_replace('/\D/', '', $_POST['tunjangan_bpjs_kj']));
 
     // Jika tidak upload foto baru maka ambil string foto yang telah tersimpan di dalam database
     $foto = $_POST['hidden_foto'];
@@ -100,7 +105,8 @@ if(isset($_POST['update'])) {
     }
 
     // Buat perintah SQL untuk update data
-    $update = "UPDATE karyawan_new SET nik='$nik', 
+    $update = "UPDATE karyawan_new SET 
+                nik='$nik', 
                 no_kk='$no_kk', 
                 no_karyawan='$no_karyawan', 
                 nama='$nama', 
@@ -110,7 +116,7 @@ if(isset($_POST['update'])) {
                 departemen='$departemen', 
                 jabatan='$jabatan', 
                 tanggal_masuk='$tanggal_masuk', 
-                gaji_pokok='$gaji_pokok', 
+                tanggal_habis='$tanggal_habis', 
                 foto='$foto',
                 foto_ktp='$foto_ktp',
                 foto_kk='$foto_kk',
@@ -119,10 +125,21 @@ if(isset($_POST['update'])) {
                 foto_bpjs_ks='$foto_bpjs_ks',
                 foto_bpjs_kj='$foto_bpjs_kj',
                 id_ptkp='$id_ptkp'
-                WHERE id_karyawan='$id_karyawan'";
+                WHERE id_karyawan='$id_karyawan';";
 
-    // Eksekusi perintah update
+    // Eksekusi perintah update karyawan_new
     $executeUpdate = mysqli_query($koneksi, $update) or die(mysqli_error($koneksi));
+
+    // Buat perintah untuk update data tunjangan
+    $updateTunjangan = "UPDATE tunjangan SET 
+                        gaji_pokok='$gapok',
+                        tunjangan_dht='$dht',
+                        tunjangan_bpjs_ks='$bpjs_ks',
+                        tunjangan_bpjs_kj='$bpjs_kj'
+                        WHERE id_karyawan='$id_karyawan';";
+
+    // Eksekusi perintah update tabel tunjangan
+    $executeTunjangan = mysqli_query($koneksi, $updateTunjangan) or die(mysqli_error($koneksi));
 
     // Cek keberhasilan perintah
     if(mysqli_affected_rows($koneksi) > 0) {

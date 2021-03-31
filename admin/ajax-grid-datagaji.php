@@ -60,11 +60,10 @@ while( $row=mysqli_fetch_array($query) ) {
     $nestedData[] = $row["tahun"];
     $nestedData[] = '<td><center>
                      <a href="detail-gaji.php?id='.$row['id_gaji'].'"  data-toggle="tooltip" title="View Detail" class="btn btn-sm btn-success"> <i class="glyphicon glyphicon-search"></i> Detail </a>
-				     <a href="gaji.php?aksi=delete&id='.$row['id_gaji'].'"  data-toggle="tooltip" title="Delete" onclick="return confirm(\'Anda yakin akan menghapus data '.$row['nama'].'?\')" class="btn btn-sm btn-danger"> <i class="glyphicon glyphicon-trash"> </i> </a>
+				     <a href="delete_gaji.php?aksi=delete&id='.$row['id_gaji'].'"  data-toggle="tooltip" title="Delete" onclick="return confirm(\'Anda yakin akan menghapus data '.$row['nama'].'?\')" class="btn btn-sm btn-danger"> <i class="glyphicon glyphicon-trash"> </i> </a>
 	                 </center></td>';		
 	
-	$data[] = $nestedData;
-    
+	$data[] = $nestedData;   
 }
 
 

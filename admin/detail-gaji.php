@@ -69,87 +69,108 @@
                       <br> 
                       <div class="container">
                         <div class="row">
-                          <div class="col-sm-12 col-lg-6">
+                          <div class="col-sm-12 col-lg-offset-3 text-center">
                             <div class="input-group">
-                              <span class="input-group-addon" id="basic-addon1" style="width: 200px; text-align: left;">Tanggal : </span>
-                              <strong><input type="text" class="form-control" style="width: 100%;" disabled value="<?= date("d-M-Y", strtotime($data['tanggal'])); ?>"></strong>
-                            </div> 
-                            <br> 
-                          </div>
-                          <div class="col-sm-12 col-lg-6">
-                            <div class="input-group">
-                              <span class="input-group-addon" id="basic-addon1" style="width: 200px; text-align: left;">Tunjangan, dll : </span>
-                              <strong><input type="text" class="form-control" style="width: 100%;" disabled value="<?='Rp. '.strrev(implode('.',str_split(strrev(strval($data['tunjangan'])),3))); ?>"></strong>
+                              <span class="input-group-addon" id="basic-addon1" style="width: 200px; text-align: left;">Gaji Pokok : </span>
+                              <strong><input type="text" class="form-control" style="width: 100%;" disabled value="<?='Rp. '.strrev(implode('.',str_split(strrev(strval($data['gaji_pokok'])),3))); ?>"></strong>
                             </div>  
                             <br>
                           </div>
                           <div class="col-sm-12 col-lg-6">
                             <div class="input-group">
-                              <span class="input-group-addon" id="basic-addon1" style="width: 200px; text-align: left;">Potongan : </span>
-                              <strong><input type="text" class="form-control" style="width: 100%;" disabled value="<?='Rp. '.strrev(implode('.',str_split(strrev(strval($data['potongan'])),3))); ?>"></strong>
+                              <span class="input-group-addon" id="basic-addon1" style="width: 230px; text-align: left;">Lembur Backup: </span>
+                              <strong><input type="text" class="form-control" style="width: 100%;" disabled value="<?='Rp. '.strrev(implode('.',str_split(strrev(strval($data['lembur_backup'])),3))); ?>"></strong>
                             </div>  
                             <br>
                           </div>
                           <div class="col-sm-12 col-lg-6">
                             <div class="input-group">
-                              <span class="input-group-addon" id="basic-addon1" style="width: 200px; text-align: left;">BPJS Kesehatan : </span>
-                              <strong><input type="text" class="form-control" style="width: 100%;" disabled value="<?='Rp. '.strrev(implode('.',str_split(strrev(strval($data['bpjs_ks'])),3))); ?>"></strong>
+                              <span class="input-group-addon" id="basic-addon1" style="width: 200px; text-align: left;">Potongan Sakit : </span>
+                              <strong><input type="text" class="form-control" style="width: 100%;" disabled value="<?='Rp. '.strrev(implode('.',str_split(strrev(strval($data['potongan_sakit'])),3))); ?>"></strong>
                             </div>  
                             <br>
                           </div>
                           <div class="col-sm-12 col-lg-6">
                             <div class="input-group">
-                              <span class="input-group-addon" id="basic-addon1" style="width: 200px; text-align: left;">BPJS Ketenagakerjaan : </span>
-                              <strong><input type="text" class="form-control" style="width: 100%;" disabled value="<?='Rp. '.strrev(implode('.',str_split(strrev(strval($data['bpjs_kj'])),3))); ?>"></strong>
+                              <span class="input-group-addon" id="basic-addon1" style="width: 230px; text-align: left;">Lembur Public Holiday : </span>
+                              <strong><input type="text" class="form-control" style="width: 100%;" disabled value="<?='Rp. '.strrev(implode('.',str_split(strrev(strval($data['lembur_holiday'])),3))); ?>"></strong>
                             </div>  
                             <br>
                           </div>
                           <div class="col-sm-12 col-lg-6">
                             <div class="input-group">
-                              <span class="input-group-addon" id="basic-addon1" style="width: 200px; text-align: left;">Gaji Sebulan : </span>
-                              <strong><input type="text" class="form-control" style="width: 100%;" disabled value="<?='Rp. '.strrev(implode('.',str_split(strrev(strval($data['sebulan'])),3))); ?>"></strong>
+                              <span class="input-group-addon" id="basic-addon1" style="width: 200px; text-align: left;">Potongan Izin : </span>
+                              <strong><input type="text" class="form-control" style="width: 100%;" disabled value="<?='Rp. '.strrev(implode('.',str_split(strrev(strval($data['potongan_izin'])),3))); ?>"></strong>
                             </div>  
                             <br>
                           </div>
                           <div class="col-sm-12 col-lg-6">
                             <div class="input-group">
-                              <span class="input-group-addon" id="basic-addon1" style="width: 200px; text-align: left;">Gaji Setahun : </span>
-                              <strong><input type="text" class="form-control" style="width: 100%;" disabled value="<?='Rp. '.strrev(implode('.',str_split(strrev(strval($data['setahun'])),3))); ?>"></strong>
+                              <span class="input-group-addon" id="basic-addon1" style="width: 230px; text-align: left;">Lembur Reguler : </span>
+                              <strong><input type="text" class="form-control" style="width: 100%;" disabled value="<?='Rp. '.strrev(implode('.',str_split(strrev(strval($data['lembur_reguler'])),3))); ?>"></strong>
                             </div>  
                             <br>
                           </div>
                           <div class="col-sm-12 col-lg-6">
                             <div class="input-group">
-                              <span class="input-group-addon" id="basic-addon1" style="width: 200px; text-align: left;">Bonus, dll : </span>
-                              <strong><input type="text" class="form-control" style="width: 100%;" disabled value="<?='Rp. '.strrev(implode('.',str_split(strrev(strval($data['bonus'])),3))); ?>"></strong>
+                              <span class="input-group-addon" id="basic-addon1" style="width: 200px; text-align: left;">Potongan Cuti : </span>
+                              <strong><input type="text" class="form-control" style="width: 100%;" disabled value="<?='Rp. '.strrev(implode('.',str_split(strrev(strval($data['potongan_cuti'])),3))); ?>"></strong>
                             </div>  
                             <br>
                           </div>
                           <div class="col-sm-12 col-lg-6">
                             <div class="input-group">
-                              <span class="input-group-addon" id="basic-addon1" style="width: 200px; text-align: left;">Gaji Setahun (bruto) : </span>
-                              <strong><input type="text" class="form-control" style="width: 100%;" disabled value="<?='Rp. '.strrev(implode('.',str_split(strrev(strval($data['bruto'])),3))); ?>"></strong>
+                              <span class="input-group-addon" id="basic-addon1" style="width: 230px; text-align: left;">Lembur lain-lain : </span>
+                              <strong><input type="text" class="form-control" style="width: 100%;" disabled value="<?='Rp. '.strrev(implode('.',str_split(strrev(strval($data['lembur_lain'])),3))); ?>"></strong>
                             </div>  
                             <br>
                           </div>
                           <div class="col-sm-12 col-lg-6">
                             <div class="input-group">
-                              <span class="input-group-addon" id="basic-addon1" style="width: 200px; text-align: left;">Biaya Jabatan : </span>
-                              <strong><input type="text" class="form-control" style="width: 100%;" disabled value="<?='Rp. '.strrev(implode('.',str_split(strrev(strval($data['biaya_jabatan'])),3))); ?>"></strong>
+                              <span class="input-group-addon" id="basic-addon1" style="width: 200px; text-align: left;">Potongan Diksar : </span>
+                              <strong><input type="text" class="form-control" style="width: 100%;" disabled value="<?='Rp. '.strrev(implode('.',str_split(strrev(strval($data['potongan_diksar'])),3))); ?>"></strong>
                             </div>  
                             <br>
                           </div>
                           <div class="col-sm-12 col-lg-6">
                             <div class="input-group">
-                              <span class="input-group-addon" id="basic-addon1" style="width: 200px; text-align: left;">Gaji Setahun (neto) : </span>
-                              <strong><input type="text" class="form-control" style="width: 100%;" disabled value="<?='Rp. '.strrev(implode('.',str_split(strrev(strval($data['neto'])),3))); ?>"></strong>
+                              <span class="input-group-addon" id="basic-addon1" style="width: 230px; text-align: left;">Tunjangan BPJS Kesehatan : </span>
+                              <strong><input type="text" class="form-control" style="width: 100%;" disabled value="<?='Rp. '.strrev(implode('.',str_split(strrev(strval($data['tunjangan_bpjs_ks'])),3))); ?>"></strong>
                             </div>  
                             <br>
                           </div>
                           <div class="col-sm-12 col-lg-6">
                             <div class="input-group">
-                              <span class="input-group-addon" id="basic-addon1" style="width: 200px; text-align: left;">Pph Setahun : </span>
-                              <strong><input type="text" class="form-control" style="width: 100%;" disabled value="<?='Rp. '.strrev(implode('.',str_split(strrev(strval($data['pph'])),3))); ?>"></strong>
+                              <span class="input-group-addon" id="basic-addon1" style="width: 200px; text-align: left;">Potongan lain-lain : </span>
+                              <strong><input type="text" class="form-control" style="width: 100%;" disabled value="<?='Rp. '.strrev(implode('.',str_split(strrev(strval($data['potongan_lain'])),3))); ?>"></strong>
+                            </div>  
+                            <br>
+                          </div>
+                          <div class="col-sm-12 col-lg-6">
+                            <div class="input-group">
+                              <span class="input-group-addon" id="basic-addon1" style="width: 230px; text-align: left;">Tunjangan BPJS Ketenagakerjaan : </span>
+                              <strong><input type="text" class="form-control" style="width: 100%;" disabled value="<?='Rp. '.strrev(implode('.',str_split(strrev(strval($data['tunjangan_bpjs_kj'])),3))); ?>"></strong>
+                            </div>  
+                            <br>
+                          </div>
+                          <div class="col-sm-12 col-lg-6">
+                            <div class="input-group">
+                              <span class="input-group-addon" id="basic-addon1" style="width: 200px; text-align: left;">Potongan SP : </span>
+                              <strong><input type="text" class="form-control" style="width: 100%;" disabled value="<?='Rp. '.strrev(implode('.',str_split(strrev(strval($data['potongan_sp'])),3))); ?>"></strong>
+                            </div>  
+                            <br>
+                          </div>
+                          <div class="col-sm-12 col-lg-6">
+                            <div class="input-group">
+                              <span class="input-group-addon" id="basic-addon1" style="width: 230px; text-align: left;">Tunjangan DHT : </span>
+                              <strong><input type="text" class="form-control" style="width: 100%;" disabled value="<?='Rp. '.strrev(implode('.',str_split(strrev(strval($data['tunjangan_dht'])),3))); ?>"></strong>
+                            </div>  
+                            <br>
+                          </div>
+                          <div class="col-sm-12 col-lg-6">
+                            <div class="input-group">
+                              <span class="input-group-addon" id="basic-addon1" style="width: 200px; text-align: left;">Potongan Pph21 : </span>
+                              <strong><input type="text" class="form-control" style="width: 100%;" disabled value="<?='Rp. '.strrev(implode('.',str_split(strrev(strval(intval($data['pph'] / 12))),3))); ?>"></strong>
                             </div>  
                             <br>
                           </div>

@@ -35,74 +35,76 @@ function itungPph($npwp, $neto, $kena_pajak) {
 if(isset($_POST['input'])) {
 
     // Definisikan variabel untuk input ke dalam tabel gaji
+    // $bpjs_kj = intval(preg_replace('/\D/', '', $_POST['bpjs_kj']));
     $id = $_POST['id_karyawan'];
     $periode = $_POST['periode'];
-    $tanggal = $_POST['tanggal'];
-    $dht = intval(preg_replace('/\D/', '', $_POST['dht']));
-    $bonus = intval(preg_replace('/\D/', '', $_POST['bonus']));
-    $bpjs_ks = intval(preg_replace('/\D/', '', $_POST['bpjs_ks']));
-    $bpjs_kj = intval(preg_replace('/\D/', '', $_POST['bpjs_kj']));
     $ph = $_POST['ph'];
+    $sp = intval($_POST['sp']);
+    $bonus = intval($_POST['bonus']);
+    $lembur_backup = intval($_POST['lembur_backup']);
+    $lembur_holiday = intval($_POST['lembur_holiday']);
+    $lembur_reguler = intval($_POST['lembur_reguler']);
+    $lembur_lain = intval($_POST['lembur_lain']);
+    $potongan_sakit = intval($_POST['potongan_sakit']);
+    $potongan_izin = intval($_POST['potongan_izin']);
+    $potongan_cuti = intval($_POST['potongan_cuti']);
+    $potongan_tk = intval($_POST['potongan_tk']);
+    $potongan_bpjs_ks = intval($_POST['potongan_bpjs_ks']);
+    $potongan_bpjs_kj = intval($_POST['potongan_bpjs_kj']);
+    $potongan_lain = intval($_POST['potongan_lain']);
+    $potongan_diksar = intval($_POST['potongan_diksar']);
     $potongan = 0;
     $tunjangan = 0;
     $pph = 0;
     $thp = 0;
-    
 
-    // Definisikan variabel untuk menyimpan data
-    $dataKaryawan;
-    $dataInsentif;
-
-    // Ambil data insentif menggunakan id karyawan
-    $sql = "SELECT * FROM karyawan_new WHERE id_karyawan='$id'";
+    // Ambil data karyawan menggunakan id karyawan
+    $sql = "SELECT * FROM v_karyawan WHERE id_karyawan='$id'";
     $exec = mysqli_query($koneksi, $sql);
     $dataKaryawan = mysqli_fetch_array($exec);
 
-    // Definisikan variabel untuk menampung data gaji pokok karyawan
+    // Definisikan variabel untuk menampung data tunjangan karyawan
+    $kode_ptkp = $dataKaryawan['kode'];
     $gaji_pokok = $dataKaryawan['gaji_pokok'];
-    
-    // Definisikan variabel yang berisi id untuk periode dan insentif
-    $id_projek = $dataKaryawan['id_projek'];
-    $id_role = $dataKaryawan['id_role'];
-    $id_ptkp = $dataKaryawan['id_ptkp'];
-
-
-    // Ambil data insentif berdasarkan id_projek dan id_role
-    $sql = "SELECT * FROM insentif WHERE id_projek='$id_projek' AND id_role='$id_role'";
-    $exec = mysqli_query($koneksi, $sql);
-    $dataInsentif = mysqli_fetch_array($exec);
-
-    // Ambil data absensi berdasarkan id_karyawan
-    $sql = "SELECT * FROM absensi WHERE id_karyawan='$id'";
-    $exec = mysqli_query($koneksi, $sql);
-    $dataAbsensi = mysqli_fetch_array($exec);
+    $tunjangan_dht = $dataKaryawan['tunjangan_dht'];
+    $tunjangan_bpjs_ks = $dataKaryawan['tunjangan_bpjs_ks'];
+    $tunjangan_bpjs_kj = $dataKaryawan['tunjangan_bpjs_kj'];
 
     // Ambil data PTKP berdasarkan id_ptkp 
-    $sql = "SELECT * FROM ptkp WHERE id_ptkp='$id_ptkp'";
+    $sql = "SELECT * FROM ptkp WHERE kode='$kode_ptkp'";
     $exec = mysqli_query($koneksi, $sql);
     $dataPtkp = mysqli_fetch_array($exec);
 
 
     // Lakukan kalkulasi potongan sesuai jenis insentif
-    $potongan += ($dataInsentif['sakit'] * $dataAbsensi['jumlah_sakit']);
-    $potongan += ($dataInsentif['izin'] * $dataAbsensi['jumlah_izin']);
-    $potongan += ($dataInsentif['cuti'] * $dataAbsensi['jumlah_cuti']);
-    $potongan += ($dataInsentif['tk'] * $dataAbsensi['jumlah_tk']);
+    $potongan += $sp;
+    $potongan += $potongan_sakit;
+    $potongan += $potongan_izin;
+    $potongan += $potongan_cuti;
+    $potongan += $potongan_tk;
+    $potongan += $potongan_bpjs_ks;
+    $potongan += $potongan_bpjs_kj;
+    $potongan += $potongan_diksar;
+    $potongan += $potongan_lain;
     
     // Lakukan kalkulasi tunjangan sesuai jenis insentif
-    $tunjangan += $dht;
-    $tunjangan += ($dataInsentif['backup'] * $dataAbsensi['jumlah_backup']);
-    $tunjangan += (($dataInsentif['lembur_holiday'] * $dataAbsensi['jumlah_lembur_holiday']) * floatval(number_format($ph, 1)));
-    $tunjangan += ($gaji_pokok / 173) * max(($dataAbsensi['jumlah_lembur_reguler'] * 2 - floatval(number_format('0.5', 1))), 0);
+    $tunjangan += $tunjangan_dht;
+    $tunjangan += $tunjangan_bpjs_ks;
+    $tunjangan += $tunjangan_bpjs_kj;
+    $tunjangan += $lembur_backup;
+    $tunjangan += $lembur_holiday;
+    $tunjangan += $lembur_reguler;
+    $tunjangan += $lembur_lain;
+    $tunjangan += $bonus;
 
     // Gaji sebulan kotor
-    $sebulan = $dataKaryawan['gaji_pokok'] + $bpjs_ks + $bpjs_kj + $tunjangan - $potongan;
+    $sebulan = $gaji_pokok + $tunjangan - $potongan;
     
     // Gaji Setahun dan tambah dengan bonus/tantiem/gratifikasi
     $setahun = $sebulan * 12; 
     
     // Gaji bruto dalam setahun
-    $bruto = $setahun + $bonus;
+    $bruto = $setahun;
 
     // Kalkulasi biaya jabatan untuk pegawai tetap
     if( $dataKaryawan['status_kerja'] == "Tetap" ) {
@@ -126,12 +128,18 @@ if(isset($_POST['input'])) {
     $sql = "INSERT INTO gaji (
                 id_karyawan,
                 id_periode,
-                tanggal,
-                tunjangan,
-                potongan,
                 bonus,
-                bpjs_ks,
-                bpjs_kj,
+                lembur_backup,
+                lembur_holiday,
+                lembur_reguler,
+                lembur_lain,
+                potongan_sakit,
+                potongan_izin,
+                potongan_cuti,
+                potongan_tk,
+                potongan_lain,
+                potongan_diksar,
+                potongan_sp,
                 sebulan,
                 setahun,
                 bruto,
@@ -143,12 +151,18 @@ if(isset($_POST['input'])) {
             VALUES (
                 '$id',
                 '$periode',
-                '$tanggal',
-                '$tunjangan',
-                '$potongan',
                 '$bonus',
-                '$bpjs_ks',
-                '$bpjs_kj',
+                '$lembur_backup',
+                '$lembur_holiday',
+                '$lembur_reguler',
+                '$lembur_lain',
+                '$potongan_sakit',
+                '$potongan_izin',
+                '$potongan_cuti',
+                '$potongan_tk',
+                '$potongan_lain',
+                '$potongan_diksar',
+                '$sp',
                 '$sebulan',
                 '$setahun',
                 '$bruto',
@@ -167,27 +181,4 @@ if(isset($_POST['input'])) {
                 $_SESSION['insert_success'] == 'gagal';
                 header('location: gaji.php');
             }
-    
-    // Debugging
-    // echo '<pre>';
-    // var_dump(
-    //     "\n ID : " . $id,
-    //     "\n Periode : " . $periode,
-    //     "\n Tanggal : " . $tanggal,
-    //     "\n Bonus : " . $bonus,
-    //     "\n Kesehatan : " . $bpjs_ks,
-    //     "\n Ketenagakerjaan : " . $bpjs_kj,
-    //     "\n PH : " . $ph,
-    //     "\n Potongan : " . $potongan,
-    //     "\n Tunjangan : " . intval($tunjangan),
-    //     "\n Sebulan : " . intval($sebulan),
-    //     "\n Setahun :  " . intval($setahun),
-    //     "\n bruto :  " . intval($bruto),
-    //     "\n biaya jabatan :  " . intval($biaya_jabatan),
-    //     "\n neto : " . intval($neto),
-    //     "\n kena pajak : " . intval($kena_pajak),
-    //     "\n PPH : " . intval($pph),
-    //     "\n THP : " . intval($thp)
-    // );
-    // echo '<pre>';
 }

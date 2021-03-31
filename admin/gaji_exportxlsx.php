@@ -3,7 +3,7 @@
 require_once "../vendor/autoload.php";
 require_once "koneksi.php";
 
-setlocale(LC_ALL, 'en_US');
+// setlocale(LC_ALL, 'en_US');
 
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
@@ -89,9 +89,9 @@ if(mysqli_num_rows($exec) > 0) {
 		$activeSheet->setCellValue('I'.$i, $data['kode']);
 		$activeSheet->setCellValue('J'.$i, $data['bulan'] . " - " . $data['tahun']);
 		$activeSheet->setCellValue('K'.$i, $data['gaji_pokok']);
-		$activeSheet->setCellValue('L'.$i, $data['tunjangan']);
-		$activeSheet->setCellValue('M'.$i, $data['bpjs_ks']);
-		$activeSheet->setCellValue('N'.$i, $data['bpjs_kj']);
+		$activeSheet->setCellValue('L'.$i, $data['tunjangan_dht']);
+		$activeSheet->setCellValue('M'.$i, $data['tunjangan_bpjs_ks']);
+		$activeSheet->setCellValue('N'.$i, $data['tunjangan_bpjs_kj']);
 		$activeSheet->setCellValue('O'.$i, $data['sebulan']);
 		$activeSheet->setCellValue('P'.$i, $data['setahun']);
 		$activeSheet->setCellValue('Q'.$i, $data['bonus']);
@@ -118,4 +118,5 @@ header('Content-Type: application/vnd.ms-excel');
 header('Content-Disposition: attachment;filename='. $filename);
 header('Cache-Control: max-age=0');
 
+ob_end_clean();
 $excel_writer->save('php://output');

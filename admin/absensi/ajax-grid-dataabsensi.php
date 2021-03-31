@@ -10,49 +10,40 @@ $requestData= $_REQUEST;
 
 $columns = array( 
 // datatable column index  => database column name
-	0 => 'nama',
-	1 => 'bulan',
-	2 => 'tahun',
-	3 => 'jumlah_sakit',
-	4 => 'jumlah_izin',
-	5 => 'jumlah_cuti',
-	6 => 'jumlah_tk',
-	7 => 'jumlah_backup',
-	8 => 'jumlah_lembur_holiday',
-	9 => 'jumlah_lembur_reguler'
+	0 => 'no_karyawan',
+    1 => 'nama', 
+	2 => 'projek',
+	3 => 'bulan',
+	4 => 'tahun',
 );
 
-// Ambil data absensi
-$sql = "SELECT * FROM v_absensi";
-$query=mysqli_query($conn, $sql) or die("ajaxin-grid-dataabsensi.php: get absensi 1");
+// getting total number records without any search
+$sql = "SELECT id_karyawan, id_periode, no_karyawan, nama, projek, bulan, tahun";
+$sql.=" FROM v_absensi";
+$query = mysqli_query($conn, $sql) or die("ajaxin-grid-data.php: get Karyawan");
 $totalData = mysqli_num_rows($query);
 $totalFiltered = $totalData;  // when there is no search parameter then total number rows = total number filtered rows.
 
-// Ubah data id_periode menjadi nama Bulan dan Tahun
 
-
-if( !empty($requestData['search']['value']) ) {
-	$sql = "SELECT * FROM v_absensi";
-	$sql.=" WHERE nama LIKE '".$requestData['search']['value']."%' ";   
-	$sql.=" OR bulan LIKE '".$requestData['search']['value']."%' ";
-	$sql.=" OR tahun LIKE '".$requestData['search']['value']."%' ";
-	$sql.=" OR jumlah_sakit LIKE '".$requestData['search']['value']."%' ";
-	$sql.=" OR jumlah_izin LIKE '".$requestData['search']['value']."%' ";
-	$sql.=" OR jumlah_cuti LIKE '".$requestData['search']['value']."%' ";
-	$sql.=" OR jumlah_tk LIKE '".$requestData['search']['value']."%' ";
-	$sql.=" OR jumlah_backup LIKE '".$requestData['search']['value']."%' ";
-	$sql.=" OR jumlah_lembur_holiday LIKE '".$requestData['search']['value']."%' ";
-	$sql.=" OR jumlah_lembur_reguler LIKE '".$requestData['search']['value']."%' ";
-	$query=mysqli_query($conn, $sql) or die("ajax-grid-dataabsensi.php: get absensi 2");
-	$totalFiltered = mysqli_num_rows($query); 
+if( !empty($requestData['search']['value']) ) { 
+	// if there is a search parameter
+	$sql = "SELECT id_karyawan, id_periode, no_karyawan, nama, projek, bulan, tahun";
+	$sql.=" FROM v_absensi";
+	$sql.=" WHERE no_karyawan LIKE '".$requestData['search']['value']."%' ";
+	$sql.=" OR nama LIKE '".$requestData['search']['value']."%' ";
+	$sql.=" OR projek LIKE '".$requestData['search']['value']."%' ";
+	$query=mysqli_query($conn, $sql) or die("ajax-grid-data.php: get Karyawan");
+	$totalFiltered = mysqli_num_rows($query); // when there is a search parameter then we have to modify total number filtered rows as per search result without limit in the query 
 
 	$sql.=" ORDER BY ". $columns[$requestData['order'][0]['column']]."   ".$requestData['order'][0]['dir']."   LIMIT ".$requestData['start']." ,".$requestData['length']."   "; // $requestData['order'][0]['column'] contains colmun index, $requestData['order'][0]['dir'] contains order such as asc/desc , $requestData['start'] contains start row number ,$requestData['length'] contains limit length.
-	$query=mysqli_query($conn, $sql) or die("ajaxin-grid-dataabsensi.php: get absensi"); // again run query with limit
+	$query=mysqli_query($conn, $sql) or die("ajaxin-grid-data.php: get Karyawan"); // again run query with limit
 	
 } else {	
-	$sql = "SELECT * FROM v_absensi";
+
+	$sql = "SELECT id_karyawan, id_periode, no_karyawan, nama, projek, bulan, tahun";
+	$sql.=" FROM v_absensi";
 	$sql.=" ORDER BY ". $columns[$requestData['order'][0]['column']]."   ".$requestData['order'][0]['dir']."   LIMIT ".$requestData['start']." ,".$requestData['length']."   ";
-	$query=mysqli_query($conn, $sql) or die(mysqli_error($conn));   
+	$query=mysqli_query($conn, $sql) or die("ajaxin-grid-data.php: get Karyawan");   
 	
 }
 
@@ -60,27 +51,23 @@ if( !empty($requestData['search']['value']) ) {
 $bulan = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
 
 $data = array();
-while( $row=mysqli_fetch_array($query) ) {
+while( $row=mysqli_fetch_array($query) ) {  // preparing an array
 	$nestedData=array(); 
 
+	$nestedData[] = $row["no_karyawan"];
 	$nestedData[] = $row["nama"];
-    $nestedData[] = $bulan[$row['bulan']-1];
-    $nestedData[] = $row["tahun"];
-    $nestedData[] = $row["jumlah_sakit"];
-    $nestedData[] = $row["jumlah_izin"];
-    $nestedData[] = $row["jumlah_cuti"];
-    $nestedData[] = $row["jumlah_tk"];
-    $nestedData[] = $row["jumlah_backup"];
-    $nestedData[] = $row["jumlah_lembur_holiday"];
-    $nestedData[] = $row["jumlah_lembur_reguler"];
+	$nestedData[] = $row["projek"];
+	$nestedData[] = $bulan[$row["bulan"] - 1];
+	$nestedData[] = $row["tahun"];
     $nestedData[] = '<td><center>
-                     <a href="edit-absensi.php?id='.$row['id_absensi'].'"  data-toggle="tooltip" title="Edit" class="btn btn-sm btn-primary"> <i class="glyphicon glyphicon-edit"></i> Update Absensi</a>
-				     <a href="delete-absensi.php?id='.$row['id_absensi'].'"  data-toggle="tooltip" title="Delete" onclick="return confirm(\'Anda yakin akan menghapus data absensi '.$row['nama'].'?\')" class="btn btn-sm btn-danger"> <i class="glyphicon glyphicon-trash"> </i> </a>
+					 <a href="detail-absensi.php?idKaryawan='.$row['id_karyawan'].'&idPeriode='.$row['id_periode'].'"  data-toggle="tooltip" title="Detail" class="btn btn-sm btn-success"> <i class="glyphicon glyphicon-search"></i> Detail </a>
 	                 </center></td>';		
 	
 	$data[] = $nestedData;
     
 }
+
+
 
 $json_data = array(
 			"draw"            => intval( $requestData['draw'] ),   // for every request/draw by clientside , they send a number as a parameter, when they recieve a response/data they first check the draw number, so we are sending same number in draw. 

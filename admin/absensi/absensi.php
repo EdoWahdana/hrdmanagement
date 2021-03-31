@@ -74,16 +74,11 @@
                     <thead bgcolor="eeeeee" align="center">
                     <tr>
                     
+                    <th width=50>No. Karyawan</th>   
                     <th>Nama</th>   
-                    <th width=200>Periode (Bulan)</th>
-                    <th width=200>Periode (Tahun)</th>
-                    <th width=50>Sakit (Hari)</th>
-                    <th width=50>Izin (Hari)</th>
-                    <th width=50>Cuti (Hari)</th>
-                    <th width=50>Tanpa Keterangan (Hari)</th>
-                    <th width=50>Backup (Hari)</th>
-                    <th width=50>Lembur Holiday (Jam)</th>
-                    <th width=50>Lembur Reguler (Jam)</th>
+                    <th width=200>Projek</th>   
+                    <th width=50>Periode (Bulan)</th>   
+                    <th width=50>Periode (Tahun)</th>   
                     <th width=200 class="text-center"> Action </th> 
                     
                     </tr>
@@ -139,6 +134,7 @@
         $(document).ready(function() {
 				var dataTable = $('#lookup').DataTable( {
 					"processing": true,
+					"scrollX": true,
 					"serverSide": true,
 					"ajax":{
 						url :"ajax-grid-dataabsensi.php", // json datasource

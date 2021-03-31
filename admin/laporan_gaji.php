@@ -11,8 +11,9 @@ $sql = "SELECT * FROM v_gaji WHERE id_gaji='$id'";
 $data = mysqli_fetch_array(mysqli_query($conn, $sql));
 
 // Ambil data tabel periode
-$sql = "SELECT * FROM absensi WHERE id_karyawan='$data[id_karyawan]' AND id_periode='$data[id_periode]'";
+$sql = "SELECT * FROM v_absensi WHERE id_karyawan='$data[id_karyawan]' AND id_periode='$data[id_periode]'";
 $absensi = mysqli_fetch_array(mysqli_query($conn, $sql));
+$bulan = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
 
 $pdf = new FPDF('L', 'mm', array(215, 140));
 $pdf->AddPage();
@@ -27,9 +28,9 @@ $pdf->Ln();
 $pdf->SetFont('Times', 'B', 14);
 $pdf->Cell(100, 10, $data['no_karyawan'] .'    -    '. $data['nama'], '', 0);
 $pdf->SetFont('Times', 'B', 10);
-$pdf->Cell(60, 10, 'Tanggal : ', '', 0, 'R');
+$pdf->Cell(60, 10, 'Periode : ', '', 0, 'R');
 $pdf->SetFont('Times', '', 12);
-$pdf->Cell(30, 10, date('d - M - Y', strtotime($data['tanggal'])), '', 0, 'R');
+$pdf->Cell(30, 10, $bulan[$data['bulan'] - 1] .'-'. $data['tahun'], '', 0, 'R');
 $pdf->Ln();
 
 $pdf->SetFont('Times', 'B', 10);
@@ -83,31 +84,37 @@ $pdf->SetXY(75, 65); //Geser Kanan ke kolom Pendapatan
 $pdf->Cell(40, 5, 'Gaji Pokok', 0, 0);
 $pdf->Cell(30, 5, 'Rp. '.strrev(implode('.',str_split(strrev(strval($data['gaji_pokok'])),3))), 0, 1);
 $pdf->SetXY(75, 70); //Geser Kanan ke kolom Pendapatan
-$pdf->Cell(40, 5, 'Bonus', 0, 0);
-$pdf->Cell(30, 5, 'Rp. '.strrev(implode('.',str_split(strrev(strval(intval($data['bonus']/12))),3))), 0, 1);
+$pdf->Cell(40, 5, 'Tunjangan DHT', 0, 0);
+$pdf->Cell(30, 5, 'Rp. '.strrev(implode('.',str_split(strrev(strval(intval($data['tunjangan_dht']))),3))), 0, 1);
 $pdf->SetXY(75, 75); //Geser Kanan ke kolom Pendapatan
-$pdf->Cell(40, 5, 'Tunjangan', 0, 0);
-$pdf->Cell(30, 5, 'Rp. '.strrev(implode('.',str_split(strrev(strval($data['tunjangan'])),3))), 0, 1);
+$pdf->Cell(40, 5, 'BPJS Ketenagakerjaan', 0, 0);
+$pdf->Cell(30, 5, 'Rp. '.strrev(implode('.',str_split(strrev(strval($data['tunjangan_bpjs_kj'])),3))), 0, 1);
 $pdf->SetXY(75, 80); //Geser Kanan ke kolom Pendapatan
 $pdf->Cell(40, 5, 'BPJS Kesehatan', 0, 0);
-$pdf->Cell(30, 5, 'Rp. '.strrev(implode('.',str_split(strrev(strval($data['bpjs_ks'])),3))), 0, 1);
+$pdf->Cell(30, 5, 'Rp. '.strrev(implode('.',str_split(strrev(strval($data['tunjangan_bpjs_ks'])),3))), 0, 1);
 $pdf->SetXY(75, 85); //Geser Kanan ke kolom Pendapatan
-$pdf->Cell(40, 5, 'BPJS Ketenagakerjaan', 0, 0);
-$pdf->Cell(30, 5, 'Rp. '.strrev(implode('.',str_split(strrev(strval($data['bpjs_kj'])),3))), 0, 1);
+$pdf->Cell(40, 5, 'Lembur Lain', 0, 0);
+$pdf->Cell(30, 5, 'Rp. '.strrev(implode('.',str_split(strrev(strval($data['lembur_lain'] + $data['lembur_backup'] + $data['lembur_holiday'] + $data['lembur_reguler'] + $data['bonus'])),3))), 0, 1);
 
 $pdf->SetXY(145, 65); //Geser Kanan ke kolom Potongan
-$pdf->Cell(40, 5, 'Potongan', 0, 0);
-$pdf->Cell(30, 5, 'Rp. '.strrev(implode('.',str_split(strrev(strval($data['potongan'])),3))), 0, 1);
+$pdf->Cell(40, 5, 'Pph21', 0, 0);
+$pdf->Cell(30, 5, 'Rp. '.strrev(implode('.',str_split(strrev(strval(intval($data['pph'] / 12))),3))), 0, 1);
 $pdf->SetXY(145, 70); //Geser Kanan ke kolom Potongan
+$pdf->Cell(40, 5, 'Potongan Diksar', 0, 0);
+$pdf->Cell(30, 5, 'Rp. '.strrev(implode('.',str_split(strrev(strval($data['potongan_diksar'])),3))), 0, 1);
+$pdf->SetXY(145, 75); //Geser Kanan ke kolom Potongan
+$pdf->Cell(40, 5, 'Potongan SP', 0, 0);
+$pdf->Cell(30, 5, 'Rp. '.strrev(implode('.',str_split(strrev(strval($data['potongan_sp'])),3))), 0, 1);
+$pdf->SetXY(145, 80); //Geser Kanan ke kolom Potongan
 $pdf->Cell(40, 5, 'Biaya Jabatan', 0, 0);
 $pdf->Cell(30, 5, 'Rp. '.strrev(implode('.',str_split(strrev(strval(intval($data['biaya_jabatan']/12))),3))), 0, 1);
-$pdf->SetXY(145, 75); //Geser Kanan ke kolom Potongan
-$pdf->Cell(40, 5, 'Pph21', 0, 0);
-$pdf->Cell(30, 5, 'Rp. '.strrev(implode('.',str_split(strrev(strval(intval($data['pph']/12))),3))), 0, 1);
+$pdf->SetXY(145, 85); //Geser Kanan ke kolom Potongan
+$pdf->Cell(40, 5, 'Potongan Lain', 0, 0);
+$pdf->Cell(30, 5, 'Rp. '.strrev(implode('.',str_split(strrev(strval($data['potongan_lain'] + $data['potongan_sakit'] + $data['potongan_izin'] + $data['potongan_cuti'] + $data['potongan_tk'] + ($data['tunjangan_bpjs_ks'] * 0.01) + ($data['tunjangan_bpjs_kj'] * 0.03))),3))), 0, 1);
 
 // Hitung jumlah pendapatan dan potongan
-$pendapatan = $data['gaji_pokok'] + intval($data['bonus']/12) + $data['tunjangan'] + $data['bpjs_ks'] + $data['bpjs_kj'];
-$potongan = $data['potongan'] + intval($data['biaya_jabatan']/12) + intval($data['pph']/12);
+$pendapatan = $data['gaji_pokok'] + $data['bonus'] + $data['tunjangan_dht'] + $data['tunjangan_bpjs_ks'] + $data['tunjangan_bpjs_kj'] + $data['lembur_lain'] + $data['lembur_backup'] + $data['lembur_holiday'] + $data['lembur_reguler'];
+$potongan = intval($data['biaya_jabatan']/12) + intval($data['pph']/12) + $data['potongan_lain'] + $data['potongan_diksar'] + $data['potongan_sp'] + $data['potongan_sakit'] + $data['potongan_izin'] + $data['potongan_cuti'] + $data['potongan_tk'] + ($data['tunjangan_bpjs_ks'] * 0.01) + ($data['tunjangan_bpjs_kj'] * 0.03);
 
 $pdf->SetFont('Times', 'B', 10);
 $pdf->SetXY(75, 100); //Geser Kolom Total Pendapatan
@@ -125,7 +132,7 @@ $pdf->SetFont('Times', 'B', 14);
 $pdf->SetTextColor(127);
 $pdf->SetXY(100, 110);
 $pdf->Cell(50, 5, 'Take Home Pay : ', 0, 0);
-$pdf->Cell(50, 5, 'Rp. '.strrev(implode('.',str_split(strrev(strval(intval($pendapatan - $potongan))),3))), 0, 1);
+$pdf->Cell(50, 5, 'Rp. '.strrev(implode('.',str_split(strrev(strval($data['thp'])),3))), 0, 1);
 
 
 $pdf->Output();

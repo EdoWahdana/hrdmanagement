@@ -41,28 +41,27 @@
                 </div><!-- /.box-header -->
 
                 <div class="box-body">
+                <div class="alert alert-danger text-center" id="box-kontrak" role="alert">Masa Kontrak Akan Habis Dalam <span id="text-kontrak"></span> Hari </div>
                   <form class="form-horizontal style-form" action="insert_gaji.php" method="post" enctype="multipart/form-data" name="form1" id="form1">
                         <div class="form-group">
-                            <label class="col-sm-2 col-sm-2 control-label">Nama</label>
-                            <div class="col-sm-4">
+                            <label class="col-sm-2 control-label">Nama</label>
+                            <div class="col-sm-3">
                               <select name="id_karyawan" id="id_karyawan" class="form-control select2" required>
-                                <option selected disabled hidden> --- Pilih Pegawai --- </option>
+                                <option id="header-karyawan" selected hidden value="0"> --- Pilih Pegawai --- </option>
                                 <!-- Ambil data pegawai yang belum ada di tabel gaji -->
                                 <?php 
-                                  $sql = "SELECT id_karyawan, no_karyawan, nama FROM karyawan_new";
+                                  $sql = "SELECT id_karyawan, no_karyawan, nama, projek FROM v_karyawan";
                                   $exec = mysqli_query($koneksi, $sql);
                                     while($data = mysqli_fetch_array($exec)) { 
-                                      echo "<option value='" .$data['id_karyawan']. "'>" .$data['no_karyawan']. " - " .$data['nama']. "</option>"; 
+                                      echo "<option value='" .$data['id_karyawan']. "'>" .$data['nama']. " - " .$data['no_karyawan']. " - " .$data['projek']. "</option>"; 
                                     }
                                 ?>
                               </select>
                             </div>
-                        </div>                               
-                        <div class="form-group">
-                            <label class="col-sm-2 col-sm-2 control-label">Periode</label>
-                            <div class="col-sm-4">
-                              <select name="periode" id="periode" class="form-control select2" required>
-                                <option selected disabled hidden> --- Pilih Periode --- </option>
+                            <label class="col-sm-2 control-label">Periode</label>
+                            <div class="col-sm-3">
+                              <select disabled name="periode" id="periode" class="form-control select2" required onchange="getDetail();">
+                                <option id="header-periode" selected hidden value="0"> --- Pilih Periode --- </option>
                                 <!-- Ambil data periode yang belum ada di tabel gaji -->
                                 <?php 
                                   // Membuat variabel array untuk menyimpan nama bulan
@@ -75,49 +74,93 @@
                                 ?>
                               </select>
                             </div>
-                        </div>                               
+                        </div>       
                         <div class="form-group">
-                            <label class="col-sm-2 col-sm-2 control-label">Tanggal</label>
-                            <div class="col-sm-4">
-                              <input name="tanggal" type="text" id="tanggal" class="input-group date" data-date="" data-date-format="yyyy-mm-dd" placeholder="Tanggal Gajian" required='required' autocomplete="off" value="<?= isset($_POST['tanggal']) ? $_POST['tanggal'] : '' ?>" />
-                            </div>
-                        </div>                             
-                        <div class="form-group">
-                            <label class="col-sm-2 col-sm-2 control-label">Tunjangan Dana Hari Tua</label>
-                            <div class="col-sm-4">
-                              <input name="dht" type="text" id="dht" class="form-control" placeholder="Tunjangan Dana Hari Tua" required='required' value="<?= isset($_POST['dht']) ? $_POST['dht'] : '' ?>" />
-                            </div>
-                        </div>                             
-                        <div class="form-group">
-                            <label class="col-sm-2 col-sm-2 control-label">Bonus / Gratifikasi / Tantiem dll</label>
-                            <div class="col-sm-4">
-                              <input name="bonus" type="text" id="bonus" class="form-control" placeholder="Bonus Gaji" required='required' value="<?= isset($_POST['bonus']) ? $_POST['bonus'] : '' ?>" />
-                            </div>
-                        </div>                             
-                        <div class="form-group">
-                            <label class="col-sm-2 col-sm-2 control-label">BPJS Kesehatan</label>
-                            <div class="col-sm-4">
-                              <input name="bpjs_ks" type="text" id="bpjs_ks" class="form-control" placeholder="Tunjangan BPJS Kesehatan" required='required' value="<?= isset($_POST['bpjs_ks']) ? $_POST['bpjs_ks'] : '' ?>" />
-                            </div>
-                        </div>                             
-                        <div class="form-group">
-                            <label class="col-sm-2 col-sm-2 control-label">BPJS Ketenagakerjaan</label>
-                            <div class="col-sm-4">
-                              <input name="bpjs_kj" type="text" id="bpjs_kj" class="form-control" placeholder="Tunjangan BPJS Ketenagakerjaan" required='required' value="<?= isset($_POST['bpjs_kj']) ? $_POST['bpjs_kj'] : '' ?>" />
-                            </div>
-                        </div>                           
-                        <div class="form-group">
-                            <label class="col-sm-2 col-sm-2 control-label">Pilihan Lembur Holiday</label>
-                            <div class="col-sm-4">
-                              <select name="ph" id="ph">
-                                    <option selected disabled hidden> --- Jenis Lembur Holiday --- </option>
-                                    <option value='0.5'>0.5</option>
-                                    <option value='1'>1</option>
+                          <label class="col-sm-2 control-label">Pilihan SP</label>
+                          <div class="col-sm-3">
+                              <select name="sp" id="sp" class="form-control select2" required>
+                                  <option selected disabled hidden> --- Pilih SP --- </option>
+                                  <option value="50000">50.000</option>
+                                  <option value="75000">75.000</option>
+                                  <option value="100000">100.000</option>
                               </select>
-                            </div>
-                        </div>                           
+                          </div>
+                          <label class="col-sm-2 control-label">Pilihan Lembur Holiday</label>
+                          <div class="col-sm-3">
+                            <select disabled name="ph" id="ph" class="form-control select2" required onchange="getDetail();">
+                                  <option value='0.5'>0.5</option>
+                                  <option selected value='1'>1</option>
+                            </select>
+                          </div>
+                        </div>                                   
                         <div class="form-group">
-                            <label class="col-sm-2 col-sm-2 control-label"></label>
+                          <label class="col-sm-2 control-label">Total Lembur Backup</label>
+                          <div class="col-sm-3">
+                            <input readonly name="lembur_backup" type="text" id="lembur_backup" class="form-control" /> 
+                          </div>                                        
+                          <label class="col-sm-2 control-label">Total Lembur Public Holiday</label>
+                          <div class="col-sm-3">
+                            <input readonly name="lembur_holiday" type="text" id="lembur_holiday" class="form-control" /> 
+                          </div>                                        
+                        </div>                      
+                        <div class="form-group">
+                          <label class="col-sm-2 control-label">Total Lembur Reguler</label>
+                          <div class="col-sm-3">
+                            <input readonly name="lembur_reguler" type="text" id="lembur_reguler" class="form-control" /> 
+                          </div>                                        
+                          <label class="col-sm-2 control-label">Total Potongan Sakit</label>
+                          <div class="col-sm-3">
+                            <input readonly name="potongan_sakit" type="text" id="potongan_sakit" class="form-control" /> 
+                          </div>                                        
+                        </div>                                            
+                        <div class="form-group">
+                          <label class="col-sm-2 control-label">Total Potongan Izin</label>
+                          <div class="col-sm-3">
+                            <input readonly name="potongan_izin" type="text" id="potongan_izin" class="form-control" /> 
+                          </div>                                        
+                          <label class="col-sm-2 control-label">Total Potongan Cuti</label>
+                          <div class="col-sm-3">
+                            <input readonly name="potongan_cuti" type="text" id="potongan_cuti" class="form-control" /> 
+                          </div>                                        
+                        </div>                                            
+                        <div class="form-group">
+                          <label class="col-sm-2 control-label">Total Potongan TK</label>
+                          <div class="col-sm-3">
+                            <input readonly name="potongan_tk" type="text" id="potongan_tk" class="form-control" /> 
+                          </div>                                                                                
+                          <label class="col-sm-2 control-label">Total Potongan BPJS Kesehatan</label>
+                          <div class="col-sm-3">
+                            <input readonly name="potongan_bpjs_ks" type="text" id="potongan_bpjs_ks" class="form-control" /> 
+                          </div>                                                                                
+                        </div>                                            
+                        <div class="form-group">
+                          <label class="col-sm-2 control-label">Total Potongan BPJS Ketenagakerjaan</label>
+                          <div class="col-sm-3">
+                            <input readonly name="potongan_bpjs_kj" type="text" id="potongan_bpjs_kj" class="form-control" /> 
+                          </div>                            
+                        </div>                                            
+                        <div class="form-group"> 
+                          <label class="col-sm-2 control-label">Potongan Lain-lain</label>
+                          <div class="col-sm-3">
+                            <input name="potongan_lain" type="text" id="potongan_lain" class="form-control" value=0 /> 
+                          </div>     
+                          <label class="col-sm-2 control-label">Potongan Diksar</label>
+                          <div class="col-sm-3">
+                            <input name="potongan_diksar" type="text" id="potongan_diksar" class="form-control" value=0 /> 
+                          </div>    
+                        </div>        
+                        <div class="form-group">
+                          <label class="col-sm-2 control-label">Lembur Lain-lain</label>
+                          <div class="col-sm-3">
+                            <input name="lembur_lain" type="text" id="lembur_lain" class="form-control" value=0 /> 
+                          </div>         
+                          <label class="col-sm-2 control-label">Bonus</label>
+                          <div class="col-sm-3">
+                            <input readonly name="bonus" type="text" id="bonus" class="form-control" value=0 /> 
+                          </div>                                                                                                                                                                                                         
+                        </div>              
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"></label>
                             <div class="col-sm-10">
                                 <input type="submit" name="input" value="Simpan" class="btn btn-sm btn-primary" />&nbsp;
                                 <a href="gaji.php" class="btn btn-sm btn-danger">Batal </a>
@@ -162,46 +205,55 @@
     <script src="../plugins/select2/select2.full.min.js"></script>
 
     <script>
-    //options method for call datepicker
-    $(".input-group.date").datepicker({ 
-      autoclose: true, 
-      todayHighlight: true 
-    });
-	
-    </script>
+    $(document).ready(function(){
+      $("#id_karyawan").change(function(){
+        if($("#id_karyawan").val() != '0')
+          $("#periode").attr("disabled", false);
+      });
 
-    <script>
+      $("#periode").change(function(){
+        if($("#periode").val() != '0')
+          $("#ph").attr("disabled", false);
+      });
+
+      $("#box-kontrak").hide();
+    });
+
       $(function () {
         $(".select2").select2();
       });
 
-      // $('id_karyawan').change(function() {
-      //   var karyawan = $(this).val();
-      //   var data = {id: karyawan};
-      //   $.post('ajax-data-gajiperiode.php', data, function(data) {
-      //     $.each(data, function(index, value) {
-      //       $('periode').val(value);
-      //     });
-      //   });
-      // });
 
-      var dht = document.getElementById('dht');
-      var bonus = document.getElementById('bonus');
-      var bpjs_ks = document.getElementById('bpjs_ks');
-      var bpjs_kj = document.getElementById('bpjs_kj');
+      function getDetail() {
+        data = {
+          id_karyawan: $("#id_karyawan").val(),
+          id_periode: $("#periode").val(),
+          ph: $("#ph").val()
+        };
 
-      dht.addEventListener("keyup", function(e){
-        dht.value = convertToRupiah(dht.value, "");
-      });
-      bonus.addEventListener("keyup", function(e){
-        bonus.value = convertToRupiah(bonus.value, "");
-      });
-      bpjs_ks.addEventListener("keyup", function(e){
-        bpjs_ks.value = convertToRupiah(bpjs_ks.value, "");
-      });
-      bpjs_kj.addEventListener("keyup", function(e){
-        bpjs_kj.value = convertToRupiah(bpjs_kj.value, "");
-      });
+        $.ajax({
+          type: "GET",
+          url: "get_input-gaji.php",
+          data: data, 
+          dataType: "JSON",
+          success: function(result){
+            $("#lembur_backup").val(result.lembur_backup);
+            $("#lembur_holiday").val(result.lembur_holiday);
+            $("#lembur_reguler").val(result.lembur_reguler);
+            $("#potongan_sakit").val(result.potongan_sakit);
+            $("#potongan_izin").val(result.potongan_izin);
+            $("#potongan_cuti").val(result.potongan_cuti);
+            $("#potongan_tk").val(result.potongan_tk);
+            $("#potongan_bpjs_ks").val(result.potongan_bpjs_ks);
+            $("#potongan_bpjs_kj").val(result.potongan_bpjs_kj);
+            if(result.kontrak > 0 && result.kontrak < 31){
+              $("#box-kontrak").show();
+              $("#text-kontrak").text(result.kontrak);
+              $("#bonus").removeAttr('readonly');
+            }
+          }
+        });
+      }
     </script>
   </body>
 </html>
