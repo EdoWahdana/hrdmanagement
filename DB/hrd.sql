@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 15, 2021 at 10:33 PM
+-- Generation Time: Mar 31, 2021 at 03:49 PM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.3.23
 
@@ -31,22 +31,20 @@ CREATE TABLE `absensi` (
   `id_absensi` int(11) NOT NULL,
   `id_karyawan` int(11) NOT NULL,
   `id_periode` int(11) NOT NULL,
-  `jumlah_sakit` int(11) NOT NULL,
-  `jumlah_izin` int(11) NOT NULL,
-  `jumlah_cuti` int(11) NOT NULL,
-  `jumlah_tk` int(11) NOT NULL,
-  `jumlah_backup` int(11) NOT NULL,
-  `jumlah_lembur_holiday` int(11) NOT NULL,
-  `jumlah_lembur_reguler` int(11) NOT NULL
+  `id_kategori_absensi` int(11) NOT NULL,
+  `jumlah` int(11) NOT NULL,
+  `tanggal` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `absensi`
 --
 
-INSERT INTO `absensi` (`id_absensi`, `id_karyawan`, `id_periode`, `jumlah_sakit`, `jumlah_izin`, `jumlah_cuti`, `jumlah_tk`, `jumlah_backup`, `jumlah_lembur_holiday`, `jumlah_lembur_reguler`) VALUES
-(1, 5, 1, 3, 2, 4, 2, 3, 5, 5),
-(2, 8, 1, 0, 0, 0, 0, 0, 0, 0);
+INSERT INTO `absensi` (`id_absensi`, `id_karyawan`, `id_periode`, `id_kategori_absensi`, `jumlah`, `tanggal`) VALUES
+(7, 15, 1, 4, 1, '2021-03-30'),
+(8, 15, 1, 6, 3, '2021-03-31'),
+(9, 16, 3, 3, 1, '2021-03-31'),
+(10, 16, 3, 6, 5, '2021-03-31');
 
 -- --------------------------------------------------------
 
@@ -107,12 +105,18 @@ CREATE TABLE `gaji` (
   `id_gaji` int(11) NOT NULL,
   `id_karyawan` int(11) NOT NULL,
   `id_periode` int(11) NOT NULL,
-  `tanggal` date NOT NULL,
-  `tunjangan` int(11) DEFAULT NULL,
-  `potongan` int(11) DEFAULT NULL,
   `bonus` int(11) NOT NULL,
-  `bpjs_ks` int(11) NOT NULL,
-  `bpjs_kj` int(11) NOT NULL,
+  `lembur_backup` int(11) NOT NULL,
+  `lembur_holiday` int(11) NOT NULL,
+  `lembur_reguler` int(11) NOT NULL,
+  `lembur_lain` int(11) NOT NULL,
+  `potongan_sakit` int(11) NOT NULL,
+  `potongan_izin` int(11) NOT NULL,
+  `potongan_cuti` int(11) NOT NULL,
+  `potongan_tk` int(11) NOT NULL,
+  `potongan_lain` int(11) NOT NULL,
+  `potongan_diksar` int(11) NOT NULL,
+  `potongan_sp` int(11) NOT NULL,
   `sebulan` int(11) NOT NULL,
   `setahun` bigint(20) NOT NULL,
   `bruto` bigint(20) NOT NULL,
@@ -126,9 +130,9 @@ CREATE TABLE `gaji` (
 -- Dumping data for table `gaji`
 --
 
-INSERT INTO `gaji` (`id_gaji`, `id_karyawan`, `id_periode`, `tanggal`, `tunjangan`, `potongan`, `bonus`, `bpjs_ks`, `bpjs_kj`, `sebulan`, `setahun`, `bruto`, `biaya_jabatan`, `neto`, `pph`, `thp`) VALUES
-(1, 5, 1, '2021-03-18', 494220, 0, 800000, 200000, 200000, 9894220, 118730636, 119530636, 5976532, 113554104, 2977705, 9214699),
-(3, 8, 1, '2021-03-25', 78459, 0, 2471446, 171054, 294641, 4485127, 53821524, 56292970, 0, 56292970, 114649, 4681527);
+INSERT INTO `gaji` (`id_gaji`, `id_karyawan`, `id_periode`, `bonus`, `lembur_backup`, `lembur_holiday`, `lembur_reguler`, `lembur_lain`, `potongan_sakit`, `potongan_izin`, `potongan_cuti`, `potongan_tk`, `potongan_lain`, `potongan_diksar`, `potongan_sp`, `sebulan`, `setahun`, `bruto`, `biaya_jabatan`, `neto`, `pph`, `thp`) VALUES
+(4, 15, 1, 90000, 0, 0, 0, 300000, 0, 0, 0, 0, 80000, 100000, 75000, 10408314, 124899768, 124989768, 0, 124989768, 2874488, 10176273),
+(5, 16, 3, 0, 0, 851570, 0, 900000, 0, 0, 100000, 0, 400000, 200000, 100000, 6693070, 80316840, 80316840, 4015842, 76300998, 0, 6358417);
 
 -- --------------------------------------------------------
 
@@ -337,7 +341,7 @@ CREATE TABLE `karyawan_new` (
   `departemen` varchar(50) NOT NULL,
   `jabatan` varchar(50) NOT NULL,
   `tanggal_masuk` date NOT NULL,
-  `gaji_pokok` int(11) NOT NULL,
+  `tanggal_habis` varchar(20) DEFAULT NULL,
   `foto` text NOT NULL,
   `foto_ktp` text NOT NULL,
   `foto_kk` text NOT NULL,
@@ -357,10 +361,34 @@ CREATE TABLE `karyawan_new` (
 -- Dumping data for table `karyawan_new`
 --
 
-INSERT INTO `karyawan_new` (`id_karyawan`, `nik`, `no_kk`, `no_karyawan`, `no_npwp`, `nama`, `jk`, `status_kerja`, `departemen`, `jabatan`, `tanggal_masuk`, `gaji_pokok`, `foto`, `foto_ktp`, `foto_kk`, `foto_npwp`, `foto_buku_rekening`, `foto_bpjs_ks`, `foto_bpjs_kj`, `username`, `password`, `level`, `id_projek`, `id_role`, `id_ptkp`) VALUES
-(5, '201381238', '0919388138', '0005', '89.737218.1-017.000', 'Edo Wahdana', 'L', 'Tetap', 'Accounting', 'Leader', '2021-03-03', 9000000, 'd1a7b037cbcc1923fac0134287522b8e.jpg', 'eefccc9574c0f2e3e01e2d3bb3d9fe86.jpg', 'eefccc9574c0f2e3e01e2d3bb3d9fe86.jpg', 'd1a7b037cbcc1923fac0134287522b8e.jpg', 'eefccc9574c0f2e3e01e2d3bb3d9fe86.jpg', 'd1a7b037cbcc1923fac0134287522b8e.jpg', 'd1a7b037cbcc1923fac0134287522b8e.jpg', 'edo', '9da14ce833f5a7b709513cc8f6de983d5ea2bd91', 'Admin', 4, 2, 1),
-(6, '31231', '813728', '0006', '99.717218.1-017.000', 'Dede Rian', 'L', 'Tetap', 'Enginnering', 'Leader', '2021-03-02', 2000000, '922b83538f731859e1dccc330aa42afa.jpg', '67707cb5566dbf3e6ed3afea02c8f707.jpeg', '67707cb5566dbf3e6ed3afea02c8f707.jpeg', '67707cb5566dbf3e6ed3afea02c8f707.jpeg', '67707cb5566dbf3e6ed3afea02c8f707.jpeg', '67707cb5566dbf3e6ed3afea02c8f707.jpeg', '67707cb5566dbf3e6ed3afea02c8f707.jpeg', 'dede', '8e65e20d4b7140a2e6ed067933d596228e46d380', 'User', 21, 2, 1),
-(8, '3174090508850009', '3174091010500009', '0007', '89.737218.1-017.000', 'Danang', 'L', 'Kontrak', 'IT', 'Staf', '2021-01-01', 3940973, 'f40351283720b2c0b35a83db7d0bca9f.jpeg', '3123e9f6cd89f896794245d8d8a23e58.jpg', 'f40351283720b2c0b35a83db7d0bca9f.jpeg', 'f40351283720b2c0b35a83db7d0bca9f.jpeg', 'f40351283720b2c0b35a83db7d0bca9f.jpeg', '3ab7d4cd391caeb9dbf1dbfad4dc0a98.jpg', 'f40351283720b2c0b35a83db7d0bca9f.jpeg', 'andri', '666013faae6e6ba8fcde2b5e1c9d874a41a76db3', 'User', 1, 1, 1);
+INSERT INTO `karyawan_new` (`id_karyawan`, `nik`, `no_kk`, `no_karyawan`, `no_npwp`, `nama`, `jk`, `status_kerja`, `departemen`, `jabatan`, `tanggal_masuk`, `tanggal_habis`, `foto`, `foto_ktp`, `foto_kk`, `foto_npwp`, `foto_buku_rekening`, `foto_bpjs_ks`, `foto_bpjs_kj`, `username`, `password`, `level`, `id_projek`, `id_role`, `id_ptkp`) VALUES
+(15, '192838128938', '9182319823', '91823189327', '19238120938', 'Uus', 'L', 'Kontrak', 'Accounting', 'Leader', '2021-03-27', '2021-04-20', '98531bffea8ed69317ba3addc925becf.png', '98531bffea8ed69317ba3addc925becf.png', '98531bffea8ed69317ba3addc925becf.png', '98531bffea8ed69317ba3addc925becf.png', '98531bffea8ed69317ba3addc925becf.png', '98531bffea8ed69317ba3addc925becf.png', '98531bffea8ed69317ba3addc925becf.png', 'uus', 'd5386f8b1de07e33b70cb21e84e2697ce4929f01', 'Admin', 11, 1, 4),
+(16, '3208193818', '3293822388', '0011', '82.82848.928-119', 'Udin', 'L', 'Tetap', 'Enginnering', 'Supervisor', '2021-01-01', '', 'e10db0fbab68ddd44e8221a97c15564f.jpg', '8e59b7195e428d5328be2cdf326a43f9.jpg', 'ffb9aa3719102f5a3d54d061163c5552.jpg', '7625b2d27058fbc7a18663d9f2a44e2c.png', '8e59b7195e428d5328be2cdf326a43f9.jpg', '8e59b7195e428d5328be2cdf326a43f9.jpg', '7625b2d27058fbc7a18663d9f2a44e2c.png', 'udin', '0ff6f2c78c3f785fd15525e78e1fe9a223479ed1', 'User', 11, 1, 9);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `kategori_absensi`
+--
+
+CREATE TABLE `kategori_absensi` (
+  `id_kategori_absensi` int(11) NOT NULL,
+  `kategori` varchar(50) NOT NULL,
+  `jenis` enum('potongan','lembur') NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `kategori_absensi`
+--
+
+INSERT INTO `kategori_absensi` (`id_kategori_absensi`, `kategori`, `jenis`) VALUES
+(1, 'Sakit', 'potongan'),
+(2, 'Izin', 'potongan'),
+(3, 'Cuti', 'potongan'),
+(4, 'Tanpa Keterangan', 'potongan'),
+(5, 'Backup Kekosongan', 'lembur'),
+(6, 'Lembur Holiday', 'lembur'),
+(7, 'Lembur Reguler', 'lembur');
 
 -- --------------------------------------------------------
 
@@ -505,21 +533,50 @@ INSERT INTO `role` (`id_role`, `role`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `tunjangan`
+--
+
+CREATE TABLE `tunjangan` (
+  `id_tunjangan` int(11) NOT NULL,
+  `id_karyawan` int(11) NOT NULL,
+  `gaji_pokok` bigint(20) NOT NULL,
+  `tunjangan_dht` int(11) NOT NULL,
+  `tunjangan_bpjs_ks` int(11) NOT NULL,
+  `tunjangan_bpjs_kj` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `tunjangan`
+--
+
+INSERT INTO `tunjangan` (`id_tunjangan`, `id_karyawan`, `gaji_pokok`, `tunjangan_dht`, `tunjangan_bpjs_ks`, `tunjangan_bpjs_kj`) VALUES
+(1, 12, 9000000, 2000000, 200000, 200000),
+(2, 13, 9000000, 900000, 200000, 200000),
+(3, 14, 9000000, 900000, 100000, 100000),
+(4, 15, 9000000, 1000000, 100000, 200000),
+(5, 16, 5000000, 300000, 250000, 200000);
+
+-- --------------------------------------------------------
+
+--
 -- Stand-in structure for view `v_absensi`
 -- (See below for the actual view)
 --
 CREATE TABLE `v_absensi` (
-`id_absensi` int(11)
+`id_karyawan` int(11)
+,`no_karyawan` varchar(50)
 ,`nama` varchar(50)
+,`projek` varchar(255)
+,`id_periode` int(11)
 ,`bulan` enum('1','2','3','4','5','6','7','8','9','10','11','12')
 ,`tahun` varchar(10)
-,`jumlah_sakit` int(11)
-,`jumlah_izin` int(11)
-,`jumlah_cuti` int(11)
-,`jumlah_tk` int(11)
-,`jumlah_backup` int(11)
-,`jumlah_lembur_holiday` int(11)
-,`jumlah_lembur_reguler` int(11)
+,`jumlah_sakit` decimal(32,0)
+,`jumlah_izin` decimal(32,0)
+,`jumlah_cuti` decimal(32,0)
+,`jumlah_tk` decimal(32,0)
+,`jumlah_backup` decimal(32,0)
+,`jumlah_lembur_holiday` decimal(32,0)
+,`jumlah_lembur_reguler` decimal(32,0)
 );
 
 -- --------------------------------------------------------
@@ -533,30 +590,39 @@ CREATE TABLE `v_gaji` (
 ,`id_karyawan` int(11)
 ,`id_periode` int(11)
 ,`no_karyawan` varchar(50)
+,`nama` varchar(50)
 ,`nik` varchar(50)
 ,`no_npwp` varchar(50)
-,`nama` varchar(50)
-,`jk` enum('L','P')
-,`status_kerja` enum('Tetap','Kontrak')
-,`gaji_pokok` int(11)
-,`kode` varchar(10)
 ,`projek` varchar(255)
 ,`role` varchar(50)
+,`status_kerja` enum('Tetap','Kontrak')
+,`jk` enum('L','P')
+,`kode` varchar(10)
 ,`bulan` enum('1','2','3','4','5','6','7','8','9','10','11','12')
 ,`tahun` varchar(10)
-,`tanggal` date
-,`tunjangan` int(11)
-,`potongan` int(11)
-,`bonus` int(11)
-,`bpjs_ks` int(11)
-,`bpjs_kj` int(11)
+,`gaji_pokok` bigint(20)
+,`tunjangan_dht` int(11)
+,`tunjangan_bpjs_ks` int(11)
+,`tunjangan_bpjs_kj` int(11)
 ,`sebulan` int(11)
 ,`setahun` bigint(20)
+,`bonus` int(11)
+,`lembur_backup` int(11)
+,`lembur_holiday` int(11)
+,`lembur_reguler` int(11)
+,`lembur_lain` int(11)
+,`potongan_sakit` int(11)
+,`potongan_izin` int(11)
+,`potongan_cuti` int(11)
+,`potongan_tk` int(11)
+,`potongan_diksar` int(11)
+,`potongan_lain` int(11)
+,`potongan_sp` int(11)
 ,`bruto` bigint(20)
 ,`biaya_jabatan` int(11)
 ,`neto` bigint(20)
-,`ptkp` int(11)
 ,`pph` int(11)
+,`ptkp` int(11)
 ,`thp` int(11)
 );
 
@@ -600,7 +666,11 @@ CREATE TABLE `v_karyawan` (
 ,`departemen` varchar(50)
 ,`jabatan` varchar(50)
 ,`tanggal_masuk` date
-,`gaji_pokok` int(11)
+,`tanggal_habis` varchar(20)
+,`gaji_pokok` bigint(20)
+,`tunjangan_dht` int(11)
+,`tunjangan_bpjs_ks` int(11)
+,`tunjangan_bpjs_kj` int(11)
 ,`foto` text
 ,`foto_ktp` text
 ,`foto_kk` text
@@ -621,7 +691,7 @@ CREATE TABLE `v_karyawan` (
 --
 DROP TABLE IF EXISTS `v_absensi`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_absensi`  AS SELECT `absensi`.`id_absensi` AS `id_absensi`, `karyawan_new`.`nama` AS `nama`, `periode`.`bulan` AS `bulan`, `periode`.`tahun` AS `tahun`, `absensi`.`jumlah_sakit` AS `jumlah_sakit`, `absensi`.`jumlah_izin` AS `jumlah_izin`, `absensi`.`jumlah_cuti` AS `jumlah_cuti`, `absensi`.`jumlah_tk` AS `jumlah_tk`, `absensi`.`jumlah_backup` AS `jumlah_backup`, `absensi`.`jumlah_lembur_holiday` AS `jumlah_lembur_holiday`, `absensi`.`jumlah_lembur_reguler` AS `jumlah_lembur_reguler` FROM ((`karyawan_new` join `periode`) join `absensi`) WHERE `karyawan_new`.`id_karyawan` = `absensi`.`id_karyawan` AND `periode`.`id_periode` = `absensi`.`id_periode` ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_absensi`  AS SELECT `k`.`id_karyawan` AS `id_karyawan`, `k`.`no_karyawan` AS `no_karyawan`, `k`.`nama` AS `nama`, `pr`.`projek` AS `projek`, `p`.`id_periode` AS `id_periode`, `p`.`bulan` AS `bulan`, `p`.`tahun` AS `tahun`, (select ifnull(sum(`a`.`jumlah`),0) from `absensi` `a` where `a`.`id_kategori_absensi` = 1 and `a`.`id_karyawan` = `k`.`id_karyawan` and `a`.`id_periode` = `p`.`id_periode`) AS `jumlah_sakit`, (select ifnull(sum(`a`.`jumlah`),0) from `absensi` `a` where `a`.`id_kategori_absensi` = 2 and `a`.`id_karyawan` = `k`.`id_karyawan` and `a`.`id_periode` = `p`.`id_periode`) AS `jumlah_izin`, (select ifnull(sum(`a`.`jumlah`),0) from `absensi` `a` where `a`.`id_kategori_absensi` = 3 and `a`.`id_karyawan` = `k`.`id_karyawan` and `a`.`id_periode` = `p`.`id_periode`) AS `jumlah_cuti`, (select ifnull(sum(`a`.`jumlah`),0) from `absensi` `a` where `a`.`id_kategori_absensi` = 4 and `a`.`id_karyawan` = `k`.`id_karyawan` and `a`.`id_periode` = `p`.`id_periode`) AS `jumlah_tk`, (select ifnull(sum(`a`.`jumlah`),0) from `absensi` `a` where `a`.`id_kategori_absensi` = 5 and `a`.`id_karyawan` = `k`.`id_karyawan` and `a`.`id_periode` = `p`.`id_periode`) AS `jumlah_backup`, (select ifnull(sum(`a`.`jumlah`),0) from `absensi` `a` where `a`.`id_kategori_absensi` = 6 and `a`.`id_karyawan` = `k`.`id_karyawan` and `a`.`id_periode` = `p`.`id_periode`) AS `jumlah_lembur_holiday`, (select ifnull(sum(`a`.`jumlah`),0) from `absensi` `a` where `a`.`id_kategori_absensi` = 7 and `a`.`id_karyawan` = `k`.`id_karyawan` and `a`.`id_periode` = `p`.`id_periode`) AS `jumlah_lembur_reguler` FROM (((`karyawan_new` `k` join `periode` `p`) join `absensi` `a`) join `projek` `pr`) WHERE `k`.`id_karyawan` = `a`.`id_karyawan` AND `p`.`id_periode` = `a`.`id_periode` AND `k`.`id_projek` = `pr`.`id_projek` GROUP BY `k`.`id_karyawan`, `p`.`id_periode` ;
 
 -- --------------------------------------------------------
 
@@ -630,7 +700,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `v_gaji`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_gaji`  AS SELECT `g`.`id_gaji` AS `id_gaji`, `k`.`id_karyawan` AS `id_karyawan`, `p`.`id_periode` AS `id_periode`, `k`.`no_karyawan` AS `no_karyawan`, `k`.`nik` AS `nik`, `k`.`no_npwp` AS `no_npwp`, `k`.`nama` AS `nama`, `k`.`jk` AS `jk`, `k`.`status_kerja` AS `status_kerja`, `k`.`gaji_pokok` AS `gaji_pokok`, `pt`.`kode` AS `kode`, `pr`.`projek` AS `projek`, `r`.`role` AS `role`, `p`.`bulan` AS `bulan`, `p`.`tahun` AS `tahun`, `g`.`tanggal` AS `tanggal`, `g`.`tunjangan` AS `tunjangan`, `g`.`potongan` AS `potongan`, `g`.`bonus` AS `bonus`, `g`.`bpjs_ks` AS `bpjs_ks`, `g`.`bpjs_kj` AS `bpjs_kj`, `g`.`sebulan` AS `sebulan`, `g`.`setahun` AS `setahun`, `g`.`bruto` AS `bruto`, `g`.`biaya_jabatan` AS `biaya_jabatan`, `g`.`neto` AS `neto`, `pt`.`ptkp` AS `ptkp`, `g`.`pph` AS `pph`, `g`.`thp` AS `thp` FROM (((((`karyawan_new` `k` join `periode` `p`) join `gaji` `g`) join `projek` `pr`) join `ptkp` `pt`) join `role` `r`) WHERE `k`.`id_karyawan` = `g`.`id_karyawan` AND `p`.`id_periode` = `g`.`id_periode` AND `k`.`id_projek` = `pr`.`id_projek` AND `k`.`id_ptkp` = `pt`.`id_ptkp` AND `k`.`id_role` = `r`.`id_role` ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_gaji`  AS SELECT `g`.`id_gaji` AS `id_gaji`, `k`.`id_karyawan` AS `id_karyawan`, `p`.`id_periode` AS `id_periode`, `k`.`no_karyawan` AS `no_karyawan`, `k`.`nama` AS `nama`, `k`.`nik` AS `nik`, `k`.`no_npwp` AS `no_npwp`, `pr`.`projek` AS `projek`, `r`.`role` AS `role`, `k`.`status_kerja` AS `status_kerja`, `k`.`jk` AS `jk`, `pt`.`kode` AS `kode`, `p`.`bulan` AS `bulan`, `p`.`tahun` AS `tahun`, `t`.`gaji_pokok` AS `gaji_pokok`, `t`.`tunjangan_dht` AS `tunjangan_dht`, `t`.`tunjangan_bpjs_ks` AS `tunjangan_bpjs_ks`, `t`.`tunjangan_bpjs_kj` AS `tunjangan_bpjs_kj`, `g`.`sebulan` AS `sebulan`, `g`.`setahun` AS `setahun`, `g`.`bonus` AS `bonus`, `g`.`lembur_backup` AS `lembur_backup`, `g`.`lembur_holiday` AS `lembur_holiday`, `g`.`lembur_reguler` AS `lembur_reguler`, `g`.`lembur_lain` AS `lembur_lain`, `g`.`potongan_sakit` AS `potongan_sakit`, `g`.`potongan_izin` AS `potongan_izin`, `g`.`potongan_cuti` AS `potongan_cuti`, `g`.`potongan_tk` AS `potongan_tk`, `g`.`potongan_diksar` AS `potongan_diksar`, `g`.`potongan_lain` AS `potongan_lain`, `g`.`potongan_sp` AS `potongan_sp`, `g`.`bruto` AS `bruto`, `g`.`biaya_jabatan` AS `biaya_jabatan`, `g`.`neto` AS `neto`, `g`.`pph` AS `pph`, `pt`.`ptkp` AS `ptkp`, `g`.`thp` AS `thp` FROM (((((`gaji` `g` join (`karyawan_new` `k` join `ptkp` `pt` on(`k`.`id_ptkp` = `pt`.`id_ptkp`)) on(`g`.`id_karyawan` = `k`.`id_karyawan`)) join `periode` `p` on(`g`.`id_periode` = `p`.`id_periode`)) join `tunjangan` `t` on(`k`.`id_karyawan` = `t`.`id_karyawan`)) join `projek` `pr` on(`k`.`id_projek` = `pr`.`id_projek`)) join `role` `r` on(`k`.`id_role` = `r`.`id_role`)) ;
 
 -- --------------------------------------------------------
 
@@ -648,7 +718,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `v_karyawan`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_karyawan`  AS SELECT `k`.`id_karyawan` AS `id_karyawan`, `k`.`id_projek` AS `id_projek`, `k`.`id_role` AS `id_role`, `k`.`nik` AS `nik`, `k`.`no_kk` AS `no_kk`, `k`.`no_karyawan` AS `no_karyawan`, `k`.`no_npwp` AS `no_npwp`, `k`.`nama` AS `nama`, `k`.`jk` AS `jk`, `k`.`status_kerja` AS `status_kerja`, `p`.`projek` AS `projek`, `r`.`role` AS `role`, `k`.`departemen` AS `departemen`, `k`.`jabatan` AS `jabatan`, `k`.`tanggal_masuk` AS `tanggal_masuk`, `k`.`gaji_pokok` AS `gaji_pokok`, `k`.`foto` AS `foto`, `k`.`foto_ktp` AS `foto_ktp`, `k`.`foto_kk` AS `foto_kk`, `k`.`foto_npwp` AS `foto_npwp`, `k`.`foto_buku_rekening` AS `foto_buku_rekening`, `k`.`foto_bpjs_ks` AS `foto_bpjs_ks`, `k`.`foto_bpjs_kj` AS `foto_bpjs_kj`, `k`.`username` AS `username`, `k`.`password` AS `password`, `k`.`level` AS `level`, `pt`.`kode` AS `kode` FROM (((`karyawan_new` `k` join `projek` `p`) join `role` `r`) join `ptkp` `pt`) WHERE `k`.`id_projek` = `p`.`id_projek` AND `k`.`id_role` = `r`.`id_role` AND `k`.`id_ptkp` = `pt`.`id_ptkp` ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_karyawan`  AS SELECT `k`.`id_karyawan` AS `id_karyawan`, `k`.`id_projek` AS `id_projek`, `k`.`id_role` AS `id_role`, `k`.`nik` AS `nik`, `k`.`no_kk` AS `no_kk`, `k`.`no_karyawan` AS `no_karyawan`, `k`.`no_npwp` AS `no_npwp`, `k`.`nama` AS `nama`, `k`.`jk` AS `jk`, `k`.`status_kerja` AS `status_kerja`, `p`.`projek` AS `projek`, `r`.`role` AS `role`, `k`.`departemen` AS `departemen`, `k`.`jabatan` AS `jabatan`, `k`.`tanggal_masuk` AS `tanggal_masuk`, `k`.`tanggal_habis` AS `tanggal_habis`, `t`.`gaji_pokok` AS `gaji_pokok`, `t`.`tunjangan_dht` AS `tunjangan_dht`, `t`.`tunjangan_bpjs_ks` AS `tunjangan_bpjs_ks`, `t`.`tunjangan_bpjs_kj` AS `tunjangan_bpjs_kj`, `k`.`foto` AS `foto`, `k`.`foto_ktp` AS `foto_ktp`, `k`.`foto_kk` AS `foto_kk`, `k`.`foto_npwp` AS `foto_npwp`, `k`.`foto_buku_rekening` AS `foto_buku_rekening`, `k`.`foto_bpjs_ks` AS `foto_bpjs_ks`, `k`.`foto_bpjs_kj` AS `foto_bpjs_kj`, `k`.`username` AS `username`, `k`.`password` AS `password`, `k`.`level` AS `level`, `pt`.`kode` AS `kode` FROM ((((`karyawan_new` `k` join `tunjangan` `t`) join `projek` `p`) join `role` `r`) join `ptkp` `pt`) WHERE `k`.`id_projek` = `p`.`id_projek` AND `k`.`id_role` = `r`.`id_role` AND `k`.`id_ptkp` = `pt`.`id_ptkp` AND `k`.`id_karyawan` = `t`.`id_karyawan` ;
 
 --
 -- Indexes for dumped tables
@@ -658,7 +728,8 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 -- Indexes for table `absensi`
 --
 ALTER TABLE `absensi`
-  ADD PRIMARY KEY (`id_absensi`);
+  ADD PRIMARY KEY (`id_absensi`),
+  ADD KEY `kategori` (`id_kategori_absensi`);
 
 --
 -- Indexes for table `cuti`
@@ -711,6 +782,12 @@ ALTER TABLE `karyawan_new`
   ADD PRIMARY KEY (`id_karyawan`);
 
 --
+-- Indexes for table `kategori_absensi`
+--
+ALTER TABLE `kategori_absensi`
+  ADD PRIMARY KEY (`id_kategori_absensi`);
+
+--
 -- Indexes for table `periode`
 --
 ALTER TABLE `periode`
@@ -735,6 +812,12 @@ ALTER TABLE `role`
   ADD PRIMARY KEY (`id_role`);
 
 --
+-- Indexes for table `tunjangan`
+--
+ALTER TABLE `tunjangan`
+  ADD PRIMARY KEY (`id_tunjangan`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -742,13 +825,13 @@ ALTER TABLE `role`
 -- AUTO_INCREMENT for table `absensi`
 --
 ALTER TABLE `absensi`
-  MODIFY `id_absensi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_absensi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `gaji`
 --
 ALTER TABLE `gaji`
-  MODIFY `id_gaji` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_gaji` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `insentif`
@@ -760,7 +843,13 @@ ALTER TABLE `insentif`
 -- AUTO_INCREMENT for table `karyawan_new`
 --
 ALTER TABLE `karyawan_new`
-  MODIFY `id_karyawan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_karyawan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+
+--
+-- AUTO_INCREMENT for table `kategori_absensi`
+--
+ALTER TABLE `kategori_absensi`
+  MODIFY `id_kategori_absensi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `periode`
@@ -787,8 +876,20 @@ ALTER TABLE `role`
   MODIFY `id_role` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
+-- AUTO_INCREMENT for table `tunjangan`
+--
+ALTER TABLE `tunjangan`
+  MODIFY `id_tunjangan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `absensi`
+--
+ALTER TABLE `absensi`
+  ADD CONSTRAINT `kategori` FOREIGN KEY (`id_kategori_absensi`) REFERENCES `kategori_absensi` (`id_kategori_absensi`);
 
 --
 -- Constraints for table `insentif`
