@@ -75,6 +75,28 @@
                           </div>
 
                           <div class="form-group">
+                              <label class="col-sm-2 col-sm-2 control-label">No. NPWP</label>
+                              <div class="col-sm-4">
+                                  <input name="no_npwp" type="text" id="no_npwp" class="form-control" placeholder="No NPWP" value="<?php echo $row['no_npwp']; ?>" required="required" />
+                              </div>
+                          </div>
+
+                          <div class="form-group">
+                            <label class="col-sm-2 control-label">Metode Pembayaran</label>
+                            <div class="col-sm-4">
+                              <select name="metode" id="metode" class="form-control select2" required>
+                                    <option selected disabled hidden> --- Pilih Metode Pembayaran --- </option>
+                                    <option value="Tunai" <?= $row['metode'] == 'Tunai' ? ' selected="selected"' : ''; ?>>Tunai</option>
+                                    <option value="Transfer" <?= $row['metode'] == 'Transfer' ? ' selected="selected"' : ''; ?>>Transfer</option>
+                              </select>
+                            </div>
+                            <label class="col-sm-2 control-label">No. Rekening</label>
+                            <div class="col-sm-4">
+                              <input disabled type="text" name="no_rekening" id="no_rekening" class="form-control" placeholder="No. Rekening" value="<?php echo $row['no_rekening'] ?>">
+                            </div>
+                          </div>
+
+                          <div class="form-group">
                               <label class="col-sm-2 col-sm-2 control-label">No. Karyawan</label>
                               <div class="col-sm-4">
                                   <input name="no_karyawan" type="text" id="no_karyawan" class="form-control" placeholder="No. Karyawan" value="<?php echo $row['no_karyawan']; ?>" required="required" />
@@ -182,6 +204,17 @@
                               <label class="col-sm-2 col-sm-2 control-label">Tunjangan BPJS Ketenagakerjaan</label>
                               <div class="col-sm-4">
                                 <input name="tunjangan_bpjs_kj" type="text" id="tunjangan_bpjs_kj" class="form-control" value="<?= strrev(implode('.',str_split(strrev(strval($row['tunjangan_bpjs_kj'])),3))); ?>" placeholder="Tunjangan BPJS Ketenagakerjaan" required /> 
+                              </div>
+                          </div>
+
+                          <div class="form-group">
+                              <label class="col-sm-2 col-sm-2 control-label">Tunjangan Shift</label>
+                              <div class="col-sm-4">
+                                <input name="tunjangan_shift" type="text" id="tunjangan_shift" class="form-control" value="<?= strrev(implode('.',str_split(strrev(strval($row['tunjangan_shift'])),3))); ?>" placeholder="Tunjangan Shift" required /> 
+                              </div>
+                              <label class="col-sm-2 col-sm-2 control-label">Tunjangan Transport</label>
+                              <div class="col-sm-4">
+                                <input name="tunjangan_transport" type="text" id="tunjangan_transport" class="form-control" value="<?= strrev(implode('.',str_split(strrev(strval($row['tunjangan_transport'])),3))); ?>" placeholder="Tunjangan BPJS Ketenagakerjaan" required /> 
                               </div>
                           </div>
 
@@ -321,7 +354,19 @@
       tunjangan_bpjs_kj.addEventListener("keyup", function(e){
         tunjangan_bpjs_kj.value = convertToRupiah(tunjangan_bpjs_kj.value, "");
       });
+
+      $(document).ready(function() {
+        if($("#metode").val() == 'Transfer')
+          $("#no_rekening").removeAttr("disabled");
+      });
       
+      $("#metode").change(function() {
+        if($(this).val() == "Transfer")
+          $("#no_rekening").removeAttr("disabled");
+        else
+          $("#no_rekening").attr("disabled", "disabled");
+      });
+
       $("#status").change(function() {
       if($(this).val() == "Tetap"){
         $("#tanggal_habis").attr("disabled", "disabled");

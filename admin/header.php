@@ -4,7 +4,7 @@
 
 <header class="main-header">
         <!-- Logo -->
-        <a href="index.php" class="logo">
+        <a href="<?= $base . '/admin/' ?>index.php" class="logo">
           <!-- mini logo for sidebar mini 50x50 pixels -->
           <span class="logo-mini"><b>H</b>BA</span>
           <!-- logo for regular state and mobile devices -->

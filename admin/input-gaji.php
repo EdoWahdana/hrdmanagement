@@ -219,10 +219,23 @@
       $("#box-kontrak").hide();
     });
 
-      $(function () {
-        $(".select2").select2();
-      });
+    $(function () {
+      $(".select2").select2();
+    });
 
+    var potongan_lain = document.getElementById('potongan_lain');
+    var potongan_diksar = document.getElementById('potongan_diksar');
+    var lembur_lain = document.getElementById('lembur_lain');
+
+    potongan_lain.addEventListener("keyup", function(e){
+      potongan_lain.value = convertToRupiah(potongan_lain.value, "");
+    });
+    potongan_diksar.addEventListener("keyup", function(e){
+      potongan_diksar.value = convertToRupiah(potongan_diksar.value, "");
+    });
+    lembur_lain.addEventListener("keyup", function(e){
+      lembur_lain.value = convertToRupiah(lembur_lain.value, "");
+    });
 
       function getDetail() {
         data = {
@@ -250,6 +263,8 @@
               $("#box-kontrak").show();
               $("#text-kontrak").text(result.kontrak);
               $("#bonus").removeAttr('readonly');
+            } else {
+              $("#box-kontrak").hide();
             }
           }
         });

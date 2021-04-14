@@ -43,6 +43,7 @@ if(isset($_POST['input'])) {
     $nokk = $_POST['nokk'];
     $nok = $_POST['nok'];
     $no_npwp = $_POST['no_npwp'];
+    $no_rekening = $_POST['no_rekening'];
     $nama = $_POST['nama'];
     $jk = $_POST['jk'];
     $status_kerja = $_POST['status'];
@@ -53,6 +54,7 @@ if(isset($_POST['input'])) {
     $jabatan = $_POST['jabatan'];
     $tanggal_masuk = $_POST['tanggal'];
     $tanggal_habis = isset($_POST['habis']) ? $_POST['habis'] : $_POST['habis'] = '';
+    $metode = $_POST['metode'];
     $username = $_POST['username'];
     $password = sha1($_POST['password']);
     $level = $_POST['level'];
@@ -62,6 +64,8 @@ if(isset($_POST['input'])) {
     $dht = intval(preg_replace('/\D/', '', $_POST['dht']));
     $bpjs_ks = intval(preg_replace('/\D/', '', $_POST['bpjs_ks']));
     $bpjs_kj = intval(preg_replace('/\D/', '', $_POST['bpjs_kj']));
+    $shift = intval(preg_replace('/\D/', '', $_POST['shift']));
+    $transport = intval(preg_replace('/\D/', '', $_POST['transport']));
 
     //Upload foto karyawan
     $foto = uploadFile('foto', 'foto_karyawan/');
@@ -84,6 +88,7 @@ if(isset($_POST['input'])) {
                 no_kk, 
                 no_karyawan, 
                 no_npwp,
+                no_rekening,
                 nama, 
                 jk,
                 status_kerja,
@@ -91,6 +96,7 @@ if(isset($_POST['input'])) {
                 jabatan,
                 tanggal_masuk, 
                 tanggal_habis,
+                metode,
                 foto, 
                 foto_ktp, 
                 foto_kk, 
@@ -109,6 +115,7 @@ if(isset($_POST['input'])) {
                 '$nokk', 
                 '$nok', 
                 '$no_npwp',
+                '$no_rekening',
                 '$nama',
                 '$jk', 
                 '$status_kerja',
@@ -116,6 +123,7 @@ if(isset($_POST['input'])) {
                 '$jabatan', 
                 '$tanggal_masuk', 
                 '$tanggal_habis', 
+                '$metode', 
                 '$foto', 
                 '$foto_ktp', 
                 '$foto_kk', 
@@ -138,13 +146,17 @@ if(isset($_POST['input'])) {
                 gaji_pokok,
                 tunjangan_dht,
                 tunjangan_bpjs_ks,
-                tunjangan_bpjs_kj
+                tunjangan_bpjs_kj,
+                tunjangan_shift,
+                tunjangan_transport
             ) VALUES (
                 '$last_id',
                 '$gapok',
                 '$dht',
                 '$bpjs_ks',
-                '$bpjs_kj'
+                '$bpjs_kj',
+                '$shift',
+                '$transport'
             );";
     // Execute insert into tunjangan
     $insert = mysqli_query($koneksi, $tunjanganSql) or die(mysqli_error($koneksi));

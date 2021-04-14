@@ -19,7 +19,7 @@
           <ul class="sidebar-menu">
             <li class="header">HRD Management System ALTER</li>
             <li class="active treeview">
-              <a href="<?= $base . '/'?>index.php">
+              <a href="<?= $base . '/admin/'?>index.php">
                 <i class="fa fa-dashboard"></i> <span>Dashboard</span>
               </a>
             </li>
@@ -31,7 +31,6 @@
               <ul class="treeview-menu">
                 <li><a href="<?= $base . '/admin/'?>karyawan.php"><i class="fa fa-circle-o"></i> Karyawan</a></li>
                 <li><a href="<?= $base . '/admin/'?>input-karyawan.php"><i class="fa fa-circle-o"></i> Input Karyawan</a></li>
-                <li><a href="<?= $base . '/admin/'?>karyawan_importxls.php"><i class="fa fa-circle-o"></i> Import Data Excel</a></li>
               </ul>
             </li>
             
@@ -63,7 +62,6 @@
               <ul class="treeview-menu">
                 <li><a href="<?= $base . '/admin/'?>gaji.php"><i class="fa fa-circle-o"></i>Gaji Karyawan</a></li>
                 <li><a href="<?= $base . '/admin/'?>rule-gaji.php"><i class="fa fa-circle-o"></i> Rule Gaji Karyawan</a></li>
-                <li><a href="<?= $base . '/admin/'?>gaji_importxls.php"><i class="fa fa-circle-o"></i> Import Data Excel</a></li>
               </ul>
             </li>
 
@@ -132,10 +130,8 @@
                 <i class="fa fa-file"></i> <span>Laporan</span> <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <li><a href="<?= $base . '/admin/'?>  404.php"><i class="fa fa-circle-o"></i> Laporan Cuti</a></li>
-                <li><a href="<?= $base . '/admin/'?>404.php"><i class="fa fa-circle-o"></i> Laporan Detail Cuti</a></li>
-                <li><a href="<?= $base . '/admin/'?>404.php"><i class="fa fa-circle-o"></i> Laporan Balance Cuti</a></li>
-                <li><a href="<?= $base . '/admin/'?>404.php" target="_blank"><i class="fa fa-circle-o"></i> Cetak Karyawan</a></li>
+                <li><a href="<?= $base . '/admin/laporan/'?>laporan-gaji.php"><i class="fa fa-circle-o"></i> Laporan Gaji</a></li>
+                <li><a href="<?= $base . '/admin/laporan/'?>laporan-bank.php"><i class="fa fa-circle-o"></i> Laporan Convert Bank</a></li>
               </ul>
             </li>
         </section>

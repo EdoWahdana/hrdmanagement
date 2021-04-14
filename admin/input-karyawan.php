@@ -63,6 +63,21 @@
                               <input type="text" name="no_npwp" id="no_npwp" class="form-control" placeholder="No. NPWP" require="required" value="<?= isset($_POST['no_npwp']) ? $_POST['no_npwp'] : '' ?>">
                             </div>
                           </div>
+
+                          <div class="form-group">
+                            <label class="col-sm-2 control-label">Metode Pembayaran</label>
+                            <div class="col-sm-4">
+                              <select name="metode" id="metode" class="form-control select2" required>
+                                    <option selected disabled hidden> --- Pilih Metode Pembayaran --- </option>
+                                    <option value="Tunai">Tunai</option>
+                                    <option value="Transfer">Transfer</option>
+                              </select>
+                            </div>
+                            <label class="col-sm-2 control-label">No. Rekening</label>
+                            <div class="col-sm-4">
+                              <input disabled type="text" name="no_rekening" id="no_rekening" class="form-control" placeholder="No. Rekening" require="required" value="<?= isset($_POST['no_rekening']) ? $_POST['nok'] : '' ?>">
+                            </div>
+                          </div>
                           
                           <div class="form-group">
                             <label class="col-sm-2 control-label">Nama Karyawan</label>
@@ -188,6 +203,17 @@
                             <label class="col-sm-2 control-label">Tunjangan BPJS Ketenagakerjaan</label>
                             <div class="col-sm-4">
                               <input type="text" name="bpjs_kj" id="bpjs_kj" class="form-control" required="required" placeholder="Tunjangan BPJS Ketenagakerjaan" value="<?= isset($_POST['bpjs_kj']) ? $_POST['bpjs_kj'] : '' ?>">
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+                            <label class="col-sm-2 control-label">Tunjangan Shift</label>
+                            <div class="col-sm-4">
+                              <input type="text" name="shift" id="shift" class="form-control" required="required" placeholder="Tunjangan Shift" value="<?= isset($_POST['shift']) ? $_POST['shift'] : '' ?>">
+                            </div>
+                            <label class="col-sm-2 control-label">Tunjangan Transport</label>
+                            <div class="col-sm-4">
+                              <input type="text" name="transport" id="transport" class="form-control" required="required" placeholder="Tunjangan Transport" value="<?= isset($_POST['transport']) ? $_POST['transport'] : '' ?>">
                             </div>
                           </div>
                           
@@ -322,6 +348,13 @@
       };
     };
 
+    $("#metode").change(function() {
+      if($(this).val() == "Transfer")
+        $("#no_rekening").removeAttr("disabled");
+      else
+        $("#no_rekening").attr("disabled", "disabled");
+    });
+
     $("#status").change(function() {
       if($(this).val() == "Tetap"){
         $("#habis").attr("disabled", "disabled");
@@ -335,6 +368,8 @@
     var dht = document.getElementById('dht');
     var bpjs_ks = document.getElementById('bpjs_ks');
     var bpjs_kj = document.getElementById('bpjs_kj');
+    var shift = document.getElementById('shift');
+    var transport = document.getElementById('transport');
 
     gapok.addEventListener("keyup", function(e){
       gapok.value = convertToRupiah(gapok.value, "");
@@ -347,6 +382,12 @@
     });
     bpjs_kj.addEventListener("keyup", function(e){
       bpjs_kj.value = convertToRupiah(bpjs_kj.value, "");
+    });
+    shift.addEventListener("keyup", function(e){
+      shift.value = convertToRupiah(shift.value, "");
+    });
+    transport.addEventListener("keyup", function(e){
+      transport.value = convertToRupiah(transport.value, "");
     });
 
     </script>

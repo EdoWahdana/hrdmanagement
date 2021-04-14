@@ -10,9 +10,9 @@ if(isset($_GET['aksi']) == 'delete') {
     $sql = mysqli_query($koneksi, $delete);
     if($sql) {
         $_SESSION['delete_success'] = 'sukses';
-        header('location: karyawan.php');
+        header('location: gaji.php');
     } else {
         $_SESSION['delete_fail'] = 'gagal';
-        header('location: karyawan.php');
+        header('location: gaji.php');
     }
 }

@@ -167,6 +167,20 @@
                             </div>  
                             <br>
                           </div>
+                          <div class="col-sm-12 col-lg-offset-3 col-lg-6">
+                            <div class="input-group">
+                              <span class="input-group-addon" id="basic-addon1" style="width: 200px; text-align: left;">Potongan BPJS Kesehatan : </span>
+                              <strong><input type="text" class="form-control" style="width: 100%;" disabled value="<?='Rp. '.strrev(implode('.',str_split(strrev(strval(intval($data['tunjangan_bpjs_ks'] * 0.01))),3))); ?>"></strong>
+                            </div>  
+                            <br>
+                          </div>
+                          <div class="col-sm-12 col-lg-offset-3 col-lg-6">
+                            <div class="input-group">
+                              <span class="input-group-addon" id="basic-addon1" style="width: 200px; text-align: left;">Potongan BPJS Ketenagakerjaan : </span>
+                              <strong><input type="text" class="form-control" style="width: 100%;" disabled value="<?='Rp. '.strrev(implode('.',str_split(strrev(strval(intval($data['tunjangan_bpjs_kj'] * 0.03))),3))); ?>"></strong>
+                            </div>  
+                            <br>
+                          </div>
                           <div class="col-sm-12 col-lg-6">
                             <div class="input-group">
                               <span class="input-group-addon" id="basic-addon1" style="width: 200px; text-align: left;">Potongan Pph21 : </span>

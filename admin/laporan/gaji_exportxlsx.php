@@ -1,7 +1,7 @@
 <?php 
 
-require_once "../vendor/autoload.php";
-require_once "koneksi.php";
+require_once "../../vendor/autoload.php";
+require_once "../koneksi.php";
 
 // setlocale(LC_ALL, 'en_US');
 
@@ -20,7 +20,7 @@ $activeSheet->getSheetView()->setZoomScale(75);
 // Set width column
 $activeSheet->getDefaultColumnDimension()->setWidth(30);
 $activeSheet->getColumnDimension('A')->setWidth(5);
-$activeSheet->getColumnDimension('C')->setWidth(10);
+$activeSheet->getColumnDimension('C')->setWidth(20);
 $activeSheet->getColumnDimension('E')->setWidth(20);
 $activeSheet->getColumnDimension('F')->setWidth(50);
 $activeSheet->getColumnDimension('G')->setWidth(10);
@@ -70,8 +70,15 @@ $headerStyle = [
 ];
 $activeSheet->getStyle('A2:Y2')->applyFromArray($headerStyle);
 
-// SQL Query
-$sql = "SELECT * FROM v_gaji";
+// Ambil data id periodeyang dikirimkan
+$id = $_GET['id'];
+
+// SQL Query untuk semua periode
+if($id == "semua") 
+	$sql = "SELECT * FROM v_gaji"; 
+else 
+	$sql = "SELECT * FROM v_gaji WHERE id_periode=$id";
+
 $exec = mysqli_query($conn, $sql);
 
 if(mysqli_num_rows($exec) > 0) {

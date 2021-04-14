@@ -6,16 +6,21 @@ session_start();
 
 // Ini perhitungan pph berdasarkan data dari excel mas yandi
 function itungPph($npwp, $neto, $kena_pajak) {
+    $pph = 0;
     if( $neto <= 150000000 ){
         if( $npwp == '' )
-            $pph = ($kena_pajak * 0.05) * 0.2;
+            $pph += ($kena_pajak * 0.05) * 0.2;
         else 
-            $pph = $kena_pajak * 0.05;
-    } else if( $neto > 150000000 && $neto <= 250000000 ) {
-        if( $npwp == '' )
-            $pph = ($kena_pajak * 0.15) * 0.2;
-        else 
-            $pph = $kena_pajak * 0.15;
+            $pph += $kena_pajak * 0.05;
+    } 
+    if( $neto > 150000000 && $neto <= 250000000 ) {
+        if( $npwp == '' ){
+            $pph += ($kena_pajak * 0.05) * 0.2;
+            $pph += ($kena_pajak * 0.15) * 0.2;
+        } else {
+            $pph += $kena_pajak * 0.05;
+            $pph += $kena_pajak * 0.15;
+        }
     }
     // } else if ( $neto > 250000000 && $neto <= 500000000 ) {
     //     if( $npwp == '' )
@@ -40,19 +45,19 @@ if(isset($_POST['input'])) {
     $periode = $_POST['periode'];
     $ph = $_POST['ph'];
     $sp = intval($_POST['sp']);
-    $bonus = intval($_POST['bonus']);
+    $bonus = intval(preg_replace('/\D/', '', $_POST['bonus']));
     $lembur_backup = intval($_POST['lembur_backup']);
     $lembur_holiday = intval($_POST['lembur_holiday']);
     $lembur_reguler = intval($_POST['lembur_reguler']);
-    $lembur_lain = intval($_POST['lembur_lain']);
+    $lembur_lain = intval(preg_replace('/\D/', '', $_POST['lembur_lain']));
     $potongan_sakit = intval($_POST['potongan_sakit']);
     $potongan_izin = intval($_POST['potongan_izin']);
     $potongan_cuti = intval($_POST['potongan_cuti']);
     $potongan_tk = intval($_POST['potongan_tk']);
     $potongan_bpjs_ks = intval($_POST['potongan_bpjs_ks']);
     $potongan_bpjs_kj = intval($_POST['potongan_bpjs_kj']);
-    $potongan_lain = intval($_POST['potongan_lain']);
-    $potongan_diksar = intval($_POST['potongan_diksar']);
+    $potongan_lain = intval(preg_replace('/\D/', '', $_POST['potongan_lain']));
+    $potongan_diksar = intval(preg_replace('/\D/', '', $_POST['potongan_diksar']));
     $potongan = 0;
     $tunjangan = 0;
     $pph = 0;
@@ -64,6 +69,7 @@ if(isset($_POST['input'])) {
     $dataKaryawan = mysqli_fetch_array($exec);
 
     // Definisikan variabel untuk menampung data tunjangan karyawan
+    $transport = intval(preg_replace('/\D/', '', $_POST['transport']));
     $kode_ptkp = $dataKaryawan['kode'];
     $gaji_pokok = $dataKaryawan['gaji_pokok'];
     $tunjangan_dht = $dataKaryawan['tunjangan_dht'];
@@ -95,12 +101,11 @@ if(isset($_POST['input'])) {
     $tunjangan += $lembur_holiday;
     $tunjangan += $lembur_reguler;
     $tunjangan += $lembur_lain;
-    $tunjangan += $bonus;
 
     // Gaji sebulan kotor
     $sebulan = $gaji_pokok + $tunjangan - $potongan;
     
-    // Gaji Setahun dan tambah dengan bonus/tantiem/gratifikasi
+    // Gaji Setahun 
     $setahun = $sebulan * 12; 
     
     // Gaji bruto dalam setahun

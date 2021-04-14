@@ -79,42 +79,54 @@ $pdf->Cell(40, 5, $absensi['jumlah_lembur_holiday'], 0, 1);
 $pdf->Cell(50, 5, 'Lembur Reguler (jam)', 0, 0);
 $pdf->Cell(40, 5, $absensi['jumlah_lembur_reguler'], 0, 1);
 
+// Kolom pendapatan yang ditampilkan
+$gaji_pokok = $data['gaji_pokok'];
+$total_tunjangan = $data['tunjangan_dht'] + $data['tunjangan_bpjs_ks'] + $data['tunjangan_bpjs_kj'] + $data['tunjangan_shift'] + $data['tunjangan_transport'];
+$total_lembur = $data['lembur_backup'] + $data['lembur_holiday'] + $data['lembur_reguler'] + $data['lembur_lain'];
+
+// Kolom potongan yang ditampilkan
+$potongan_absensi = $data['potongan_sakit'] + $data['potongan_izin'] + $data['potongan_cuti'] + $data['potongan_tk'] + $data['potongan_sp'];
+$potongan_bpjs_ks = $data['tunjangan_bpjs_ks'] * 0.01;
+$potongan_bpjs_kj = $data['tunjangan_bpjs_kj'] * 0.03;
+$potongan_pph21 = intval($data['pph'] / 12);
+$potongan_diksar = $data['potongan_diksar'];
+$potongan_lain = $data['potongan_lain'] + $data['biaya_jabatan'];
 
 $pdf->SetXY(75, 65); //Geser Kanan ke kolom Pendapatan
 $pdf->Cell(40, 5, 'Gaji Pokok', 0, 0);
-$pdf->Cell(30, 5, 'Rp. '.strrev(implode('.',str_split(strrev(strval($data['gaji_pokok'])),3))), 0, 1);
+$pdf->Cell(30, 5, 'Rp. '.strrev(implode('.',str_split(strrev(strval($gaji_pokok)),3))), 0, 1);
 $pdf->SetXY(75, 70); //Geser Kanan ke kolom Pendapatan
-$pdf->Cell(40, 5, 'Tunjangan DHT', 0, 0);
-$pdf->Cell(30, 5, 'Rp. '.strrev(implode('.',str_split(strrev(strval(intval($data['tunjangan_dht']))),3))), 0, 1);
+$pdf->Cell(40, 5, 'Total Tunjangan', 0, 0);
+$pdf->Cell(30, 5, 'Rp. '.strrev(implode('.',str_split(strrev(strval($total_tunjangan)),3))), 0, 1);
 $pdf->SetXY(75, 75); //Geser Kanan ke kolom Pendapatan
-$pdf->Cell(40, 5, 'BPJS Ketenagakerjaan', 0, 0);
-$pdf->Cell(30, 5, 'Rp. '.strrev(implode('.',str_split(strrev(strval($data['tunjangan_bpjs_kj'])),3))), 0, 1);
-$pdf->SetXY(75, 80); //Geser Kanan ke kolom Pendapatan
-$pdf->Cell(40, 5, 'BPJS Kesehatan', 0, 0);
-$pdf->Cell(30, 5, 'Rp. '.strrev(implode('.',str_split(strrev(strval($data['tunjangan_bpjs_ks'])),3))), 0, 1);
-$pdf->SetXY(75, 85); //Geser Kanan ke kolom Pendapatan
-$pdf->Cell(40, 5, 'Lembur Lain', 0, 0);
-$pdf->Cell(30, 5, 'Rp. '.strrev(implode('.',str_split(strrev(strval($data['lembur_lain'] + $data['lembur_backup'] + $data['lembur_holiday'] + $data['lembur_reguler'] + $data['bonus'])),3))), 0, 1);
+$pdf->Cell(40, 5, 'Total Lembur', 0, 0);
+$pdf->Cell(30, 5, 'Rp. '.strrev(implode('.',str_split(strrev(strval($total_lembur)),3))), 0, 1);
+// $pdf->SetXY(75, 80); //Geser Kanan ke kolom Pendapatan
+// $pdf->Cell(40, 5, 'BPJS Kesehatan', 0, 0);
+// $pdf->Cell(30, 5, 'Rp. '.strrev(implode('.',str_split(strrev(strval($data['tunjangan_bpjs_ks'])),3))), 0, 1);
+// $pdf->SetXY(75, 85); //Geser Kanan ke kolom Pendapatan
+// $pdf->Cell(40, 5, 'Lembur Lain', 0, 0);
+// $pdf->Cell(30, 5, 'Rp. '.strrev(implode('.',str_split(strrev(strval($data['lembur_lain'] + $data['lembur_backup'] + $data['lembur_holiday'] + $data['lembur_reguler'] + $data['bonus'])),3))), 0, 1);
 
 $pdf->SetXY(145, 65); //Geser Kanan ke kolom Potongan
-$pdf->Cell(40, 5, 'Pph21', 0, 0);
-$pdf->Cell(30, 5, 'Rp. '.strrev(implode('.',str_split(strrev(strval(intval($data['pph'] / 12))),3))), 0, 1);
+$pdf->Cell(40, 5, 'Potongan Absensi', 0, 0);
+$pdf->Cell(30, 5, 'Rp. '.strrev(implode('.',str_split(strrev(strval($potongan_absensi)),3))), 0, 1);
 $pdf->SetXY(145, 70); //Geser Kanan ke kolom Potongan
-$pdf->Cell(40, 5, 'Potongan Diksar', 0, 0);
-$pdf->Cell(30, 5, 'Rp. '.strrev(implode('.',str_split(strrev(strval($data['potongan_diksar'])),3))), 0, 1);
+$pdf->Cell(40, 5, 'Potongan BPJS', 0, 0);
+$pdf->Cell(30, 5, 'Rp. '.strrev(implode('.',str_split(strrev(strval(intval($potongan_bpjs_ks + $potongan_bpjs_kj))),3))), 0, 1);
 $pdf->SetXY(145, 75); //Geser Kanan ke kolom Potongan
-$pdf->Cell(40, 5, 'Potongan SP', 0, 0);
-$pdf->Cell(30, 5, 'Rp. '.strrev(implode('.',str_split(strrev(strval($data['potongan_sp'])),3))), 0, 1);
+$pdf->Cell(40, 5, 'Potongan Pph21', 0, 0);
+$pdf->Cell(30, 5, 'Rp. '.strrev(implode('.',str_split(strrev(strval($potongan_pph21)),3))), 0, 1);
 $pdf->SetXY(145, 80); //Geser Kanan ke kolom Potongan
-$pdf->Cell(40, 5, 'Biaya Jabatan', 0, 0);
-$pdf->Cell(30, 5, 'Rp. '.strrev(implode('.',str_split(strrev(strval(intval($data['biaya_jabatan']/12))),3))), 0, 1);
+$pdf->Cell(40, 5, 'Potongan Diksar', 0, 0);
+$pdf->Cell(30, 5, 'Rp. '.strrev(implode('.',str_split(strrev(strval($potongan_diksar)),3))), 0, 1);
 $pdf->SetXY(145, 85); //Geser Kanan ke kolom Potongan
 $pdf->Cell(40, 5, 'Potongan Lain', 0, 0);
-$pdf->Cell(30, 5, 'Rp. '.strrev(implode('.',str_split(strrev(strval($data['potongan_lain'] + $data['potongan_sakit'] + $data['potongan_izin'] + $data['potongan_cuti'] + $data['potongan_tk'] + ($data['tunjangan_bpjs_ks'] * 0.01) + ($data['tunjangan_bpjs_kj'] * 0.03))),3))), 0, 1);
+$pdf->Cell(30, 5, 'Rp. '.strrev(implode('.',str_split(strrev(strval($potongan_lain)),3))), 0, 1);
 
 // Hitung jumlah pendapatan dan potongan
-$pendapatan = $data['gaji_pokok'] + $data['bonus'] + $data['tunjangan_dht'] + $data['tunjangan_bpjs_ks'] + $data['tunjangan_bpjs_kj'] + $data['lembur_lain'] + $data['lembur_backup'] + $data['lembur_holiday'] + $data['lembur_reguler'];
-$potongan = intval($data['biaya_jabatan']/12) + intval($data['pph']/12) + $data['potongan_lain'] + $data['potongan_diksar'] + $data['potongan_sp'] + $data['potongan_sakit'] + $data['potongan_izin'] + $data['potongan_cuti'] + $data['potongan_tk'] + ($data['tunjangan_bpjs_ks'] * 0.01) + ($data['tunjangan_bpjs_kj'] * 0.03);
+$pendapatan = $gaji_pokok + $total_tunjangan + $total_lembur;
+$potongan = $potongan_absensi + $potongan_bpjs_ks + $potongan_bpjs_kj;
 
 $pdf->SetFont('Times', 'B', 10);
 $pdf->SetXY(75, 100); //Geser Kolom Total Pendapatan

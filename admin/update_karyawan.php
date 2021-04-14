@@ -43,6 +43,8 @@ if(isset($_POST['update'])) {
     $nik = $_POST['nik'];
     $no_kk = $_POST['no_kk'];
     $no_karyawan = $_POST['no_karyawan'];
+    $no_npwp = $_POST['no_npwp'];
+    $no_rekening = $_POST['no_rekening'];
     $nama = $_POST['nama'];
     $status_kerja = $_POST['status'];
     $projek = $_POST['projek'];
@@ -51,6 +53,7 @@ if(isset($_POST['update'])) {
     $jabatan =  $_POST['jabatan'];
     $tanggal_masuk = $_POST['tanggal_masuk'];
     $tanggal_habis = $_POST['tanggal_habis'];
+    $metode = $_POST['metode'];
     $id_ptkp = $_POST['ptkp']; 
 
     // Ambil inputan untuk tabel tunjangan
@@ -58,6 +61,8 @@ if(isset($_POST['update'])) {
     $dht = intval(preg_replace('/\D/', '', $_POST['tunjangan_dht']));
     $bpjs_ks = intval(preg_replace('/\D/', '', $_POST['tunjangan_bpjs_ks']));
     $bpjs_kj = intval(preg_replace('/\D/', '', $_POST['tunjangan_bpjs_kj']));
+    $shift = intval(preg_replace('/\D/', '', $_POST['tunjangan_shift']));
+    $transport = intval(preg_replace('/\D/', '', $_POST['tunjangan_transport']));
 
     // Jika tidak upload foto baru maka ambil string foto yang telah tersimpan di dalam database
     $foto = $_POST['hidden_foto'];
@@ -109,6 +114,8 @@ if(isset($_POST['update'])) {
                 nik='$nik', 
                 no_kk='$no_kk', 
                 no_karyawan='$no_karyawan', 
+                no_npwp='$no_npwp', 
+                no_rekening='$no_rekening', 
                 nama='$nama', 
                 status_kerja='$status_kerja',
                 id_projek='$projek', 
@@ -117,6 +124,7 @@ if(isset($_POST['update'])) {
                 jabatan='$jabatan', 
                 tanggal_masuk='$tanggal_masuk', 
                 tanggal_habis='$tanggal_habis', 
+                metode='$metode', 
                 foto='$foto',
                 foto_ktp='$foto_ktp',
                 foto_kk='$foto_kk',
@@ -135,7 +143,9 @@ if(isset($_POST['update'])) {
                         gaji_pokok='$gapok',
                         tunjangan_dht='$dht',
                         tunjangan_bpjs_ks='$bpjs_ks',
-                        tunjangan_bpjs_kj='$bpjs_kj'
+                        tunjangan_bpjs_kj='$bpjs_kj',
+                        tunjangan_shift='$shift',
+                        tunjangan_transport='$transport'
                         WHERE id_karyawan='$id_karyawan';";
 
     // Eksekusi perintah update tabel tunjangan
