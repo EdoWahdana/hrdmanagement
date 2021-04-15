@@ -45,6 +45,7 @@ if(isset($_POST['input'])) {
     $no_npwp = $_POST['no_npwp'];
     $no_rekening = $_POST['no_rekening'];
     $nama = $_POST['nama'];
+    $alamat = $_POST['alamat'];
     $jk = $_POST['jk'];
     $status_kerja = $_POST['status'];
     $ptkp = $_POST['ptkp'];
@@ -90,6 +91,7 @@ if(isset($_POST['input'])) {
                 no_npwp,
                 no_rekening,
                 nama, 
+                alamat,
                 jk,
                 status_kerja,
                 departemen, 
@@ -117,6 +119,7 @@ if(isset($_POST['input'])) {
                 '$no_npwp',
                 '$no_rekening',
                 '$nama',
+                '$alamat',
                 '$jk', 
                 '$status_kerja',
                 '$departemen', 

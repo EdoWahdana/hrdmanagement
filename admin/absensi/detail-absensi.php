@@ -46,6 +46,7 @@
                 <div class="box-header">
                   <h3 class="box-title">Jumlah Absensi Karyawan</h3>
                   <div class="box-tools pull-right">
+                    <a href="absensi.php" class="btn btn-sm btn-warning">Kembali <i class="fa fa-arrow-circle-left"></i></a>
                   </div> 
                 <div class="row text-center">
                     <div class="col">

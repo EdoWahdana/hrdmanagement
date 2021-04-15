@@ -73,6 +73,10 @@
                               <td class="col-sm-9"><?= $data['nama']; ?></td>
                             </tr>
                             <tr class="d-flex">
+                              <td class="col-sm-3">Alamat</td>
+                              <td class="col-sm-9"><?= $data['alamat']; ?></td>
+                            </tr>
+                            <tr class="d-flex">
                               <td class="col-sm-3">Jenis Kelamin</td>
                               <td class="col-sm-9"><?= $data['jk']; ?></td>
                             </tr>
@@ -130,6 +134,18 @@
                               <td class="col-sm-3">Tunjangan BPJS Ketenagakerjaan</td>
                               <td class="col-sm-9">
                                 <?= 'Rp. '.strrev(implode('.',str_split(strrev(strval($data['tunjangan_bpjs_kj'])),3))); ?>
+                              </td>
+                            </tr>
+                            <tr class="d-flex">
+                              <td class="col-sm-3">Tunjangan Shift</td>
+                              <td class="col-sm-9">
+                                <?= 'Rp. '.strrev(implode('.',str_split(strrev(strval($data['tunjangan_shift'])),3))); ?>
+                              </td>
+                            </tr>
+                            <tr class="d-flex">
+                              <td class="col-sm-3">Tunjangan Transport</td>
+                              <td class="col-sm-9">
+                                <?= 'Rp. '.strrev(implode('.',str_split(strrev(strval($data['tunjangan_transport'])),3))); ?>
                               </td>
                             </tr>
                             <tr class="d-flex">

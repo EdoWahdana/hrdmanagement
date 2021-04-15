@@ -117,6 +117,7 @@ if(isset($_POST['update'])) {
                 no_npwp='$no_npwp', 
                 no_rekening='$no_rekening', 
                 nama='$nama', 
+                alamat='$alamat', 
                 status_kerja='$status_kerja',
                 id_projek='$projek', 
                 id_role='$role', 

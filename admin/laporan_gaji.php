@@ -45,6 +45,10 @@ $pdf->SetFont('Times', 'B', 10);
 $pdf->Cell(25, 5, 'Status         :   ', 0, 0);
 $pdf->SetFont('Times', '', 10);
 $pdf->Cell(50, 5, $data['status_kerja'], 0, 1);
+$pdf->SetFont('Times', 'B', 10);
+$pdf->Cell(25, 5, 'Alamat       :   ', 0, 0);
+$pdf->SetFont('Times', '', 10);
+$pdf->Cell(70, 5, $data['alamat'], 0, 1);
 
 $pdf->SetLineWidth(.4);
 $pdf->Line(0, 50, $pdf->GetPageWidth(), 50);
@@ -52,13 +56,13 @@ $pdf->Ln();
 $pdf->Line(0, 50, $pdf->GetPageWidth(), 50);
 
 $pdf->SetFont('Times', 'B', 12);
-$pdf->Cell(60, 20, 'DATA ABSENSI', '', 0, 'C');
+$pdf->Cell(60, 15, 'DATA ABSENSI', '', 0, 'C');
 $pdf->Line(20, 60, 60, 60);
 $pdf->Line(70, 55, 70, 100); // Garis Vertical
-$pdf->Cell(70, 20, 'PENDAPATAN', '', 0, 'C');
+$pdf->Cell(70, 15, 'PENDAPATAN', '', 0, 'C');
 $pdf->Line(80, 60, 130, 60);
 $pdf->Line(140, 55, 140, 100); //Garis Vertical
-$pdf->Cell(70, 20, 'POTONGAN', '', 0, 'C');
+$pdf->Cell(70, 15, 'POTONGAN', '', 0, 'C');
 $pdf->Line(150, 60, 200, 60);
 
 $pdf->Ln();
@@ -80,7 +84,7 @@ $pdf->Cell(50, 5, 'Lembur Reguler (jam)', 0, 0);
 $pdf->Cell(40, 5, $absensi['jumlah_lembur_reguler'], 0, 1);
 
 // Kolom pendapatan yang ditampilkan
-$gaji_pokok = $data['gaji_pokok'];
+$pendapatan_gaji_pokok = $data['gaji_pokok'];
 $total_tunjangan = $data['tunjangan_dht'] + $data['tunjangan_bpjs_ks'] + $data['tunjangan_bpjs_kj'] + $data['tunjangan_shift'] + $data['tunjangan_transport'];
 $total_lembur = $data['lembur_backup'] + $data['lembur_holiday'] + $data['lembur_reguler'] + $data['lembur_lain'];
 
@@ -94,7 +98,7 @@ $potongan_lain = $data['potongan_lain'] + $data['biaya_jabatan'];
 
 $pdf->SetXY(75, 65); //Geser Kanan ke kolom Pendapatan
 $pdf->Cell(40, 5, 'Gaji Pokok', 0, 0);
-$pdf->Cell(30, 5, 'Rp. '.strrev(implode('.',str_split(strrev(strval($gaji_pokok)),3))), 0, 1);
+$pdf->Cell(30, 5, 'Rp. '.strrev(implode('.',str_split(strrev(strval($pendapatan_gaji_pokok)),3))), 0, 1);
 $pdf->SetXY(75, 70); //Geser Kanan ke kolom Pendapatan
 $pdf->Cell(40, 5, 'Total Tunjangan', 0, 0);
 $pdf->Cell(30, 5, 'Rp. '.strrev(implode('.',str_split(strrev(strval($total_tunjangan)),3))), 0, 1);
@@ -125,8 +129,8 @@ $pdf->Cell(40, 5, 'Potongan Lain', 0, 0);
 $pdf->Cell(30, 5, 'Rp. '.strrev(implode('.',str_split(strrev(strval($potongan_lain)),3))), 0, 1);
 
 // Hitung jumlah pendapatan dan potongan
-$pendapatan = $gaji_pokok + $total_tunjangan + $total_lembur;
-$potongan = $potongan_absensi + $potongan_bpjs_ks + $potongan_bpjs_kj;
+$pendapatan = $pendapatan_gaji_pokok + $total_tunjangan + $total_lembur;
+$potongan = $potongan_absensi + $potongan_bpjs_ks + $potongan_bpjs_kj + $potongan_pph21 + $potongan_diksar + $potongan_lain;
 
 $pdf->SetFont('Times', 'B', 10);
 $pdf->SetXY(75, 100); //Geser Kolom Total Pendapatan

@@ -51,6 +51,6 @@ $output['potongan_bpjs_ks'] = $result['tunjangan_bpjs_ks'] * 0.01;
 $output['potongan_bpjs_kj'] = $result['tunjangan_bpjs_kj'] * 0.03;
 $output['lembur_backup'] = $result['jumlah_backup'] * $result['backup'];
 $output['lembur_holiday'] = ($result['jumlah_holiday'] * $result['lembur_holiday']) * floatval(number_format($ph, 1));
-$output['lembur_reguler'] = ($result['gaji_pokok'] / 173) * max(($result['jumlah_reguler'] * 2 - floatval(number_format('0.5', 1))), 0);
+$output['lembur_reguler'] = intval(($result['gaji_pokok'] / 173) * max(($result['jumlah_reguler'] * 2 - floatval(number_format('0.5', 1))), 0));
 
 echo json_encode($output);

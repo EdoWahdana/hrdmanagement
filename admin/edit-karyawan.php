@@ -108,6 +108,13 @@
                           </div>
 
                           <div class="form-group">
+                            <label class="col-sm-3 control-label">Alamat</label>
+                            <div class="col-sm-6">
+                              <textarea name="alamat" id="alamat" class="form-control" placeholder="Alamat karyawan" required value="<?= $row['alamat'] ?>" cols="30" rows="5"></textarea>
+                            </div>
+                          </div>
+
+                          <div class="form-group">
                               <label class="col-sm-2 col-sm-2 control-label">Status Pegawai</label>
                               <div class="col-sm-4">
                                 <select name="status" id="status" class="form-control">

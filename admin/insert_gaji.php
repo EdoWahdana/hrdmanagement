@@ -46,16 +46,16 @@ if(isset($_POST['input'])) {
     $ph = $_POST['ph'];
     $sp = intval($_POST['sp']);
     $bonus = intval(preg_replace('/\D/', '', $_POST['bonus']));
-    $lembur_backup = intval($_POST['lembur_backup']);
-    $lembur_holiday = intval($_POST['lembur_holiday']);
-    $lembur_reguler = intval($_POST['lembur_reguler']);
+    $lembur_backup = intval(preg_replace('/\D/', '', $_POST['lembur_backup']));
+    $lembur_holiday = intval(preg_replace('/\D/', '', $_POST['lembur_holiday']));
+    $lembur_reguler = intval(preg_replace('/\D/', '', $_POST['lembur_reguler']));
     $lembur_lain = intval(preg_replace('/\D/', '', $_POST['lembur_lain']));
-    $potongan_sakit = intval($_POST['potongan_sakit']);
-    $potongan_izin = intval($_POST['potongan_izin']);
-    $potongan_cuti = intval($_POST['potongan_cuti']);
-    $potongan_tk = intval($_POST['potongan_tk']);
-    $potongan_bpjs_ks = intval($_POST['potongan_bpjs_ks']);
-    $potongan_bpjs_kj = intval($_POST['potongan_bpjs_kj']);
+    $potongan_sakit = intval(preg_replace('/\D/', '', $_POST['potongan_sakit']));
+    $potongan_izin = intval(preg_replace('/\D/', '', $_POST['potongan_izin']));
+    $potongan_cuti = intval(preg_replace('/\D/', '', $_POST['potongan_cuti']));
+    $potongan_tk = intval(preg_replace('/\D/', '', $_POST['potongan_tk']));
+    $potongan_bpjs_ks = intval(preg_replace('/\D/', '', $_POST['potongan_bpjs_ks']));
+    $potongan_bpjs_kj = intval(preg_replace('/\D/', '', $_POST['potongan_bpjs_kj']));
     $potongan_lain = intval(preg_replace('/\D/', '', $_POST['potongan_lain']));
     $potongan_diksar = intval(preg_replace('/\D/', '', $_POST['potongan_diksar']));
     $potongan = 0;
@@ -69,12 +69,13 @@ if(isset($_POST['input'])) {
     $dataKaryawan = mysqli_fetch_array($exec);
 
     // Definisikan variabel untuk menampung data tunjangan karyawan
-    $transport = intval(preg_replace('/\D/', '', $_POST['transport']));
     $kode_ptkp = $dataKaryawan['kode'];
     $gaji_pokok = $dataKaryawan['gaji_pokok'];
     $tunjangan_dht = $dataKaryawan['tunjangan_dht'];
     $tunjangan_bpjs_ks = $dataKaryawan['tunjangan_bpjs_ks'];
     $tunjangan_bpjs_kj = $dataKaryawan['tunjangan_bpjs_kj'];
+    $tunjangan_shift = $dataKaryawan['tunjangan_shift'];
+    $tunjangan_transport = $dataKaryawan['tunjangan_transport'];
 
     // Ambil data PTKP berdasarkan id_ptkp 
     $sql = "SELECT * FROM ptkp WHERE kode='$kode_ptkp'";
@@ -94,6 +95,8 @@ if(isset($_POST['input'])) {
     $potongan += $potongan_lain;
     
     // Lakukan kalkulasi tunjangan sesuai jenis insentif
+    $tunjangan += $tunjangan_shift;
+    $tunjangan += $tunjangan_transport;
     $tunjangan += $tunjangan_dht;
     $tunjangan += $tunjangan_bpjs_ks;
     $tunjangan += $tunjangan_bpjs_kj;

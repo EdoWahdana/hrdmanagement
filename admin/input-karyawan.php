@@ -92,6 +92,13 @@
                               </select>
                             </div>
                           </div>
+
+                          <div class="form-group">
+                            <label class="col-sm-3 control-label">Alamat</label>
+                            <div class="col-sm-6">
+                              <textarea name="alamat" id="alamat" class="form-control" placeholder="Alamat karyawan" required value="<?= isset($_POST['alamat']) ? $_POST['alamat'] : '' ?>" cols="30" rows="5"></textarea>
+                            </div>
+                          </div>
                           
                           <div class="form-group">
                             <label class="col-sm-2 control-label">Status Pegawai</label>

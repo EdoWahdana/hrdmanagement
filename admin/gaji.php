@@ -42,7 +42,6 @@
                 </div><!-- /.box-header -->
                 
                 <div class="box-body">
-                <a href="gaji_exportxlsx.php" class="btn btn-sm btn-success"><i class="fa fa-file"></i> Export Excel</a><br /><br />
                    <table id="lookup" class="table table-bordered table-hover">  
                     <thead bgcolor="eeeeee" align="center">
                       <tr>

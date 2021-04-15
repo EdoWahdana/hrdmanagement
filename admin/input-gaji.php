@@ -223,19 +223,45 @@
       $(".select2").select2();
     });
 
-    var potongan_lain = document.getElementById('potongan_lain');
-    var potongan_diksar = document.getElementById('potongan_diksar');
-    var lembur_lain = document.getElementById('lembur_lain');
+    $("#lembur_backup").on("change", ()=> {
+      $("#lembur_backup").val(convertToRupiah($("#lembur_backup").val(), ""));
+    });
+    $("#lembur_reguler").on("change", ()=> {
+      $("#lembur_reguler").val(convertToRupiah($("#lembur_reguler").val(), ""));
+    });
+    $("#lembur_holiday").on("change", ()=> {
+      $("#lembur_holiday").val(convertToRupiah($("#lembur_holiday").val(), ""));
+    });
+    $("#potongan_sakit").on("change", ()=> {
+      $("#potongan_sakit").val(convertToRupiah($("#potongan_sakit").val(), ""));
+    });
+    $("#potongan_izin").on("change", ()=> {
+      $("#potongan_izin").val(convertToRupiah($("#potongan_izin").val(), ""));
+    });
+    $("#potongan_cuti").on("change", ()=> {
+      $("#potongan_cuti").val(convertToRupiah($("#potongan_cuti").val(), ""));
+    });
+    $("#potongan_tk").on("change", ()=> {
+      $("#potongan_tk").val(convertToRupiah($("#potongan_tk").val(), ""));
+    });
+    $("#potongan_bpjs_ks").on("change", ()=> {
+      $("#potongan_bpjs_ks").val(convertToRupiah($("#potongan_bpjs_ks").val(), ""));
+    });
+    $("#potongan_bpjs_kj").on("change", ()=> {
+      $("#potongan_bpjs_kj").val(convertToRupiah($("#potongan_bpjs_kj").val(), ""));
+    });
+    
+    // Input manual
+    $("#lembur_lain").on("keyup", ()=> {
+      $("#lembur_lain").val(convertToRupiah($("#lembur_lain").val(), ""));
+    });
+    $("#potongan_lain").on("keyup", ()=> {
+      $("#potongan_lain").val(convertToRupiah($("#potongan_lain").val(), ""));
+    });
+    $("#potongan_diksar").on("keyup", ()=> {
+      $("#potongan_diksar").val(convertToRupiah($("#potongan_diksar").val(), ""));
+    });
 
-    potongan_lain.addEventListener("keyup", function(e){
-      potongan_lain.value = convertToRupiah(potongan_lain.value, "");
-    });
-    potongan_diksar.addEventListener("keyup", function(e){
-      potongan_diksar.value = convertToRupiah(potongan_diksar.value, "");
-    });
-    lembur_lain.addEventListener("keyup", function(e){
-      lembur_lain.value = convertToRupiah(lembur_lain.value, "");
-    });
 
       function getDetail() {
         data = {
@@ -250,15 +276,15 @@
           data: data, 
           dataType: "JSON",
           success: function(result){
-            $("#lembur_backup").val(result.lembur_backup);
-            $("#lembur_holiday").val(result.lembur_holiday);
-            $("#lembur_reguler").val(result.lembur_reguler);
-            $("#potongan_sakit").val(result.potongan_sakit);
-            $("#potongan_izin").val(result.potongan_izin);
-            $("#potongan_cuti").val(result.potongan_cuti);
-            $("#potongan_tk").val(result.potongan_tk);
-            $("#potongan_bpjs_ks").val(result.potongan_bpjs_ks);
-            $("#potongan_bpjs_kj").val(result.potongan_bpjs_kj);
+            $("#lembur_backup").val(result.lembur_backup).trigger("change");
+            $("#lembur_holiday").val(result.lembur_holiday).trigger("change");
+            $("#lembur_reguler").val(result.lembur_reguler).trigger("change");
+            $("#potongan_sakit").val(result.potongan_sakit).trigger("change");
+            $("#potongan_izin").val(result.potongan_izin).trigger("change");
+            $("#potongan_cuti").val(result.potongan_cuti).trigger("change");
+            $("#potongan_tk").val(result.potongan_tk).trigger("change");
+            $("#potongan_bpjs_ks").val(result.potongan_bpjs_ks).trigger("change");
+            $("#potongan_bpjs_kj").val(result.potongan_bpjs_kj).trigger("change");
             if(result.kontrak > 0 && result.kontrak < 31){
               $("#box-kontrak").show();
               $("#text-kontrak").text(result.kontrak);
